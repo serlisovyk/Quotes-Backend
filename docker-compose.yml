@@ -1,0 +1,39 @@
+name: quotes-server
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    volumes:
+      - quotes_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    image: serhii5105/quotes-server:latest
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'wget -q --spider http://127.0.0.1:$${APP_PORT}/health || exit 1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+volumes:
+  quotes_pg_data:
