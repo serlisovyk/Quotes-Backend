@@ -1,12 +1,12 @@
 export const attributes = { exclude: ['createdAt', 'updatedAt'] }
 
-export const getQuoteNotFoundErrorMessage = (id) => `Quote with ID ${id} not found`
-
 export const DEFAULT_QUOTES_LIMIT = 10
 
 export const RANDOM_QUOTES_LIMIT = 10
 
 export const DEFAULT_CATEGORIES_LIMIT = 10
+
+export const DEFAULT_OFFSET = 0
 
 export const MAX_LIST_LIMIT = 50
 
@@ -21,11 +21,20 @@ export const MINUTES_IN_MS = {
 export const RATE_LIMIT_MAX_REQUESTS = 100
 
 export const ERROR_CODE = {
+  BAD_REQUEST: 'BAD_REQUEST',
+  INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
+  INVALID_JSON: 'INVALID_JSON',
+  NOT_FOUND: 'NOT_FOUND',
   VALIDATION_ERROR: 'VALIDATION_ERROR',
 }
 
 export const ERROR_MESSAGE = {
+  INTERNAL_SERVER_ERROR: 'Internal server error',
+  INVALID_JSON: 'Invalid JSON',
   INVALID_REQUEST_DATA: 'Invalid request data',
+  QUOTE_NOT_FOUND: (id) => `Quote with ID ${id} not found`,
+  CATEGORY_NOT_FOUND: (id) => `Category with ID ${id} not found`,
+  ROUTE_NOT_FOUND: (method, url) => `Route ${method} ${url} not found`,
   INVALID_CATEGORY_NAME:
     'Category can only contain lowercase letters, numbers and dashes',
   INVALID_CATEGORY_SEARCH: 'Category can only contain letters, numbers and dashes',

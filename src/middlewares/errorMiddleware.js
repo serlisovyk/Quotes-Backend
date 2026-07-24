@@ -1,9 +1,14 @@
+import ErrorFactory from '../errors/ErrorFactory.js'
+import Logger from '../logger/logger.js'
+
 const errorMiddleware = (err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    return res.status(400).json({ message: 'Invalid JSON' })
+  const { statusCode, toResponse } = ErrorFactory.from(err)
+
+  if (ErrorFactory.shouldLog(err)) {
+    Logger.error('Unhandled application error', err)
   }
 
-  return res.status(500).json({ message: err.message })
+  return res.status(statusCode).json(toResponse())
 }
 
 export default errorMiddleware
