@@ -10,7 +10,7 @@ const Quote = sequelize.define(
     text: { type: TEXT, allowNull: false },
     author: { type: STRING },
   },
-  { hooks: { afterFind: afterFindHook } }
+  { hooks: { afterFind: afterFindHook } },
 )
 
 Quote.belongsToMany(Category, { through: QuoteCategory })

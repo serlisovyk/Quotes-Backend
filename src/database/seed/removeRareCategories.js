@@ -27,12 +27,12 @@ async function removeRareCategories() {
        FROM "Quotes"
        LEFT JOIN "QuoteCategories" ON "Quotes".id = "QuoteCategories"."QuoteId"
        WHERE "QuoteCategories"."CategoryId" IS NULL;`,
-      { type: QueryTypes.SELECT }
+      { type: QueryTypes.SELECT },
     )
 
     // Get the IDs of the quotes without categories
     const quotesWithoutCategoriesIds = quotesWithoutCategories.map(
-      (quote) => quote.id
+      (quote) => quote.id,
     )
 
     // remove quotes without categories

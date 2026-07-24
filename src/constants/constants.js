@@ -6,6 +6,12 @@ export const DEFAULT_QUOTES_LIMIT = 10
 
 export const RANDOM_QUOTES_LIMIT = 10
 
+export const MINUTES_IN_MS = {
+  FIFTEEN: 15 * 60 * 1000,
+}
+
+export const RATE_LIMIT_MAX_REQUESTS = 100
+
 // Allows lowercase letters, numbers and dashes
 export const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/
 

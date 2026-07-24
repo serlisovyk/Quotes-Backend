@@ -105,7 +105,7 @@ async function findOrCreateCategories(categoryNames, transaction) {
       Category.findOrCreate({
         where: { name },
         transaction,
-      }).then(([category]) => category)
-    )
+      }).then(([category]) => category),
+    ),
   )
 }

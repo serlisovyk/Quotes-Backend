@@ -11,7 +11,7 @@ const QuoteCategory = sequelize.define(
       { name: 'QuoteCategories_CategoryId', fields: ['CategoryId'] },
       { name: 'QuoteCategories_QuoteId', fields: ['QuoteId'] },
     ],
-  }
+  },
 )
 
 export default QuoteCategory

@@ -18,8 +18,8 @@ export const getQuotesValidators = [
       CATEGORY_NAME_REGEX.test(value)
         ? Promise.resolve()
         : Promise.reject(
-            'Category can only contain lowercase letters, numbers and dashes'
-          )
+            'Category can only contain lowercase letters, numbers and dashes',
+          ),
     ),
 ]
 
@@ -45,7 +45,7 @@ export const postQuoteValidators = [
     .trim()
     .matches(CATEGORY_NAME_REGEX)
     .withMessage(
-      'Each category must contain only lowercase letters, numbers and dashes'
+      'Each category must contain only lowercase letters, numbers and dashes',
     ),
 ]
 
@@ -78,6 +78,6 @@ export const patchSingleQuoteValidators = [
     .trim()
     .matches(CATEGORY_NAME_REGEX)
     .withMessage(
-      'Each category must contain only lowercase letters, numbers, and dashes'
+      'Each category must contain only lowercase letters, numbers, and dashes',
     ),
 ]

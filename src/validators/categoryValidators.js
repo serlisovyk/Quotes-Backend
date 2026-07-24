@@ -11,7 +11,7 @@ export const getCategoriesValidators = [
     .custom((value) =>
       CATEGORY_NAME_I_REGEX.test(value)
         ? Promise.resolve()
-        : Promise.reject('Category can only contain letters and dashes')
+        : Promise.reject('Category can only contain letters and dashes'),
     ),
 ]
 

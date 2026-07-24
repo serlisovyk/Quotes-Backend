@@ -9,14 +9,14 @@ router.get(
   '/',
   CategoriesValidator.getCategoriesValidators,
   validationErrorHandler,
-  CategoriesController.getCategories
+  CategoriesController.getCategories,
 )
 
 router.get(
   '/:id',
   CategoriesValidator.getSingleCategoryValidators,
   validationErrorHandler,
-  CategoriesController.getCategoryById
+  CategoriesController.getCategoryById,
 )
 
 export default router

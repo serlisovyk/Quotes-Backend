@@ -9,42 +9,42 @@ router.get(
   '/',
   QuotesValidator.getQuotesValidators,
   validationErrorHandler,
-  QuotesController.getQuotes
+  QuotesController.getQuotes,
 )
 
 router.get(
   '/random',
   QuotesValidator.getRandomQuotesValidators,
   validationErrorHandler,
-  QuotesController.getRandomQuotes
+  QuotesController.getRandomQuotes,
 )
 
 router.get(
   '/:id',
   QuotesValidator.getSingleQuoteValidators,
   validationErrorHandler,
-  QuotesController.getQuoteById
+  QuotesController.getQuoteById,
 )
 
 router.post(
   '/',
   QuotesValidator.postQuoteValidators,
   validationErrorHandler,
-  QuotesController.postQuote
+  QuotesController.postQuote,
 )
 
 router.patch(
   '/:id',
   QuotesValidator.patchSingleQuoteValidators,
   validationErrorHandler,
-  QuotesController.patchQuoteById
+  QuotesController.patchQuoteById,
 )
 
 router.delete(
   '/:id',
   QuotesValidator.deleteSingleQuoteValidators,
   validationErrorHandler,
-  QuotesController.deleteQuoteById
+  QuotesController.deleteQuoteById,
 )
 
 export default router

@@ -11,7 +11,9 @@ const syncDatabase = async () => {
 }
 
 const resetSequence = async (tableName, sequenceName) => {
-  const [results] = await sequelize.query(`SELECT MAX(id) AS "maxId" FROM "${tableName}";`)
+  const [results] = await sequelize.query(
+    `SELECT MAX(id) AS "maxId" FROM "${tableName}";`,
+  )
   const [result] = results
 
   if (result.maxId === null) {
@@ -19,7 +21,9 @@ const resetSequence = async (tableName, sequenceName) => {
     return
   }
 
-  await sequelize.query(`SELECT setval('"${sequenceName}"', ${Number(result.maxId)});`)
+  await sequelize.query(
+    `SELECT setval('"${sequenceName}"', ${Number(result.maxId)});`,
+  )
 }
 
 const resetIdSequences = async () => {
