@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import * as QuotesController from '../controllers/quotesController.js'
 import * as QuotesValidator from '../validators/quoteValidators.js'
+import asyncErrorHandler from '../middlewares/asyncErrorHandler.js'
 import validationErrorHandler from '../middlewares/validationErrorHandler.js'
 
 const router = Router()
@@ -9,42 +10,42 @@ router.get(
   '/',
   QuotesValidator.getQuotesValidators,
   validationErrorHandler,
-  QuotesController.getQuotes,
+  asyncErrorHandler(QuotesController.getQuotes),
 )
 
 router.get(
   '/random',
   QuotesValidator.getRandomQuotesValidators,
   validationErrorHandler,
-  QuotesController.getRandomQuotes,
+  asyncErrorHandler(QuotesController.getRandomQuotes),
 )
 
 router.get(
   '/:id',
   QuotesValidator.getSingleQuoteValidators,
   validationErrorHandler,
-  QuotesController.getQuoteById,
+  asyncErrorHandler(QuotesController.getQuoteById),
 )
 
 router.post(
   '/',
   QuotesValidator.postQuoteValidators,
   validationErrorHandler,
-  QuotesController.postQuote,
+  asyncErrorHandler(QuotesController.postQuote),
 )
 
 router.patch(
   '/:id',
   QuotesValidator.patchSingleQuoteValidators,
   validationErrorHandler,
-  QuotesController.patchQuoteById,
+  asyncErrorHandler(QuotesController.patchQuoteById),
 )
 
 router.delete(
   '/:id',
   QuotesValidator.deleteSingleQuoteValidators,
   validationErrorHandler,
-  QuotesController.deleteQuoteById,
+  asyncErrorHandler(QuotesController.deleteQuoteById),
 )
 
 export default router

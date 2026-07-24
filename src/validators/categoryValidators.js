@@ -1,18 +1,15 @@
-import { query, param } from 'express-validator'
-import { CATEGORY_NAME_I_REGEX } from '../constants/constants.js'
+import { query } from 'express-validator'
+import {
+  categorySearchValidator,
+  idParamValidator,
+  listLimitQueryValidator,
+  offsetQueryValidator,
+} from './sharedValidators.js'
 
 export const getCategoriesValidators = [
-  query('limit').optional().trim().isInt({ min: 1, max: 50 }),
-  query('offset').optional().trim().isInt({ min: 0 }),
-  query('name')
-    .optional()
-    .trim()
-    .escape()
-    .custom((value) =>
-      CATEGORY_NAME_I_REGEX.test(value)
-        ? Promise.resolve()
-        : Promise.reject('Category can only contain letters and dashes'),
-    ),
+  listLimitQueryValidator(),
+  offsetQueryValidator(),
+  categorySearchValidator(query('name').optional()),
 ]
 
-export const getSingleCategoryValidators = [param('id').trim().isInt({ min: 1 })]
+export const getSingleCategoryValidators = [idParamValidator()]
