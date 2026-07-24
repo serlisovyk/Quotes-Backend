@@ -1,5 +1,5 @@
 import { Op } from 'sequelize'
-import Category from '../models/Category.js'
+import Category from '../database/models/Category.js'
 import { attributes } from '../constants/constants.js'
 
 export const findCategories = async ({ limit, offset, name }) => {

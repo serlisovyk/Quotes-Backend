@@ -1,8 +1,8 @@
 import { QueryTypes } from 'sequelize'
 import sequelize from '../db.js'
-import Category from '../../models/Category.js'
-import Quote from '../../models/Quote.js'
-import QuoteCategory from '../../models/QuoteCategory.js'
+import Category from '../models/Category.js'
+import Quote from '../models/Quote.js'
+import QuoteCategory from '../models/QuoteCategory.js'
 
 async function removeRareCategories() {
   try {

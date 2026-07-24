@@ -1,10 +1,10 @@
-import sequelize from '../database/db.js'
+import sequelize from '../db.js'
 
 const QuoteCategory = sequelize.define(
   'QuoteCategory',
   {
     // No need for any additional attributes in this table
-    // Sequalize will create QuoteId and CategoryId fields automatically
+    // Sequelize will create QuoteId and CategoryId fields automatically
   },
   {
     indexes: [

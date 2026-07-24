@@ -1,6 +1,6 @@
 import { Op } from 'sequelize'
-import Quote from '../models/Quote.js'
-import Category from '../models/Category.js'
+import Quote from '../database/models/Quote.js'
+import Category from '../database/models/Category.js'
 import sequelize from '../database/db.js'
 import { attributes } from '../constants/constants.js'
 

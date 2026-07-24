@@ -22,18 +22,3 @@ export function pauseStream(stream, time) {
     stream.resume()
   }, time)
 }
-
-export function afterFindHook(results) {
-  if (results) {
-    const quotes = Array.isArray(results) ? results : [results]
-
-    quotes.forEach((quote) => {
-      if (quote.Categories) {
-        quote.dataValues.categories = quote.Categories.map(
-          (category) => category.name,
-        )
-        delete quote.dataValues.Categories
-      }
-    })
-  }
-}
