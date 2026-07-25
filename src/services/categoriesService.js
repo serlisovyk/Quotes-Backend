@@ -1,21 +1,28 @@
-import { Op } from 'sequelize'
 import Category from '../database/models/Category.js'
-import { attributes } from '../constants/constants.js'
+import {
+  buildCategoryDetailsQuery,
+  buildCategoryListQuery,
+} from './utils/categoryQueryBuilder.js'
 
 export const findCategories = async ({ limit, offset, name }) => {
-  const whereClause = {}
-  if (name) whereClause.name = { [Op.iLike]: `%${name}%` }
-
   const categories = await Category.findAll({
-    attributes,
+    ...buildCategoryListQuery({ name }),
     limit,
     offset,
-    order: [['id', 'ASC']],
-    where: whereClause,
   })
 
   return categories
 }
 
 export const findSingleCategory = async (id) =>
-  await Category.findByPk(id, { attributes })
+  await Category.findByPk(id, buildCategoryDetailsQuery())
+
+export const findOrCreateCategories = async (categoryNames, transaction) =>
+  await Promise.all(
+    categoryNames.map((name) =>
+      Category.findOrCreate({
+        where: { name },
+        transaction,
+      }).then(([category]) => category),
+    ),
+  )

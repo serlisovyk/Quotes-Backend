@@ -1,32 +1,16 @@
-import { Op } from 'sequelize'
 import Quote from '../database/models/Quote.js'
-import Category from '../database/models/Category.js'
 import sequelize from '../database/db.js'
-import { attributes } from '../constants/constants.js'
-
-const includeCategoryConfig = {
-  model: Category,
-  attributes: ['name'],
-  through: { attributes: [] },
-}
+import { findOrCreateCategories } from './categoriesService.js'
+import {
+  buildQuoteDetailsQuery,
+  buildQuoteListQuery,
+  buildQuotesByIdsQuery,
+  buildRandomQuotesQuery,
+} from './utils/quoteQueryBuilder.js'
 
 export const findQuotes = async ({ limit, offset, author, text, category }) => {
-  const whereClause = {}
-  if (author) whereClause.author = { [Op.iLike]: `%${author}%` }
-  if (text) whereClause.text = { [Op.iLike]: `%${text}%` }
-
-  const baseQuery = {
-    attributes,
-    order: [['id', 'ASC']],
-    where: whereClause,
-    include: {
-      ...includeCategoryConfig,
-      ...(category ? { where: { name: category } } : {}),
-    },
-  }
-
   const { rows: pageQuotes, count: total } = await Quote.findAndCountAll({
-    ...baseQuery,
+    ...buildQuoteListQuery({ author, text, category }),
     distinct: true,
     limit,
     offset,
@@ -38,26 +22,16 @@ export const findQuotes = async ({ limit, offset, author, text, category }) => {
 
   const ids = pageQuotes.map((q) => q.id)
 
-  const quotes = await Quote.findAll({
-    attributes,
-    order: [['id', 'ASC']],
-    include: includeCategoryConfig,
-    where: { id: ids },
-  })
+  const quotes = await findQuotesByIds(ids)
 
   return { total, quotes }
 }
 
 export const findRandomQuotes = async (limit) =>
-  await Quote.findAll({
-    attributes,
-    limit,
-    order: sequelize.random(),
-    include: includeCategoryConfig,
-  })
+  await Quote.findAll(buildRandomQuotesQuery(sequelize.random(), limit))
 
 export const findSingleQuote = async (id) =>
-  await Quote.findByPk(id, { attributes, include: includeCategoryConfig })
+  await Quote.findByPk(id, buildQuoteDetailsQuery())
 
 export const createQuote = async ({ text, author, categories }) => {
   const createdQuoteId = await sequelize.transaction(async (transaction) => {
@@ -96,16 +70,9 @@ export const modifySingleQuote = async (id, { text, author, categories }) => {
 
 export const deleteSingleQuote = async (id) => {
   const count = await Quote.destroy({ where: { id } })
-  if (count) return id
+  return count > 0
 }
 
-async function findOrCreateCategories(categoryNames, transaction) {
-  return await Promise.all(
-    categoryNames.map((name) =>
-      Category.findOrCreate({
-        where: { name },
-        transaction,
-      }).then(([category]) => category),
-    ),
-  )
+async function findQuotesByIds(ids) {
+  return await Quote.findAll(buildQuotesByIdsQuery(ids))
 }

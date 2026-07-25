@@ -1,5 +1,3 @@
-export const attributes = { exclude: ['createdAt', 'updatedAt'] }
-
 export const DEFAULT_QUOTES_LIMIT = 10
 
 export const RANDOM_QUOTES_LIMIT = 10

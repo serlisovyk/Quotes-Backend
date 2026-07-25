@@ -48,9 +48,9 @@ export const getQuoteById = async (req, res) => {
 export const deleteQuoteById = async (req, res) => {
   const quoteId = req.params.id
 
-  const deletedQuoteId = await QuotesService.deleteSingleQuote(quoteId)
+  const isDeleted = await QuotesService.deleteSingleQuote(quoteId)
 
-  if (!deletedQuoteId) {
+  if (!isDeleted) {
     throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
   }
 
