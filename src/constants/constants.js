@@ -47,3 +47,5 @@ export const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/
 
 // Allows any letters, numbers and dashes
 export const CATEGORY_NAME_I_REGEX = /^[a-z0-9\-]+$/i
+
+export const CATEGORY_UPPERCASE_REGEX = /[A-Z]/

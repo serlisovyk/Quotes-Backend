@@ -1,14 +1,41 @@
--- Find total qty of the rows in the Categories table
+-- Seed audit queries
+-- Run these manually after importing or cleaning seed data.
+
+-- Count imported rows
 SELECT
-    COUNT(*) AS category_count
+    COUNT(*) AS quotes_count
+FROM
+    "Quotes";
+
+SELECT
+    COUNT(*) AS categories_count
 FROM
     "Categories";
 
--- Find how many quotes have specific category
+SELECT
+    COUNT(*) AS quote_categories_count
+FROM
+    "QuoteCategories";
+
+-- Find duplicate category names
+SELECT
+    name,
+    COUNT(*) AS duplicates_count
+FROM
+    "Categories"
+GROUP BY
+    name
+HAVING
+    COUNT(*) > 1
+ORDER BY
+    duplicates_count DESC,
+    name ASC;
+
+-- Find category usage counts
 SELECT
     "Categories".id AS category_id,
     "Categories".name AS category_name,
-    COUNT("QuoteCategories"."CategoryId") AS qty_of_quotes
+    COUNT("QuoteCategories"."QuoteId") AS quotes_count
 FROM
     "Categories"
     LEFT JOIN "QuoteCategories" ON "Categories".id = "QuoteCategories"."CategoryId"
@@ -16,56 +43,76 @@ GROUP BY
     "Categories".id,
     "Categories".name
 ORDER BY
-    qty_of_quotes DESC
+    quotes_count DESC,
+    category_name ASC
 LIMIT
     100;
 
--- Find total qty of the categories which have just one quote
+-- Find rare categories
 SELECT
-    COUNT(*) AS total_categories_with_one_quote
+    "Categories".id AS category_id,
+    "Categories".name AS category_name,
+    COUNT("QuoteCategories"."QuoteId") AS quotes_count
 FROM
-    (
-        SELECT
-            "CategoryId"
-        FROM
-            "QuoteCategories"
-        GROUP BY
-            "CategoryId"
-        HAVING
-            COUNT(*) = 1
-    ) AS single_quote_categories;
-
--- Find names of the categories which appear only in one quote
-SELECT
-    "Categories".name AS category_name
-FROM
-    (
-        SELECT
-            "CategoryId"
-        FROM
-            "QuoteCategories"
-        GROUP BY
-            "CategoryId"
-        HAVING
-            COUNT(*) = 1
-    ) AS single_quote_categories
-    JOIN "Categories" ON "Categories".id = single_quote_categories."CategoryId";
-
--- Find Ids of the categories which appear in one or two quotes
-SELECT
-    "CategoryId"
-FROM
-    "QuoteCategories"
+    "Categories"
+    JOIN "QuoteCategories" ON "Categories".id = "QuoteCategories"."CategoryId"
 GROUP BY
-    "CategoryId"
+    "Categories".id,
+    "Categories".name
 HAVING
-    COUNT(*) <= 2;
+    COUNT("QuoteCategories"."QuoteId") <= 2
+ORDER BY
+    quotes_count ASC,
+    category_name ASC;
 
--- Find quotes without categories (they might be left after removal of the rare categories)
+-- Find categories without quotes
 SELECT
-    "Quotes".*
+    "Categories".id,
+    "Categories".name
+FROM
+    "Categories"
+    LEFT JOIN "QuoteCategories" ON "Categories".id = "QuoteCategories"."CategoryId"
+WHERE
+    "QuoteCategories"."QuoteId" IS NULL
+ORDER BY
+    "Categories".name ASC;
+
+-- Find quotes without categories
+SELECT
+    "Quotes".id,
+    "Quotes".author,
+    LEFT("Quotes".text, 120) AS text_preview
 FROM
     "Quotes"
     LEFT JOIN "QuoteCategories" ON "Quotes".id = "QuoteCategories"."QuoteId"
 WHERE
-    "QuoteCategories"."CategoryId" IS NULL;
+    "QuoteCategories"."CategoryId" IS NULL
+ORDER BY
+    "Quotes".id ASC;
+
+-- Find suspicious quotes
+SELECT
+    id,
+    author,
+    LEFT(text, 120) AS text_preview
+FROM
+    "Quotes"
+WHERE
+    author IS NULL
+    OR TRIM(author) = ''
+    OR text IS NULL
+    OR LENGTH(TRIM(text)) < 10
+ORDER BY
+    id ASC;
+
+-- Find longest authors
+SELECT
+    id,
+    author,
+    LENGTH(author) AS author_length
+FROM
+    "Quotes"
+ORDER BY
+    author_length DESC
+LIMIT
+    50;
