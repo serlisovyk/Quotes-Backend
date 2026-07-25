@@ -1,4 +1,4 @@
-function asyncErrorHandler(handler) {
+function asyncHandler(handler) {
   return async function handleAsyncError(req, res, next) {
     try {
       await handler(req, res, next)
@@ -8,4 +8,4 @@ function asyncErrorHandler(handler) {
   }
 }
 
-export default asyncErrorHandler
+export default asyncHandler

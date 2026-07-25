@@ -1,3 +1,5 @@
+import { sendOk } from '../utils/http/response.util.js'
+
 export function getHealth(_, res) {
-  res.status(200).json({ status: 'ok' })
+  sendOk(res, { status: 'ok' })
 }

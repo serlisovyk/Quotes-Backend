@@ -5,6 +5,7 @@ import {
   DEFAULT_CATEGORIES_LIMIT,
   DEFAULT_OFFSET,
 } from '../constants/app.constant.js'
+import { sendOk } from '../utils/http/response.util.js'
 
 export async function getCategories(req, res) {
   const {
@@ -15,7 +16,7 @@ export async function getCategories(req, res) {
 
   const categories = await CategoriesService.findCategories({ limit, offset, name })
 
-  res.json(categories)
+  sendOk(res, categories)
 }
 
 export async function getCategoryById(req, res) {
@@ -27,5 +28,5 @@ export async function getCategoryById(req, res) {
     throw new NotFoundError(ERROR_MESSAGE.CATEGORY_NOT_FOUND(categoryId))
   }
 
-  res.json(category)
+  sendOk(res, category)
 }

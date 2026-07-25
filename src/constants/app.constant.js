@@ -15,3 +15,24 @@ export const MINUTES_IN_MS = {
 }
 
 export const RATE_LIMIT_MAX_REQUESTS = 100
+
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+}
+
+export const ROUTE = {
+  HEALTH: '/health',
+  QUOTES: '/quotes',
+  CATEGORIES: '/categories',
+}
+
+export const ROUTER_PATH = {
+  ROOT: '/',
+  ID: '/:id',
+  RANDOM: '/random',
+}

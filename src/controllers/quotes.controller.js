@@ -5,7 +5,9 @@ import {
   DEFAULT_OFFSET,
   DEFAULT_QUOTES_LIMIT,
   RANDOM_QUOTES_LIMIT,
+  ROUTE,
 } from '../constants/app.constant.js'
+import { sendCreated, sendNoContent, sendOk } from '../utils/http/response.util.js'
 
 export async function getQuotes(req, res) {
   const {
@@ -24,7 +26,7 @@ export async function getQuotes(req, res) {
     category,
   })
 
-  res.json(quotes)
+  sendOk(res, quotes)
 }
 
 export async function getRandomQuotes(req, res) {
@@ -32,7 +34,7 @@ export async function getRandomQuotes(req, res) {
 
   const quotes = await QuotesService.findRandomQuotes(limit)
 
-  res.json(quotes)
+  sendOk(res, quotes)
 }
 
 export async function getQuoteById(req, res) {
@@ -42,7 +44,7 @@ export async function getQuoteById(req, res) {
 
   if (!quote) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
 
-  res.json(quote)
+  sendOk(res, quote)
 }
 
 export async function deleteQuoteById(req, res) {
@@ -52,7 +54,7 @@ export async function deleteQuoteById(req, res) {
 
   if (!isDeleted) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
 
-  res.status(204).send()
+  sendNoContent(res)
 }
 
 export async function patchQuoteById(req, res) {
@@ -66,7 +68,7 @@ export async function patchQuoteById(req, res) {
 
   if (!modifiedQuote) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
 
-  res.json(modifiedQuote)
+  sendOk(res, modifiedQuote)
 }
 
 export async function postQuote(req, res) {
@@ -74,5 +76,5 @@ export async function postQuote(req, res) {
 
   const quote = await QuotesService.createQuote({ text, author, categories })
 
-  res.status(200).json(quote)
+  sendCreated(res, quote, `${ROUTE.QUOTES}/${quote.id}`)
 }

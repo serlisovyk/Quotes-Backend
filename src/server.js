@@ -1,5 +1,6 @@
 import { APP_PORT } from './config/app.config.js'
 import Logger from './logger/logger.service.js'
+import registerGracefulShutdown from './utils/server/graceful-shutdown.util.js'
 
 export function startServer(app) {
   const server = app.listen(APP_PORT, () =>
@@ -10,4 +11,8 @@ export function startServer(app) {
     Logger.error('Unable to start server', error)
     process.exit(1)
   })
+
+  registerGracefulShutdown(server)
+
+  return server
 }

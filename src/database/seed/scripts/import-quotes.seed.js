@@ -2,20 +2,20 @@ import fs from 'fs'
 import path from 'path'
 import csv from 'csv-parser'
 import { fileURLToPath } from 'url'
-import sequelize from '../db.js'
-import '../models/associations.js'
+import sequelize from '../../db.js'
+import '../../models/associations.js'
 import {
   CSV_IMPORT_BATCH_SIZE,
   CSV_IMPORT_BATCH_TIMEOUT,
-} from '../../config/app.config.js'
-import Logger from '../../logger/logger.service.js'
-import importQuoteRow from '../../utils/seed/import-quote-row.util.js'
-import pauseStream from '../../utils/seed/pause-stream.util.js'
+} from '../../../config/app.config.js'
+import Logger from '../../../logger/logger.service.js'
+import importQuoteRow from '../../../utils/seed/import-quote-row.util.js'
+import pauseStream from '../../../utils/seed/pause-stream.util.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const CSV_FILENAME = path.resolve(__dirname, './data/test-quotes.csv')
+const CSV_FILENAME = path.resolve(__dirname, '../data/test-quotes.csv')
 
 async function importQuotes() {
   try {

@@ -1,51 +1,52 @@
 import { Router } from 'express'
 import * as QuotesController from '../controllers/quotes.controller.js'
 import * as QuotesValidator from '../validators/quote.validator.js'
-import asyncErrorHandler from '../middlewares/async-error.middleware.js'
+import asyncHandler from '../middlewares/async-handler.middleware.js'
 import validationErrorHandler from '../middlewares/validation-error.middleware.js'
+import { ROUTER_PATH } from '../constants/app.constant.js'
 
 const router = Router()
 
 router.get(
-  '/',
+  ROUTER_PATH.ROOT,
   QuotesValidator.getQuotesValidators,
   validationErrorHandler,
-  asyncErrorHandler(QuotesController.getQuotes),
+  asyncHandler(QuotesController.getQuotes),
 )
 
 router.get(
-  '/random',
+  ROUTER_PATH.RANDOM,
   QuotesValidator.getRandomQuotesValidators,
   validationErrorHandler,
-  asyncErrorHandler(QuotesController.getRandomQuotes),
+  asyncHandler(QuotesController.getRandomQuotes),
 )
 
 router.get(
-  '/:id',
+  ROUTER_PATH.ID,
   QuotesValidator.getSingleQuoteValidators,
   validationErrorHandler,
-  asyncErrorHandler(QuotesController.getQuoteById),
+  asyncHandler(QuotesController.getQuoteById),
 )
 
 router.post(
-  '/',
+  ROUTER_PATH.ROOT,
   QuotesValidator.postQuoteValidators,
   validationErrorHandler,
-  asyncErrorHandler(QuotesController.postQuote),
+  asyncHandler(QuotesController.postQuote),
 )
 
 router.patch(
-  '/:id',
+  ROUTER_PATH.ID,
   QuotesValidator.patchSingleQuoteValidators,
   validationErrorHandler,
-  asyncErrorHandler(QuotesController.patchQuoteById),
+  asyncHandler(QuotesController.patchQuoteById),
 )
 
 router.delete(
-  '/:id',
+  ROUTER_PATH.ID,
   QuotesValidator.deleteSingleQuoteValidators,
   validationErrorHandler,
-  asyncErrorHandler(QuotesController.deleteQuoteById),
+  asyncHandler(QuotesController.deleteQuoteById),
 )
 
 export default router
