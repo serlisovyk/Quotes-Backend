@@ -1,22 +1,5 @@
-export const DEFAULT_QUOTES_LIMIT = 10
-
-export const RANDOM_QUOTES_LIMIT = 10
-
-export const DEFAULT_CATEGORIES_LIMIT = 10
-
-export const DEFAULT_OFFSET = 0
-
-export const MAX_LIST_LIMIT = 50
-
-export const MAX_RANDOM_QUOTES_LIMIT = 20
-
-export const MAX_ENTITY_ID = 2147483647
-
-export const MINUTES_IN_MS = {
-  FIFTEEN: 15 * 60 * 1000,
-}
-
-export const RATE_LIMIT_MAX_REQUESTS = 100
+import { MAX_LIST_LIMIT } from './app.js'
+import { MAX_ENTITY_ID } from './validation.js'
 
 export const ERROR_CODE = {
   BAD_REQUEST: 'BAD_REQUEST',
@@ -39,13 +22,3 @@ export const ERROR_MESSAGE = {
   INVALID_ENTITY_ID: `ID must be integer in the range from 1 to ${MAX_ENTITY_ID}`,
   INVALID_LIST_LIMIT: `Limit must be in range 1..${MAX_LIST_LIMIT}`,
 }
-
-export const VALIDATION_ROOT_FIELD = '_root'
-
-// Allows lowercase letters, numbers and dashes
-export const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/
-
-// Allows any letters, numbers and dashes
-export const CATEGORY_NAME_I_REGEX = /^[a-z0-9\-]+$/i
-
-export const CATEGORY_UPPERCASE_REGEX = /[A-Z]/

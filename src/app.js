@@ -7,7 +7,7 @@ import categoriesRouter from './routes/categoriesRouter.js'
 import healthRouter from './routes/healthRouter.js'
 import errorMiddleware from './middlewares/errorMiddleware.js'
 import notFoundMiddleware from './middlewares/notFoundMiddleware.js'
-import { MINUTES_IN_MS, RATE_LIMIT_MAX_REQUESTS } from './constants/constants.js'
+import { MINUTES_IN_MS, RATE_LIMIT_MAX_REQUESTS } from './constants/app.js'
 
 const app = express()
 

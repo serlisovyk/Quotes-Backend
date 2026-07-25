@@ -2,10 +2,10 @@ import { param, query } from 'express-validator'
 import {
   CATEGORY_NAME_I_REGEX,
   CATEGORY_NAME_REGEX,
-  ERROR_MESSAGE,
   MAX_ENTITY_ID,
-  MAX_LIST_LIMIT,
-} from '../constants/constants.js'
+} from '../constants/validation.js'
+import { MAX_LIST_LIMIT } from '../constants/app.js'
+import { ERROR_MESSAGE } from '../constants/errors.js'
 
 export const listLimitQueryValidator = () =>
   query('limit')

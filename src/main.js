@@ -1,11 +1,13 @@
 import app from './app.js'
-import dbInit from './database/dbInit.js'
+import resetIdSequences from './utils/database/resetIdSequences.js'
+import syncDatabase from './utils/database/syncDatabase.js'
 import Logger from './logger/logger.js'
 import { startServer } from './server.js'
 
 async function bootstrap() {
   try {
-    await dbInit()
+    await syncDatabase()
+    await resetIdSequences()
     startServer(app)
   } catch (error) {
     Logger.error('Unable to initialize application', error)

@@ -1,14 +1,14 @@
-import ErrorFactory from '../errors/ErrorFactory.js'
+import ErrorFactory from '../errors/factories/ErrorFactory.js'
 import Logger from '../logger/logger.js'
 
-const errorMiddleware = (err, req, res, next) => {
-  const { statusCode, toResponse } = ErrorFactory.from(err)
+const errorMiddleware = (err, _, res, __) => {
+  const appError = ErrorFactory.from(err)
 
   if (ErrorFactory.shouldLog(err)) {
     Logger.error('Unhandled application error', err)
   }
 
-  return res.status(statusCode).json(toResponse())
+  return res.status(appError.statusCode).json(appError.toResponse())
 }
 
 export default errorMiddleware

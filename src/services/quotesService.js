@@ -1,12 +1,12 @@
 import Quote from '../database/models/Quote.js'
 import sequelize from '../database/db.js'
-import { findOrCreateCategories } from './categoriesService.js'
+import { setQuoteCategories } from './categoriesService.js'
 import {
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
   buildQuotesByIdsQuery,
   buildRandomQuotesQuery,
-} from './utils/quoteQueryBuilder.js'
+} from '../utils/queryBuilders/quoteQueryBuilder.js'
 
 export const findQuotes = async ({ limit, offset, author, text, category }) => {
   const { rows: pageQuotes, count: total } = await Quote.findAndCountAll({
@@ -37,8 +37,7 @@ export const createQuote = async ({ text, author, categories }) => {
   const createdQuoteId = await sequelize.transaction(async (transaction) => {
     const quote = await Quote.create({ text, author }, { transaction })
 
-    const categoryInstances = await findOrCreateCategories(categories, transaction)
-    await quote.setCategories(categoryInstances, { transaction })
+    await setQuoteCategories(quote, categories, transaction)
 
     return quote.id
   })
@@ -58,8 +57,7 @@ export const modifySingleQuote = async (id, { text, author, categories }) => {
     await quote.save({ transaction })
 
     if (categories) {
-      const categoryInstances = await findOrCreateCategories(categories, transaction)
-      await quote.setCategories(categoryInstances, { transaction })
+      await setQuoteCategories(quote, categories, transaction)
     }
 
     return quote.id

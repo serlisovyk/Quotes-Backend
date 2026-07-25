@@ -1,10 +1,7 @@
 import * as CategoriesService from '../services/categoriesService.js'
-import {
-  DEFAULT_CATEGORIES_LIMIT,
-  DEFAULT_OFFSET,
-  ERROR_MESSAGE,
-} from '../constants/constants.js'
-import NotFoundError from '../errors/NotFoundError.js'
+import NotFoundError from '../errors/classes/NotFoundError.js'
+import { ERROR_MESSAGE } from '../constants/errors.js'
+import { DEFAULT_CATEGORIES_LIMIT, DEFAULT_OFFSET } from '../constants/app.js'
 
 export const getCategories = async (req, res) => {
   const {

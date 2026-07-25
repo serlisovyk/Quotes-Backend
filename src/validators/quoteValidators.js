@@ -1,9 +1,7 @@
 import { query, body } from 'express-validator'
-import {
-  CATEGORY_NAME_REGEX,
-  ERROR_MESSAGE,
-  MAX_RANDOM_QUOTES_LIMIT,
-} from '../constants/constants.js'
+import { CATEGORY_NAME_REGEX } from '../constants/validation.js'
+import { ERROR_MESSAGE } from '../constants/errors.js'
+import { MAX_RANDOM_QUOTES_LIMIT } from '../constants/app.js'
 import {
   categoryNameValidator,
   idParamValidator,

@@ -2,7 +2,7 @@ import Category from '../database/models/Category.js'
 import {
   buildCategoryDetailsQuery,
   buildCategoryListQuery,
-} from './utils/categoryQueryBuilder.js'
+} from '../utils/queryBuilders/categoryQueryBuilder.js'
 
 export const findCategories = async ({ limit, offset, name }) => {
   const categories = await Category.findAll({
@@ -26,3 +26,8 @@ export const findOrCreateCategories = async (categoryNames, transaction) =>
       }).then(([category]) => category),
     ),
   )
+
+export const setQuoteCategories = async (quote, categoryNames, transaction) => {
+  const categoryInstances = await findOrCreateCategories(categoryNames, transaction)
+  await quote.setCategories(categoryInstances, { transaction })
+}

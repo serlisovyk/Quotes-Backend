@@ -9,8 +9,8 @@ import {
   CSV_IMPORT_BATCH_TIMEOUT,
 } from '../../config/config.js'
 import Logger from '../../logger/logger.js'
-import importQuoteRow from './utils/importQuoteRow.js'
-import pauseStream from './utils/pauseStream.js'
+import importQuoteRow from '../../utils/seed/importQuoteRow.js'
+import pauseStream from '../../utils/seed/pauseStream.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

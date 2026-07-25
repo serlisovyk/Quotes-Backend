@@ -1,11 +1,11 @@
 import * as QuotesService from '../services/quotesService.js'
+import NotFoundError from '../errors/classes/NotFoundError.js'
+import { ERROR_MESSAGE } from '../constants/errors.js'
 import {
   DEFAULT_OFFSET,
   DEFAULT_QUOTES_LIMIT,
-  ERROR_MESSAGE,
   RANDOM_QUOTES_LIMIT,
-} from '../constants/constants.js'
-import NotFoundError from '../errors/NotFoundError.js'
+} from '../constants/app.js'
 
 export const getQuotes = async (req, res) => {
   const {
@@ -50,9 +50,7 @@ export const deleteQuoteById = async (req, res) => {
 
   const isDeleted = await QuotesService.deleteSingleQuote(quoteId)
 
-  if (!isDeleted) {
-    throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
-  }
+  if (!isDeleted) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
 
   res.status(204).send()
 }
@@ -66,9 +64,7 @@ export const patchQuoteById = async (req, res) => {
 
   const modifiedQuote = await QuotesService.modifySingleQuote(quoteId, updateData)
 
-  if (!modifiedQuote) {
-    throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
-  }
+  if (!modifiedQuote) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
 
   res.json(modifiedQuote)
 }

@@ -1,4 +1,4 @@
-import { CATEGORY_UPPERCASE_REGEX } from '../../../constants/constants.js'
+import { CATEGORY_UPPERCASE_REGEX } from '../../constants/validation.js'
 
 export default function validateAndSplitCategories(categoriesStr) {
   if (!categoriesStr) return []

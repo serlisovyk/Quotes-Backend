@@ -1,9 +1,9 @@
 import { validationResult } from 'express-validator'
-import { ERROR_MESSAGE } from '../constants/constants.js'
-import ValidationError from '../errors/ValidationError.js'
-import formatValidationErrors from '../utils/formatValidationErrors.js'
+import { ERROR_MESSAGE } from '../constants/errors.js'
+import ValidationError from '../errors/classes/ValidationError.js'
+import formatValidationErrors from '../utils/validation/formatValidationErrors.js'
 
-const validationErrorHandler = (req, res, next) => {
+const validationErrorHandler = (req, _, next) => {
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
