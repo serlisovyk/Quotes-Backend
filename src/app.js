@@ -2,12 +2,12 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
-import quotesRouter from './routes/quotesRouter.js'
-import categoriesRouter from './routes/categoriesRouter.js'
-import healthRouter from './routes/healthRouter.js'
-import errorMiddleware from './middlewares/errorMiddleware.js'
-import notFoundMiddleware from './middlewares/notFoundMiddleware.js'
-import { MINUTES_IN_MS, RATE_LIMIT_MAX_REQUESTS } from './constants/app.js'
+import quotesRouter from './routes/quotes.router.js'
+import categoriesRouter from './routes/categories.router.js'
+import healthRouter from './routes/health.router.js'
+import errorMiddleware from './middlewares/error.middleware.js'
+import notFoundMiddleware from './middlewares/not-found.middleware.js'
+import { MINUTES_IN_MS, RATE_LIMIT_MAX_REQUESTS } from './constants/app.constant.js'
 
 const app = express()
 

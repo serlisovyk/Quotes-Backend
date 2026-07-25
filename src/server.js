@@ -1,5 +1,5 @@
-import { APP_PORT } from './config/config.js'
-import Logger from './logger/logger.js'
+import { APP_PORT } from './config/app.config.js'
+import Logger from './logger/logger.service.js'
 
 export function startServer(app) {
   const server = app.listen(APP_PORT, () =>

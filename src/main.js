@@ -1,7 +1,7 @@
 import app from './app.js'
-import resetIdSequences from './utils/database/resetIdSequences.js'
-import syncDatabase from './utils/database/syncDatabase.js'
-import Logger from './logger/logger.js'
+import resetIdSequences from './utils/database/reset-id-sequences.util.js'
+import syncDatabase from './utils/database/sync-database.util.js'
+import Logger from './logger/logger.service.js'
 import { startServer } from './server.js'
 
 async function bootstrap() {
