@@ -9,6 +9,7 @@ import errorMiddleware from './middlewares/error.middleware.js'
 import notFoundMiddleware from './middlewares/not-found.middleware.js'
 import requestLoggerMiddleware from './middlewares/request-logger.middleware.js'
 import {
+  JSON_BODY_LIMIT,
   MINUTES_IN_MS,
   RATE_LIMIT_MAX_REQUESTS,
   ROUTE,
@@ -17,14 +18,16 @@ import {
 const app = express()
 
 app.use(helmet())
-app.use(rateLimit({ windowMs: MINUTES_IN_MS.FIFTEEN, max: RATE_LIMIT_MAX_REQUESTS }))
 app.use(cors())
 
-app.use(express.json())
+app.use(express.json({ limit: JSON_BODY_LIMIT }))
 
 app.use(requestLoggerMiddleware)
 
 app.use(ROUTE.HEALTH, healthRouter)
+
+app.use(rateLimit({ windowMs: MINUTES_IN_MS.FIFTEEN, max: RATE_LIMIT_MAX_REQUESTS }))
+
 app.use(ROUTE.QUOTES, quotesRouter)
 app.use(ROUTE.CATEGORIES, categoriesRouter)
 

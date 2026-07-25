@@ -28,11 +28,11 @@ export async function findQuotes({ limit, offset, author, text, category }) {
 }
 
 export async function findRandomQuotes(limit) {
-  return await Quote.findAll(buildRandomQuotesQuery(sequelize.random(), limit))
+  return Quote.findAll(buildRandomQuotesQuery(sequelize.random(), limit))
 }
 
 export async function findSingleQuote(id) {
-  return await Quote.findByPk(id, buildQuoteDetailsQuery())
+  return Quote.findByPk(id, buildQuoteDetailsQuery())
 }
 
 export async function createQuote({ text, author, categories }) {
@@ -44,7 +44,7 @@ export async function createQuote({ text, author, categories }) {
     return quote.id
   })
 
-  return await findSingleQuote(createdQuoteId)
+  return findSingleQuote(createdQuoteId)
 }
 
 export async function modifySingleQuote(id, { text, author, categories }) {
@@ -65,7 +65,7 @@ export async function modifySingleQuote(id, { text, author, categories }) {
     return quote.id
   })
 
-  return await findSingleQuote(modifiedQuoteId)
+  return findSingleQuote(modifiedQuoteId)
 }
 
 export async function deleteSingleQuote(id) {
@@ -74,5 +74,5 @@ export async function deleteSingleQuote(id) {
 }
 
 async function findQuotesByIds(ids) {
-  return await Quote.findAll(buildQuotesByIdsQuery(ids))
+  return Quote.findAll(buildQuotesByIdsQuery(ids))
 }

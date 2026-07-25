@@ -16,6 +16,8 @@ export const MINUTES_IN_MS = {
 
 export const RATE_LIMIT_MAX_REQUESTS = 100
 
+export const JSON_BODY_LIMIT = '50kb'
+
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
@@ -30,6 +32,8 @@ export const ROUTE = {
   QUOTES: '/quotes',
   CATEGORIES: '/categories',
 }
+
+export const SKIPPED_REQUEST_LOG_ROUTES = [ROUTE.HEALTH]
 
 export const ROUTER_PATH = {
   ROOT: '/',

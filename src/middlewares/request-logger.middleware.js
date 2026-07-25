@@ -1,9 +1,14 @@
 import {
   buildRequestLogMessage,
   logRequest,
+  shouldSkipRequestLog,
 } from '../utils/http/request-log.util.js'
 
 function requestLoggerMiddleware(req, res, next) {
+  if (shouldSkipRequestLog(req)) {
+    return next()
+  }
+
   const startedAt = Date.now()
 
   res.on('finish', () => {

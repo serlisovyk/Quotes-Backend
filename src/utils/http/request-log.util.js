@@ -1,5 +1,12 @@
 import Logger from '../../logger/logger.service.js'
-import { HTTP_STATUS } from '../../constants/app.constant.js'
+import {
+  HTTP_STATUS,
+  SKIPPED_REQUEST_LOG_ROUTES,
+} from '../../constants/app.constant.js'
+
+export function shouldSkipRequestLog(req) {
+  return SKIPPED_REQUEST_LOG_ROUTES.includes(req.path)
+}
 
 export function buildRequestLogMessage(req, res, durationMs) {
   return `${req.method} ${req.originalUrl} ${res.statusCode} ${durationMs}ms`

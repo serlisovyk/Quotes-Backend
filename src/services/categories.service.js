@@ -15,11 +15,11 @@ export async function findCategories({ limit, offset, name }) {
 }
 
 export async function findSingleCategory(id) {
-  return await Category.findByPk(id, buildCategoryDetailsQuery())
+  return Category.findByPk(id, buildCategoryDetailsQuery())
 }
 
 export async function findOrCreateCategories(categoryNames, transaction) {
-  return await Promise.all(
+  return Promise.all(
     categoryNames.map((name) =>
       Category.findOrCreate({
         where: { name },
