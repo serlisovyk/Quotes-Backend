@@ -1,6 +1,6 @@
 import { TEXT, STRING } from 'sequelize'
 import sequelize from '../db.js'
-import { formatQuoteCategoriesAfterFind } from './hooks/quote.hook.js'
+import { formatQuoteCategoriesAfterFind } from './hooks/index.js'
 
 const Quote = sequelize.define(
   'Quote',

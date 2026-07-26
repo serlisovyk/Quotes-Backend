@@ -2,12 +2,12 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
-import quotesRouter from './routes/quotes.router.js'
-import categoriesRouter from './routes/categories.router.js'
-import healthRouter from './routes/health.router.js'
-import errorMiddleware from './middlewares/error.middleware.js'
-import notFoundMiddleware from './middlewares/not-found.middleware.js'
-import requestLoggerMiddleware from './middlewares/request-logger.middleware.js'
+import quotesRouter from './routes/quotes/index.js'
+import categoriesRouter from './routes/categories/index.js'
+import healthRouter from './routes/health/index.js'
+import errorMiddleware from './middlewares/error/index.js'
+import notFoundMiddleware from './middlewares/not-found/index.js'
+import requestLoggerMiddleware from './middlewares/request-logger/index.js'
 import {
   JSON_BODY_LIMIT,
   MINUTES_IN_MS,

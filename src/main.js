@@ -1,6 +1,6 @@
 import app from './app.js'
-import resetIdSequences from './utils/database/reset-id-sequences.util.js'
-import syncDatabase from './utils/database/sync-database.util.js'
+import syncDatabase from './utils/database/sync-database/index.js'
+import resetIdSequences from './utils/database/reset-id-sequences/index.js'
 import Logger from './logger/logger.service.js'
 import { startServer } from './server.js'
 
