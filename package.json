@@ -1,6 +1,8 @@
 {
   "name": "quotes-server",
   "version": "1.0.0",
+  "description": "Rest API for quotes app",
+  "author": "Serhii Lisovyk",
   "type": "module",
   "main": "src/main.js",
   "imports": {
@@ -9,6 +11,7 @@
     "#controllers/*": "./src/controllers/*/index.js",
     "#database": "./src/database/db.js",
     "#errors/*": "./src/errors/*/index.js",
+    "#error-classes/*": "./src/errors/classes/*.error.js",
     "#logger": "./src/logger/logger.service.js",
     "#middlewares/*": "./src/middlewares/*/index.js",
     "#models/hooks": "./src/database/models/hooks/index.js",
@@ -27,8 +30,6 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "keywords": [],
-  "description": "",
   "dependencies": {
     "cors": "^2.8.6",
     "csv-parser": "^3.2.1",

@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import NotFoundError from '../../errors/classes/not-found.error.js'
+import NotFoundError from '#error-classes/not-found'
 import { ERROR_CODE, ERROR_MESSAGE } from '#constants/errors.constant'
 import notFoundMiddleware from '#middlewares/not-found'
 

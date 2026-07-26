@@ -52,6 +52,7 @@ async function removeRareCategories() {
     }
   } catch (error) {
     Logger.error('Error removing rare categories', error)
+    process.exitCode = 1
   }
 }
 

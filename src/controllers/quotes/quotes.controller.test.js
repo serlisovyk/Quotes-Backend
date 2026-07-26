@@ -7,7 +7,7 @@ import {
   ROUTE,
 } from '#constants/app.constant'
 import { ERROR_MESSAGE } from '#constants/errors.constant'
-import NotFoundError from '../../errors/classes/not-found.error.js'
+import NotFoundError from '#error-classes/not-found'
 import * as QuotesService from '#services/quotes'
 import { createResponseMock } from '#tests/mocks/response'
 import {

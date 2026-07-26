@@ -1,4 +1,4 @@
-import NotFoundError from '../../errors/classes/not-found.error.js'
+import NotFoundError from '#error-classes/not-found'
 import { ERROR_MESSAGE } from '#constants/errors.constant'
 
 function notFoundMiddleware(req, _, next) {

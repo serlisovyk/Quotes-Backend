@@ -7,3 +7,5 @@ export const CATEGORY_NAME_REGEX = /^[a-z0-9\-]+$/
 export const CATEGORY_NAME_I_REGEX = /^[a-z0-9\-]+$/i
 
 export const CATEGORY_UPPERCASE_REGEX = /[A-Z]/
+
+export const LIKE_SPECIAL_CHARS_REGEX = /[\\%_]/g

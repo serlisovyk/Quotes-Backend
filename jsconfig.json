@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "#config/*": ["src/config/*"],
-      "#constants/*": ["src/constants/*"],
-      "#controllers/*": ["src/controllers/*/index.js"],
-      "#database": ["src/database/db.js"],
-      "#errors/*": ["src/errors/*/index.js"],
-      "#logger": ["src/logger/logger.service.js"],
-      "#middlewares/*": ["src/middlewares/*/index.js"],
-      "#models/hooks": ["src/database/models/hooks/index.js"],
-      "#models/*": ["src/database/models/*"],
-      "#routes/*": ["src/routes/*/index.js"],
-      "#services/*": ["src/services/*/index.js"],
-      "#tests/*": ["src/tests/*/index.js"],
-      "#utils/*": ["src/utils/*/index.js"],
-      "#validators/*": ["src/validators/*/index.js"]
+      "#config/*": ["./src/config/*"],
+      "#constants/*": ["./src/constants/*"],
+      "#controllers/*": ["./src/controllers/*/index.js"],
+      "#database": ["./src/database/db.js"],
+      "#errors/*": ["./src/errors/*/index.js"],
+      "#error-classes/*": ["./src/errors/classes/*.error.js"],
+      "#logger": ["./src/logger/logger.service.js"],
+      "#middlewares/*": ["./src/middlewares/*/index.js"],
+      "#models/hooks": ["./src/database/models/hooks/index.js"],
+      "#models/*": ["./src/database/models/*"],
+      "#routes/*": ["./src/routes/*/index.js"],
+      "#services/*": ["./src/services/*/index.js"],
+      "#tests/*": ["./src/tests/*/index.js"],
+      "#utils/*": ["./src/utils/*/index.js"],
+      "#validators/*": ["./src/validators/*/index.js"]
     }
   },
-  "include": ["src/**/*.js", "vitest.config.js"]
+  "include": ["./src/**/*.js", "vitest.config.js"]
 }

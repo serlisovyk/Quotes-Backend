@@ -10,6 +10,12 @@ describe('QueryFilterBuilder Util', () => {
     })
   })
 
+  test('builds iLike filters with escaped wildcard characters', () => {
+    expect(buildLikeFilters({ text: '50%_\\' })).toEqual({
+      text: { [Op.iLike]: '%50\\%\\_\\\\%' },
+    })
+  })
+
   test('skips empty values', () => {
     expect(buildLikeFilters({ author: '', text: undefined })).toEqual({})
   })

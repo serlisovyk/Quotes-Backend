@@ -1,4 +1,4 @@
-import NotFoundError from '../../errors/classes/not-found.error.js'
+import NotFoundError from '#error-classes/not-found'
 import * as CategoriesService from '#services/categories'
 import { sendOk } from '#utils/http/response'
 import { ERROR_MESSAGE } from '#constants/errors.constant'
