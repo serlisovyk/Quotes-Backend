@@ -15,6 +15,7 @@ import {
   ROUTE,
   TRUST_PROXY_HOPS,
 } from '#constants/app.constant'
+import '#models/associations'
 
 const app = express()
 
