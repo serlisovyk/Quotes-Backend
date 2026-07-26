@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import Quote from '../../../database/models/quote.model.js'
-import { findOrCreateCategories } from '../../../services/categories/index.js'
-import importQuoteRow from './index.js'
+import Quote from '#models/quote.model'
+import { findOrCreateCategories } from '#services/categories'
+import importQuoteRow from '#utils/seed/import-quote-row'
 
-vi.mock('../../../database/models/quote.model.js', () => ({
+vi.mock('#models/quote.model', () => ({
   default: {
     create: vi.fn(),
   },
 }))
 
-vi.mock('../../../services/categories/index.js', () => ({
+vi.mock('#services/categories', () => ({
   findOrCreateCategories: vi.fn(),
 }))
 

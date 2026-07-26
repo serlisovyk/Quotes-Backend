@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import sequelize from '../../../database/db.js'
-import Logger from '../../../logger/logger.service.js'
-import syncDatabase from './index.js'
+import sequelize from '#database'
+import Logger from '#logger'
+import syncDatabase from '#utils/database/sync-database'
 
-vi.mock('../../../database/db.js', () => ({
+vi.mock('#database', () => ({
   default: {
     sync: vi.fn(),
   },
 }))
 
-vi.mock('../../../database/models/associations.js', () => ({}))
+vi.mock('#models/associations', () => ({}))
 
-vi.mock('../../../logger/logger.service.js', () => ({
+vi.mock('#logger', () => ({
   default: {
     error: vi.fn(),
     success: vi.fn(),

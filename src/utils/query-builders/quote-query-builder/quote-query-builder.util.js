@@ -2,8 +2,8 @@ import {
   ORDER_BY_ID_ASC,
   PUBLIC_MODEL_ATTRIBUTES,
   QUOTE_CATEGORY_INCLUDE,
-} from '../../../constants/query-options.constant.js'
-import { buildLikeFilters } from '../query-filter-builder/index.js'
+} from '#constants/query-options.constant'
+import { buildLikeFilters } from '#utils/query-builders/query-filter-builder'
 
 export function buildQuoteWhere({ author, text }) {
   return buildLikeFilters({ author, text })

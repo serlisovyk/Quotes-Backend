@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { VALIDATION_ROOT_FIELD } from '../../../constants/validation.constant.js'
-import formatValidationErrors from './index.js'
+import { VALIDATION_ROOT_FIELD } from '#constants/validation.constant'
+import formatValidationErrors from '#utils/validation/format-validation-errors'
 
 function createValidationErrors(errors) {
   return {

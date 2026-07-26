@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { HTTP_STATUS } from '../../constants/app.constant.js'
-import { ERROR_CODE } from '../../constants/errors.constant.js'
+import { HTTP_STATUS } from '#constants/app.constant'
+import { ERROR_CODE } from '#constants/errors.constant'
 import BadRequestError from './bad-request.error.js'
 import InternalServerError from './internal-server.error.js'
 import InvalidJsonError from './invalid-json.error.js'

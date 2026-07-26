@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import * as HealthController from '../../controllers/health/index.js'
-import { ROUTER_PATH } from '../../constants/app.constant.js'
+import * as HealthController from '#controllers/health'
+import { ROUTER_PATH } from '#constants/app.constant'
 
 const router = Router()
 

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
-import { MAX_RANDOM_QUOTES_LIMIT } from '../../constants/app.constant.js'
-import { runValidators } from '../../tests/utils/run-validators/index.js'
+import { runValidators } from '#tests/utils/run-validators'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { MAX_RANDOM_QUOTES_LIMIT } from '#constants/app.constant'
 import {
   deleteSingleQuoteValidators,
   getQuotesValidators,
@@ -9,7 +9,7 @@ import {
   getSingleQuoteValidators,
   patchSingleQuoteValidators,
   postQuoteValidators,
-} from './index.js'
+} from '#validators/quote'
 
 describe('Quote Validator', () => {
   test('accepts valid quotes query and converts pagination', async () => {

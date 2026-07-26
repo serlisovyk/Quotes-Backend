@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { Op } from 'sequelize'
-import { buildLikeFilters } from './index.js'
+import { buildLikeFilters } from '#utils/query-builders/query-filter-builder'
 
 describe('QueryFilterBuilder Util', () => {
   test('builds iLike filters for provided values', () => {

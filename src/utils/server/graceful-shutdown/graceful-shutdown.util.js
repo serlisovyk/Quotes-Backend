@@ -1,5 +1,5 @@
-import closeDatabaseConnection from '../../database/close-database-connection/index.js'
-import Logger from '../../../logger/logger.service.js'
+import closeDatabaseConnection from '#utils/database/close-database-connection'
+import Logger from '#logger'
 
 export default function registerGracefulShutdown(server) {
   async function shutdown(signal) {

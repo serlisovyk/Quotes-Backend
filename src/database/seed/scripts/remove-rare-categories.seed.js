@@ -1,10 +1,10 @@
 import { Op } from 'sequelize'
-import sequelize from '../../db.js'
-import Category from '../../models/category.model.js'
-import Quote from '../../models/quote.model.js'
-import QuoteCategory from '../../models/quote-category.model.js'
-import Logger from '../../../logger/logger.service.js'
-import '../../models/associations.js'
+import sequelize from '#database'
+import Category from '#models/category.model'
+import Quote from '#models/quote.model'
+import QuoteCategory from '#models/quote-category.model'
+import Logger from '#logger'
+import '#models/associations'
 
 async function removeRareCategories() {
   try {

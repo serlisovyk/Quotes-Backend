@@ -3,7 +3,7 @@ import {
   ORDER_BY_ID_ASC,
   PUBLIC_MODEL_ATTRIBUTES,
   QUOTE_CATEGORY_INCLUDE,
-} from '../../../constants/query-options.constant.js'
+} from '#constants/query-options.constant'
 import {
   buildQuoteCategoryInclude,
   buildQuoteDetailsQuery,
@@ -11,9 +11,9 @@ import {
   buildQuotesByIdsQuery,
   buildQuoteWhere,
   buildRandomQuotesQuery,
-} from './index.js'
+} from '#utils/query-builders/quote-query-builder'
 
-vi.mock('../../../constants/query-options.constant.js', () => ({
+vi.mock('#constants/query-options.constant', () => ({
   ORDER_BY_ID_ASC: [['id', 'ASC']],
   PUBLIC_MODEL_ATTRIBUTES: { exclude: ['createdAt', 'updatedAt'] },
   QUOTE_CATEGORY_INCLUDE: {

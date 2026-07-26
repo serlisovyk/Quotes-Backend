@@ -4,7 +4,7 @@ import {
   idParamValidator,
   listLimitQueryValidator,
   offsetQueryValidator,
-} from '../shared/index.js'
+} from '#validators/shared'
 
 export const getCategoriesValidators = [
   listLimitQueryValidator(),

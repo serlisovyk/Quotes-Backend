@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import Category from '../../database/models/category.model.js'
+import Category from '#models/category.model'
 import {
   buildCategoryDetailsQuery,
   buildCategoryListQuery,
-} from '../../utils/query-builders/category-query-builder/index.js'
+} from '#utils/query-builders/category-query-builder'
 import {
   findCategories,
   findOrCreateCategories,
   findSingleCategory,
   setQuoteCategories,
-} from './index.js'
+} from '#services/categories'
 
-vi.mock('../../database/models/category.model.js', () => ({
+vi.mock('#models/category.model', () => ({
   default: {
     findAll: vi.fn(),
     findByPk: vi.fn(),
@@ -19,7 +19,7 @@ vi.mock('../../database/models/category.model.js', () => ({
   },
 }))
 
-vi.mock('../../utils/query-builders/category-query-builder/index.js', () => ({
+vi.mock('#utils/query-builders/category-query-builder', () => ({
   buildCategoryDetailsQuery: vi.fn(),
   buildCategoryListQuery: vi.fn(),
 }))

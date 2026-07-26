@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
-import { ERROR_CODE, ERROR_MESSAGE } from '../../constants/errors.constant.js'
 import NotFoundError from '../../errors/classes/not-found.error.js'
-import notFoundMiddleware from './index.js'
+import { ERROR_CODE, ERROR_MESSAGE } from '#constants/errors.constant'
+import notFoundMiddleware from '#middlewares/not-found'
 
 describe('NotFound Middleware', () => {
   test('passes route not found error to next', () => {

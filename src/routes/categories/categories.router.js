@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import * as CategoriesController from '../../controllers/categories/index.js'
-import * as CategoriesValidator from '../../validators/category/index.js'
-import asyncHandler from '../../middlewares/async-handler/index.js'
-import validationErrorHandler from '../../middlewares/validation-error/index.js'
-import { ROUTER_PATH } from '../../constants/app.constant.js'
+import * as CategoriesController from '#controllers/categories'
+import * as CategoriesValidator from '#validators/category'
+import asyncHandler from '#middlewares/async-handler'
+import validationErrorHandler from '#middlewares/validation-error'
+import { ROUTER_PATH } from '#constants/app.constant'
 
 const router = Router()
 

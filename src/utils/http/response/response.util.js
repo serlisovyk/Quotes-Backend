@@ -1,4 +1,4 @@
-import { HTTP_STATUS } from '../../../constants/app.constant.js'
+import { HTTP_STATUS } from '#constants/app.constant'
 
 export function sendOk(res, data) {
   return res.status(HTTP_STATUS.OK).json(data)

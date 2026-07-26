@@ -1,15 +1,15 @@
 import { describe, expect, test } from 'vitest'
 import { query } from 'express-validator'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
-import { MAX_LIST_LIMIT } from '../../constants/app.constant.js'
-import { runValidators } from '../../tests/utils/run-validators/index.js'
+import { runValidators } from '#tests/utils/run-validators'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { MAX_LIST_LIMIT } from '#constants/app.constant'
 import {
   categoryNameValidator,
   categorySearchValidator,
   idParamValidator,
   listLimitQueryValidator,
   offsetQueryValidator,
-} from './index.js'
+} from '#validators/shared'
 
 describe('Shared Validator', () => {
   test('validates and converts list limit query', async () => {

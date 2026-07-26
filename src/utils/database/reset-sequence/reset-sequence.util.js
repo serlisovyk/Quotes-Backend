@@ -1,5 +1,5 @@
-import sequelize from '../../../database/db.js'
-import Logger from '../../../logger/logger.service.js'
+import sequelize from '#database'
+import Logger from '#logger'
 
 export default async function resetSequence(model, sequenceName) {
   const maxId = Number(await model.max('id'))

@@ -1,6 +1,6 @@
 import express from 'express'
 import request from 'supertest'
-import errorMiddleware from '../../../middlewares/error/index.js'
+import errorMiddleware from '#middlewares/error'
 
 export function createRouterTestClient({
   route,

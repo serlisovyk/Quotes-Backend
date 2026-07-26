@@ -1,6 +1,3 @@
--- Seed audit queries
--- Run these manually after importing or cleaning seed data.
-
 -- Count imported rows
 SELECT
     COUNT(*) AS quotes_count

@@ -1,6 +1,6 @@
-import Category from './category.model.js'
-import Quote from './quote.model.js'
-import QuoteCategory from './quote-category.model.js'
+import Category from '#models/category.model'
+import Quote from '#models/quote.model'
+import QuoteCategory from '#models/quote-category.model'
 
 Quote.belongsToMany(Category, { through: QuoteCategory })
 Category.belongsToMany(Quote, { through: QuoteCategory })

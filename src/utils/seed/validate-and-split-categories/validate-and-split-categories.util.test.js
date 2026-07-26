@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import validateAndSplitCategories from './index.js'
+import validateAndSplitCategories from '#utils/seed/validate-and-split-categories'
 
 describe('ValidateAndSplitCategories Util', () => {
   test('returns empty array when categories string is missing', () => {

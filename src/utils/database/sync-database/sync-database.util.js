@@ -1,6 +1,6 @@
-import sequelize from '../../../database/db.js'
-import '../../../database/models/associations.js'
-import Logger from '../../../logger/logger.service.js'
+import sequelize from '#database'
+import Logger from '#logger'
+import '#models/associations'
 
 export default async function syncDatabase() {
   try {

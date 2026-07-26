@@ -3,11 +3,15 @@ import {
   HTTP_STATUS,
   ROUTE,
   SKIPPED_REQUEST_LOG_ROUTES,
-} from '../../../constants/app.constant.js'
-import Logger from '../../../logger/logger.service.js'
-import { buildRequestLogMessage, logRequest, shouldSkipRequestLog } from './index.js'
+} from '#constants/app.constant'
+import Logger from '#logger'
+import {
+  buildRequestLogMessage,
+  logRequest,
+  shouldSkipRequestLog,
+} from '#utils/http/request-log'
 
-vi.mock('../../../logger/logger.service.js', () => ({
+vi.mock('#logger', () => ({
   default: {
     error: vi.fn(),
     success: vi.fn(),

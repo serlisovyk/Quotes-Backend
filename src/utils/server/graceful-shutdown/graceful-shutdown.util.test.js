@@ -1,16 +1,16 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import Logger from '../../../logger/logger.service.js'
-import closeDatabaseConnection from '../../database/close-database-connection/index.js'
-import registerGracefulShutdown from './index.js'
+import Logger from '#logger'
+import closeDatabaseConnection from '#utils/database/close-database-connection'
+import registerGracefulShutdown from '#utils/server/graceful-shutdown'
 
-vi.mock('../../../logger/logger.service.js', () => ({
+vi.mock('#logger', () => ({
   default: {
     error: vi.fn(),
     info: vi.fn(),
   },
 }))
 
-vi.mock('../../database/close-database-connection/index.js', () => ({
+vi.mock('#utils/database/close-database-connection', () => ({
   default: vi.fn(),
 }))
 

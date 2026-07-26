@@ -1,8 +1,8 @@
-import Category from '../../database/models/category.model.js'
+import Category from '#models/category.model'
 import {
   buildCategoryDetailsQuery,
   buildCategoryListQuery,
-} from '../../utils/query-builders/category-query-builder/index.js'
+} from '#utils/query-builders/category-query-builder'
 
 export async function findCategories({ limit, offset, name }) {
   const categories = await Category.findAll({

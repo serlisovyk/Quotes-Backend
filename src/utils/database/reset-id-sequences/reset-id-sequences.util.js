@@ -1,7 +1,7 @@
-import Category from '../../../database/models/category.model.js'
-import Quote from '../../../database/models/quote.model.js'
-import Logger from '../../../logger/logger.service.js'
-import resetSequence from '../reset-sequence/index.js'
+import Category from '#models/category.model'
+import Quote from '#models/quote.model'
+import Logger from '#logger'
+import resetSequence from '#utils/database/reset-sequence'
 
 export default async function resetIdSequences() {
   try {

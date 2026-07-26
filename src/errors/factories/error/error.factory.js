@@ -1,5 +1,5 @@
-import { ERROR_MESSAGE } from '../../../constants/errors.constant.js'
-import AppError from '../../classes/app/index.js'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
+import AppError from '#errors/classes/app'
 import InternalServerError from '../../classes/internal-server.error.js'
 import InvalidJsonError from '../../classes/invalid-json.error.js'
 

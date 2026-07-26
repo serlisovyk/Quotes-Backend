@@ -1,7 +1,10 @@
 import { describe, expect, test } from 'vitest'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
-import { runValidators } from '../../tests/utils/run-validators/index.js'
-import { getCategoriesValidators, getSingleCategoryValidators } from './index.js'
+import { runValidators } from '#tests/utils/run-validators'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
+import {
+  getCategoriesValidators,
+  getSingleCategoryValidators,
+} from '#validators/category'
 
 describe('Category Validator', () => {
   test('accepts valid categories query', async () => {

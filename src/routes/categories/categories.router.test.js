@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { HTTP_STATUS, ROUTE } from '../../constants/app.constant.js'
-import { ERROR_CODE } from '../../constants/errors.constant.js'
-import * as CategoriesController from '../../controllers/categories/index.js'
-import { createRouterTestClientFactory } from '../../tests/utils/router-test-client/index.js'
-import categoriesRouter from './index.js'
+import { createRouterTestClientFactory } from '#tests/utils/router-test-client'
+import * as CategoriesController from '#controllers/categories'
+import { HTTP_STATUS, ROUTE } from '#constants/app.constant'
+import { ERROR_CODE } from '#constants/errors.constant'
+import categoriesRouter from '#routes/categories'
 
-vi.mock('../../controllers/categories/index.js', () => ({
+vi.mock('#controllers/categories', () => ({
   getCategories: vi.fn((req, res) => res.status(200).json({ query: req.query })),
   getCategoryById: vi.fn((req, res) => res.status(200).json({ id: req.params.id })),
 }))

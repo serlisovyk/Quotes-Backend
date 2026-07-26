@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { ERROR_CODE } from '../../../constants/errors.constant.js'
-import { HTTP_STATUS } from '../../../constants/app.constant.js'
-import AppError from './index.js'
+import { ERROR_CODE } from '#constants/errors.constant'
+import { HTTP_STATUS } from '#constants/app.constant'
+import AppError from '#errors/classes/app'
 
 describe('App Error', () => {
   test('creates operational error', () => {

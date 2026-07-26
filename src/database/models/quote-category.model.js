@@ -1,4 +1,4 @@
-import sequelize from '../db.js'
+import sequelize from '#database'
 
 const QuoteCategory = sequelize.define(
   'QuoteCategory',

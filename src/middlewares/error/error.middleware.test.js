@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { HTTP_STATUS } from '../../constants/app.constant.js'
-import { ERROR_CODE, ERROR_MESSAGE } from '../../constants/errors.constant.js'
-import AppError from '../../errors/classes/app/index.js'
-import Logger from '../../logger/logger.service.js'
-import { createResponseMock } from '../../tests/mocks/response/index.js'
-import errorMiddleware from './index.js'
+import { createResponseMock } from '#tests/mocks/response'
+import { HTTP_STATUS } from '#constants/app.constant'
+import { ERROR_CODE, ERROR_MESSAGE } from '#constants/errors.constant'
+import AppError from '#errors/classes/app'
+import Logger from '#logger'
+import errorMiddleware from '#middlewares/error'
 
-vi.mock('../../logger/logger.service.js', () => ({
+vi.mock('#logger', () => ({
   default: {
     error: vi.fn(),
   },

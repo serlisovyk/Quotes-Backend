@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { formatQuoteCategoriesAfterFind } from './index.js'
+import { formatQuoteCategoriesAfterFind } from '#models/hooks'
 
 function createQuote(categories) {
   return {

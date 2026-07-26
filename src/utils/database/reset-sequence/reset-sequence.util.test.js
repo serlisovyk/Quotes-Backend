@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import sequelize from '../../../database/db.js'
-import Logger from '../../../logger/logger.service.js'
-import resetSequence from './index.js'
+import sequelize from '#database'
+import Logger from '#logger'
+import resetSequence from '#utils/database/reset-sequence'
 
-vi.mock('../../../database/db.js', () => ({
+vi.mock('#database', () => ({
   default: {
     query: vi.fn(),
   },
 }))
 
-vi.mock('../../../logger/logger.service.js', () => ({
+vi.mock('#logger', () => ({
   default: {
     info: vi.fn(),
   },

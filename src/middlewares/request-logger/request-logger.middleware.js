@@ -2,7 +2,7 @@ import {
   buildRequestLogMessage,
   logRequest,
   shouldSkipRequestLog,
-} from '../../utils/http/request-log/index.js'
+} from '#utils/http/request-log'
 
 function requestLoggerMiddleware(req, res, next) {
   if (shouldSkipRequestLog(req)) {

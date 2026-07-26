@@ -1,8 +1,8 @@
 import {
   ORDER_BY_ID_ASC,
   PUBLIC_MODEL_ATTRIBUTES,
-} from '../../../constants/query-options.constant.js'
-import { buildLikeFilters } from '../query-filter-builder/index.js'
+} from '#constants/query-options.constant'
+import { buildLikeFilters } from '#utils/query-builders/query-filter-builder'
 
 export function buildCategoryListQuery({ name }) {
   return {

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { HTTP_STATUS } from '../../constants/app.constant.js'
-import { createResponseMock } from '../../tests/mocks/response/index.js'
-import { getHealth } from './index.js'
+import { createResponseMock } from '#tests/mocks/response'
+import { HTTP_STATUS } from '#constants/app.constant'
+import { getHealth } from '#controllers/health'
 
 describe('Health Controller', () => {
   test('returns ok status payload', () => {

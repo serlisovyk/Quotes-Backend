@@ -1,12 +1,12 @@
-import Quote from '../../database/models/quote.model.js'
-import sequelize from '../../database/db.js'
-import { setQuoteCategories } from '../categories/index.js'
+import Quote from '#models/quote.model'
+import sequelize from '#database'
 import {
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
   buildQuotesByIdsQuery,
   buildRandomQuotesQuery,
-} from '../../utils/query-builders/quote-query-builder/index.js'
+} from '#utils/query-builders/quote-query-builder'
+import { setQuoteCategories } from '#services/categories'
 
 export async function findQuotes({ limit, offset, author, text, category }) {
   const { rows: pageQuotes, count: total } = await Quote.findAndCountAll({

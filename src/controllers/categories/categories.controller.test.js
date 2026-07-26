@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { createResponseMock } from '#tests/mocks/response'
+import NotFoundError from '../../errors/classes/not-found.error.js'
+import * as CategoriesService from '#services/categories'
 import {
   DEFAULT_CATEGORIES_LIMIT,
   DEFAULT_OFFSET,
   HTTP_STATUS,
-} from '../../constants/app.constant.js'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
-import NotFoundError from '../../errors/classes/not-found.error.js'
-import * as CategoriesService from '../../services/categories/index.js'
-import { createResponseMock } from '../../tests/mocks/response/index.js'
-import { getCategories, getCategoryById } from './index.js'
+} from '#constants/app.constant'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { getCategories, getCategoryById } from '#controllers/categories'
 
-vi.mock('../../services/categories/index.js', () => ({
+vi.mock('#services/categories', () => ({
   findCategories: vi.fn(),
   findSingleCategory: vi.fn(),
 }))

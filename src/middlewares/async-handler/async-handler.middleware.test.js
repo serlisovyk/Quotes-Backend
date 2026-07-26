@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import asyncHandler from './index.js'
+import asyncHandler from '#middlewares/async-handler'
 
 describe('AsyncHandler Middleware', () => {
   test('runs async handler without calling next on success', async () => {

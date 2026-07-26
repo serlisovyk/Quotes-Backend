@@ -1,26 +1,26 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import Category from '../../../database/models/category.model.js'
-import Quote from '../../../database/models/quote.model.js'
-import Logger from '../../../logger/logger.service.js'
-import resetIdSequences from './index.js'
-import resetSequence from '../reset-sequence/index.js'
+import Category from '#models/category.model'
+import Quote from '#models/quote.model'
+import Logger from '#logger'
+import resetSequence from '#utils/database/reset-sequence'
+import resetIdSequences from '#utils/database/reset-id-sequences'
 
-vi.mock('../../../database/models/category.model.js', () => ({
+vi.mock('#models/category.model', () => ({
   default: { tableName: 'Categories' },
 }))
 
-vi.mock('../../../database/models/quote.model.js', () => ({
+vi.mock('#models/quote.model', () => ({
   default: { tableName: 'Quotes' },
 }))
 
-vi.mock('../../../logger/logger.service.js', () => ({
+vi.mock('#logger', () => ({
   default: {
     error: vi.fn(),
     success: vi.fn(),
   },
 }))
 
-vi.mock('../reset-sequence/index.js', () => ({
+vi.mock('#utils/database/reset-sequence', () => ({
   default: vi.fn(),
 }))
 

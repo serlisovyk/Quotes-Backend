@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import sequelize from '../../database/db.js'
-import Quote from '../../database/models/quote.model.js'
-import { setQuoteCategories } from '../categories/index.js'
+import sequelize from '#database'
+import Quote from '#models/quote.model'
 import {
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
   buildQuotesByIdsQuery,
   buildRandomQuotesQuery,
-} from '../../utils/query-builders/quote-query-builder/index.js'
+} from '#utils/query-builders/quote-query-builder'
+import { setQuoteCategories } from '#services/categories'
 import {
   createQuote,
   deleteSingleQuote,
@@ -15,16 +15,16 @@ import {
   findRandomQuotes,
   findSingleQuote,
   modifySingleQuote,
-} from './index.js'
+} from '#services/quotes'
 
-vi.mock('../../database/db.js', () => ({
+vi.mock('#database', () => ({
   default: {
     random: vi.fn(),
     transaction: vi.fn(),
   },
 }))
 
-vi.mock('../../database/models/quote.model.js', () => ({
+vi.mock('#models/quote.model', () => ({
   default: {
     create: vi.fn(),
     destroy: vi.fn(),
@@ -34,11 +34,11 @@ vi.mock('../../database/models/quote.model.js', () => ({
   },
 }))
 
-vi.mock('../categories/index.js', () => ({
+vi.mock('#services/categories', () => ({
   setQuoteCategories: vi.fn(),
 }))
 
-vi.mock('../../utils/query-builders/quote-query-builder/index.js', () => ({
+vi.mock('#utils/query-builders/quote-query-builder', () => ({
   buildQuoteDetailsQuery: vi.fn(),
   buildQuoteListQuery: vi.fn(),
   buildQuotesByIdsQuery: vi.fn(),

@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { HTTP_STATUS, ROUTE } from '../../constants/app.constant.js'
-import { ERROR_CODE } from '../../constants/errors.constant.js'
-import * as QuotesController from '../../controllers/quotes/index.js'
-import { createRouterTestClientFactory } from '../../tests/utils/router-test-client/index.js'
-import quotesRouter from './index.js'
+import { createRouterTestClientFactory } from '#tests/utils/router-test-client'
+import * as QuotesController from '#controllers/quotes'
+import { HTTP_STATUS, ROUTE } from '#constants/app.constant'
+import { ERROR_CODE } from '#constants/errors.constant'
+import quotesRouter from '#routes/quotes'
 
-vi.mock('../../controllers/quotes/index.js', () => ({
+vi.mock('#controllers/quotes', () => ({
   deleteQuoteById: vi.fn((_, res) => res.status(204).send()),
   getQuoteById: vi.fn((req, res) => res.status(200).json({ id: req.params.id })),
   getQuotes: vi.fn((req, res) => res.status(200).json({ query: req.query })),

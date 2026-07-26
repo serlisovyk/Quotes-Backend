@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import pauseStream from './index.js'
+import pauseStream from '#utils/seed/pause-stream'
 
 describe('PauseStream Util', () => {
   beforeEach(() => vi.useFakeTimers())

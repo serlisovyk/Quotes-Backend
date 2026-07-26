@@ -2,10 +2,13 @@ import { describe, expect, test, vi } from 'vitest'
 import {
   ORDER_BY_ID_ASC,
   PUBLIC_MODEL_ATTRIBUTES,
-} from '../../../constants/query-options.constant.js'
-import { buildCategoryDetailsQuery, buildCategoryListQuery } from './index.js'
+} from '#constants/query-options.constant'
+import {
+  buildCategoryDetailsQuery,
+  buildCategoryListQuery,
+} from '#utils/query-builders/category-query-builder'
 
-vi.mock('../../../constants/query-options.constant.js', () => ({
+vi.mock('#constants/query-options.constant', () => ({
   ORDER_BY_ID_ASC: [['id', 'ASC']],
   PUBLIC_MODEL_ATTRIBUTES: { exclude: ['createdAt', 'updatedAt'] },
 }))

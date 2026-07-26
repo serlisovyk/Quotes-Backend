@@ -1,5 +1,5 @@
 import { STRING } from 'sequelize'
-import sequelize from '../db.js'
+import sequelize from '#database'
 
 const Category = sequelize.define('Category', {
   name: {

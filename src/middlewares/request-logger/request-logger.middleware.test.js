@@ -3,10 +3,10 @@ import {
   buildRequestLogMessage,
   logRequest,
   shouldSkipRequestLog,
-} from '../../utils/http/request-log/index.js'
-import requestLoggerMiddleware from './index.js'
+} from '#utils/http/request-log'
+import requestLoggerMiddleware from '#middlewares/request-logger'
 
-vi.mock('../../utils/http/request-log/index.js', () => ({
+vi.mock('#utils/http/request-log', () => ({
   buildRequestLogMessage: vi.fn(),
   logRequest: vi.fn(),
   shouldSkipRequestLog: vi.fn(),

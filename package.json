@@ -3,6 +3,22 @@
   "version": "1.0.0",
   "type": "module",
   "main": "src/main.js",
+  "imports": {
+    "#config/*": "./src/config/*.js",
+    "#constants/*": "./src/constants/*.js",
+    "#controllers/*": "./src/controllers/*/index.js",
+    "#database": "./src/database/db.js",
+    "#errors/*": "./src/errors/*/index.js",
+    "#logger": "./src/logger/logger.service.js",
+    "#middlewares/*": "./src/middlewares/*/index.js",
+    "#models/hooks": "./src/database/models/hooks/index.js",
+    "#models/*": "./src/database/models/*.js",
+    "#routes/*": "./src/routes/*/index.js",
+    "#services/*": "./src/services/*/index.js",
+    "#tests/*": "./src/tests/*/index.js",
+    "#utils/*": "./src/utils/*/index.js",
+    "#validators/*": "./src/validators/*/index.js"
+  },
   "scripts": {
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",

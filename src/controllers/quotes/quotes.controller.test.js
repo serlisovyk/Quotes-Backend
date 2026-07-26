@@ -5,11 +5,11 @@ import {
   HTTP_STATUS,
   RANDOM_QUOTES_LIMIT,
   ROUTE,
-} from '../../constants/app.constant.js'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
+} from '#constants/app.constant'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
 import NotFoundError from '../../errors/classes/not-found.error.js'
-import * as QuotesService from '../../services/quotes/index.js'
-import { createResponseMock } from '../../tests/mocks/response/index.js'
+import * as QuotesService from '#services/quotes'
+import { createResponseMock } from '#tests/mocks/response'
 import {
   deleteQuoteById,
   getQuoteById,
@@ -17,9 +17,9 @@ import {
   getRandomQuotes,
   patchQuoteById,
   postQuote,
-} from './index.js'
+} from '#controllers/quotes'
 
-vi.mock('../../services/quotes/index.js', () => ({
+vi.mock('#services/quotes', () => ({
   createQuote: vi.fn(),
   deleteSingleQuote: vi.fn(),
   findQuotes: vi.fn(),

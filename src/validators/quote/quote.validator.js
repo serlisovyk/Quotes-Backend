@@ -1,13 +1,13 @@
 import { query, body } from 'express-validator'
-import { CATEGORY_NAME_REGEX } from '../../constants/validation.constant.js'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
-import { MAX_RANDOM_QUOTES_LIMIT } from '../../constants/app.constant.js'
+import { CATEGORY_NAME_REGEX } from '#constants/validation.constant'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { MAX_RANDOM_QUOTES_LIMIT } from '#constants/app.constant'
 import {
   categoryNameValidator,
   idParamValidator,
   listLimitQueryValidator,
   offsetQueryValidator,
-} from '../shared/index.js'
+} from '#validators/shared'
 
 function quoteTextBodyValidator({ optional = false } = {}) {
   const validator = body('text')

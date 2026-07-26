@@ -1,17 +1,13 @@
-import * as QuotesService from '../../services/quotes/index.js'
+import * as QuotesService from '#services/quotes'
 import NotFoundError from '../../errors/classes/not-found.error.js'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
 import {
   DEFAULT_OFFSET,
   DEFAULT_QUOTES_LIMIT,
   RANDOM_QUOTES_LIMIT,
   ROUTE,
-} from '../../constants/app.constant.js'
-import {
-  sendCreated,
-  sendNoContent,
-  sendOk,
-} from '../../utils/http/response/index.js'
+} from '#constants/app.constant'
+import { sendCreated, sendNoContent, sendOk } from '#utils/http/response'
 
 export async function getQuotes(req, res) {
   const {

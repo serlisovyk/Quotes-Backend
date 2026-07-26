@@ -1,4 +1,4 @@
-import Category from '../database/models/category.model.js'
+import Category from '#models/category.model'
 
 export const PUBLIC_MODEL_ATTRIBUTES = {
   exclude: ['createdAt', 'updatedAt'],

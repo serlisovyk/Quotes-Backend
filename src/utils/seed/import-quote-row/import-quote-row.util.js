@@ -1,6 +1,6 @@
-import Quote from '../../../database/models/quote.model.js'
-import { findOrCreateCategories } from '../../../services/categories/index.js'
-import validateAndSplitCategories from '../validate-and-split-categories/index.js'
+import Quote from '#models/quote.model'
+import { findOrCreateCategories } from '#services/categories'
+import validateAndSplitCategories from '#utils/seed/validate-and-split-categories'
 
 const getQuoteAuthor = (author) => author.split(',')[0].slice(0, 255)
 

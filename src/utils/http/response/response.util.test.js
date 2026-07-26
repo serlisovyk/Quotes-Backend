@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { HTTP_STATUS } from '../../../constants/app.constant.js'
-import { createResponseMock } from '../../../tests/mocks/response/index.js'
-import { sendCreated, sendNoContent, sendOk } from './index.js'
+import { createResponseMock } from '#tests/mocks/response'
+import { HTTP_STATUS } from '#constants/app.constant'
+import { sendCreated, sendNoContent, sendOk } from '#utils/http/response'
 
 describe('Response Util', () => {
   test('sends ok response', () => {

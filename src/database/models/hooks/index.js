@@ -1,1 +1,1 @@
-export * from './quote.hook.js'
+export * from '#models/hooks/quote.hook'

@@ -1,5 +1,5 @@
-import ErrorFactory from '../../errors/factories/error/index.js'
-import Logger from '../../logger/logger.service.js'
+import ErrorFactory from '#errors/factories/error'
+import Logger from '#logger'
 
 function errorMiddleware(err, _, res, __) {
   const appError = ErrorFactory.from(err)

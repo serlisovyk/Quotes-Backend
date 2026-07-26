@@ -3,9 +3,9 @@ import {
   CATEGORY_NAME_I_REGEX,
   CATEGORY_NAME_REGEX,
   MAX_ENTITY_ID,
-} from '../../constants/validation.constant.js'
-import { MAX_LIST_LIMIT } from '../../constants/app.constant.js'
-import { ERROR_MESSAGE } from '../../constants/errors.constant.js'
+} from '#constants/validation.constant'
+import { MAX_LIST_LIMIT } from '#constants/app.constant'
+import { ERROR_MESSAGE } from '#constants/errors.constant'
 
 export function listLimitQueryValidator() {
   return query('limit')

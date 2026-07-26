@@ -1,5 +1,5 @@
-import { MAX_LIST_LIMIT } from './app.constant.js'
-import { MAX_ENTITY_ID } from './validation.constant.js'
+import { MAX_LIST_LIMIT } from '#constants/app.constant'
+import { MAX_ENTITY_ID } from '#constants/validation.constant'
 
 export const ERROR_CODE = {
   BAD_REQUEST: 'BAD_REQUEST',
