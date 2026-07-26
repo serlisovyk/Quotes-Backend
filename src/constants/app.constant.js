@@ -18,6 +18,8 @@ export const RATE_LIMIT_MAX_REQUESTS = 100
 
 export const JSON_BODY_LIMIT = '50kb'
 
+export const TRUST_PROXY_HOPS = 1
+
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,

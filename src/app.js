@@ -13,9 +13,12 @@ import {
   MINUTES_IN_MS,
   RATE_LIMIT_MAX_REQUESTS,
   ROUTE,
+  TRUST_PROXY_HOPS,
 } from '#constants/app.constant'
 
 const app = express()
+
+app.set('trust proxy', TRUST_PROXY_HOPS)
 
 app.use(helmet())
 app.use(cors())

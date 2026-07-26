@@ -1,4 +1,4 @@
-﻿# Agent Instructions
+# Agent Instructions
 
 This file defines how AI coding agents should work in this repository.
 
@@ -34,7 +34,6 @@ Read these files before making changes:
 - Validation: Express Validator
 - Tests: Vitest + Supertest
 - Formatting: Prettier
-- Deployment config: `vercel.json`
 
 ## Before Finishing
 

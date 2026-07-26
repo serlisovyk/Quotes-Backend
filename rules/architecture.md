@@ -1,4 +1,4 @@
-﻿# Architecture Rules
+# Architecture Rules
 
 ## Layer Responsibilities
 
@@ -39,3 +39,9 @@
 - Read environment variables through `src/config/app.config.js`.
 - Do not add config validation in this project unless the user explicitly asks for it.
 - Keep config export names uppercase, for example `APP_PORT` and `DATABASE_URL`.
+
+## Proxy Behavior
+
+- Keep `app.set('trust proxy', TRUST_PROXY_HOPS)` before `express-rate-limit`.
+- `TRUST_PROXY_HOPS` is required on Vercel because requests arrive with `X-Forwarded-For` through Vercel's proxy/CDN.
+- Do not set `trust proxy` to `true` casually. Prefer a numeric hop count and adjust it only when the hosting/proxy topology changes.

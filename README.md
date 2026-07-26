@@ -1,4 +1,4 @@
-﻿# Quotes Server
+# Quotes Server
 
 💬 REST API server for a quotes application.
 
@@ -244,16 +244,6 @@ Seed scripts live in `src/database/seed/scripts` and use helpers from `src/utils
 The detailed seed guide is in `src/database/seed/README.md`. It covers CSV import, optional dump import through Adminer, rare category cleanup, required env values, and the `ALLOW_SEED_RESET=true` guard.
 
 The CSV import script is destructive because it runs `sequelize.sync({ force: true })` before importing data. Keep `ALLOW_SEED_RESET` unset or `false` unless you are intentionally resetting a local seed database.
-
-## ▲ Vercel Deployment
-
-The project includes `vercel.json` so Vercel uses `src/main.js` as the serverless entry point instead of guessing from the project structure. All incoming requests are routed to the same entry file.
-
-The normal bootstrap flow is:
-
-```text
-src/main.js -> syncDatabase() -> resetIdSequences() -> startServer(app)
-```
 
 ## 🧱 Architecture Notes
 
