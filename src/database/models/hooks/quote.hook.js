@@ -7,6 +7,7 @@ export function formatQuoteCategoriesAfterFind(results) {
     if (!quote.Categories) return
 
     quote.dataValues.categories = quote.Categories.map((category) => category.name)
+
     delete quote.dataValues.Categories
   })
 }
