@@ -1,21 +1,15 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-import rateLimit from 'express-rate-limit'
 import quotesRouter from '#routes/quotes'
 import categoriesRouter from '#routes/categories'
 import healthRouter from '#routes/health'
 import errorMiddleware from '#middlewares/error'
 import notFoundMiddleware from '#middlewares/not-found'
 import requestLoggerMiddleware from '#middlewares/request-logger'
+import { generalRateLimiter } from '#middlewares/rate-limit'
 import '#models'
-import {
-  JSON_BODY_LIMIT,
-  MINUTES_IN_MS,
-  RATE_LIMIT_MAX_REQUESTS,
-  ROUTE,
-  TRUST_PROXY_HOPS,
-} from '#constants'
+import { JSON_BODY_LIMIT, ROUTE, TRUST_PROXY_HOPS } from '#constants'
 
 const app = express()
 
@@ -30,9 +24,7 @@ app.use(requestLoggerMiddleware)
 
 app.use(ROUTE.HEALTH, healthRouter)
 
-app.use(
-  rateLimit({ windowMs: MINUTES_IN_MS.FIFTEEN, limit: RATE_LIMIT_MAX_REQUESTS }),
-)
+app.use(generalRateLimiter)
 
 app.use(ROUTE.QUOTES, quotesRouter)
 app.use(ROUTE.CATEGORIES, categoriesRouter)

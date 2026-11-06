@@ -12,6 +12,7 @@ export const ERROR_CODE = {
   INVALID_JSON: 'INVALID_JSON',
   NOT_FOUND: 'NOT_FOUND',
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
+  TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS',
   UNSUPPORTED_MEDIA_TYPE: 'UNSUPPORTED_MEDIA_TYPE',
   VALIDATION_ERROR: 'VALIDATION_ERROR',
 }
@@ -28,6 +29,7 @@ export const ERROR_MESSAGE = {
   INVALID_REQUEST_DATA: 'Invalid request data',
   PAYLOAD_TOO_LARGE: 'Payload too large',
   UNSUPPORTED_MEDIA_TYPE: 'Unsupported media type',
+  TOO_MANY_REQUESTS: 'Too many requests, please try again later',
   QUOTE_NOT_FOUND: (id) => `Quote with ID ${id} not found`,
   CATEGORY_NOT_FOUND: (id) => `Category with ID ${id} not found`,
   ROUTE_NOT_FOUND: (method, url) => `Route ${method} ${url} not found`,

@@ -5,6 +5,7 @@ import InternalServerError from './internal-server.error.js'
 import InvalidJsonError from './invalid-json.error.js'
 import NotFoundError from './not-found.error.js'
 import PayloadTooLargeError from './payload-too-large.error.js'
+import TooManyRequestsError from './too-many-requests.error.js'
 import UnsupportedMediaTypeError from './unsupported-media-type.error.js'
 import ValidationError from './validation.error.js'
 
@@ -51,6 +52,13 @@ describe('Http Errors', () => {
 
     expect(error.statusCode).toBe(HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
     expect(error.code).toBe(ERROR_CODE.UNSUPPORTED_MEDIA_TYPE)
+  })
+
+  test('creates too many requests error', () => {
+    const error = new TooManyRequestsError('Too many requests')
+
+    expect(error.statusCode).toBe(HTTP_STATUS.TOO_MANY_REQUESTS)
+    expect(error.code).toBe(ERROR_CODE.TOO_MANY_REQUESTS)
   })
 
   test('creates internal server error', () => {
