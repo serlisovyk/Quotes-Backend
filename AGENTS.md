@@ -109,9 +109,6 @@ npm test
 ```
 
 - If formatting was changed, run `npm run format`.
-- On a Windows checkout `format:check` may fail on CRLF for every file until MY-218 sets
-  `endOfLine: auto` (decision `line-endings-auto`); then run `npx prettier . --check --end-of-line auto`
-  and report both results.
 - For a change to Docker, compose, a port or an env variable, also run `docker compose config` and
   `docker compose -f docker-compose.dev.yml config`.
 - Then call every affected endpoint by hand — a green test run does not prove an endpoint works

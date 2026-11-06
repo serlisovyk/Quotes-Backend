@@ -6,7 +6,7 @@ Navigation only: where things live and who owns what. How it works is in the cod
 ## Repo
 
 - `src/` — all sources (below); `src/main.js` is the entry (`npm start`, `npm run dev` through nodemon).
-- `package.json` — scripts `start`, `dev`, `format`, `format:check`, `test`, `test:watch`; the `#`
+- `package.json` — scripts `dev`, `start`, `format`, `format:check`, `test`, `test:watch`; the `#`
   import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
 - `vitest.config.js` — runs `src/**/*.test.js` in the `node` environment with `clearMocks` and
   `restoreMocks`.

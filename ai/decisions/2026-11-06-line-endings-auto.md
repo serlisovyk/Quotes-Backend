@@ -1,6 +1,6 @@
 # Line endings: Prettier `endOfLine: auto`, no `.gitattributes`
 
-Date: 2026-11-06 · Status: accepted (not implemented)
+Date: 2026-11-06 · Status: accepted
 
 ## Context
 
@@ -15,8 +15,7 @@ On Windows git checks files out as CRLF (`core.autocrlf`), while Linux CI sees L
 
 ## Consequences
 
-- Built by MY-218, which changes `.prettierrc` and sets this record to `accepted`. Until then, when
-  `format:check` fails on CRLF, run `npx prettier . --check --end-of-line auto`.
+- `npm run format:check` passes on a CRLF checkout and on an LF one with the same command.
 - Prettier does not normalise endings, so a mixed-ending file passes; the repository holds LF (git
   converts on commit), so nothing mixed reaches `main`.
 - Rejected: `.gitattributes` with `* text=auto eol=lf` (one more file to keep, and it rewrites every

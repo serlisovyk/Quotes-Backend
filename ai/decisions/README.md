@@ -49,7 +49,7 @@ with the record that replaced it.
 - [Automated tests stay: Vitest and Supertest](2026-11-06-tests-vitest-supertest.md)
 - [Merge locally into `main`, no pull requests; only `main` is pushed](2026-11-06-local-merge-without-pr.md)
 - [Manual API checks run on a throwaway Postgres container](2026-11-06-manual-api-check-throwaway-postgres.md)
-- [Prettier `endOfLine: auto`, no `.gitattributes` (not implemented yet)](2026-11-06-line-endings-auto.md)
+- [Prettier `endOfLine: auto`, no `.gitattributes`](2026-11-06-line-endings-auto.md)
 - [Features the author rejected](2026-11-06-rejected-features.md)
 
 ### Code structure and runtime
