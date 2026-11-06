@@ -1,3 +1,19 @@
 node_modules
+.env*
 
-.env
+.git
+.github
+.husky
+.claude
+
+ai
+src/tests
+**/*.test.js
+**/*.md
+
+eslint.config.js
+.prettierrc
+.prettierignore
+.lintstagedrc.json
+vitest.config.js
+jsconfig.json
