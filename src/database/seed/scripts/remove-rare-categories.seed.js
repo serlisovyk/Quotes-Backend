@@ -2,6 +2,7 @@ import { Op } from 'sequelize'
 import sequelize from '#database'
 import { Category, Quote, QuoteCategory } from '#models'
 import Logger from '#logger'
+import closeDatabaseConnection from '#utils/database/close-database-connection'
 
 async function removeRareCategories() {
   try {
@@ -50,6 +51,8 @@ async function removeRareCategories() {
   } catch (error) {
     Logger.error('Error removing rare categories', error)
     process.exitCode = 1
+  } finally {
+    await closeDatabaseConnection()
   }
 }
 

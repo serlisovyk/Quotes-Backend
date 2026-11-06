@@ -68,7 +68,7 @@ Run from the project root:
 node src/database/seed/scripts/import-quotes.seed.js
 ```
 
-The script will refuse to run unless `ALLOW_SEED_RESET=true` is set in `.env`.
+The script will refuse to run unless `ALLOW_SEED_RESET=true` is set in `.env`. Both seed scripts close the database connection when they finish, so the process exits by itself.
 
 If the import is too heavy for the current environment, tune:
 
@@ -105,5 +105,6 @@ Exact numbers depend on the source CSV or dump.
 
 - Seed scripts use the same Sequelize models and associations as the application.
 - Seed utilities live in `src/utils/seed`.
+- The production Docker image keeps the seed scripts and the CSV, so they can be run inside a container.
 - SQL examples for manual inspection live in `sampleSQLQueries.sql`.
 - Do not run destructive seed commands against a database you cannot safely recreate.
