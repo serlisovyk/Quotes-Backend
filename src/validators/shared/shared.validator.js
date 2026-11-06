@@ -1,6 +1,7 @@
 import { param, query } from 'express-validator'
 import {
   CATEGORY_NAME_I_REGEX,
+  CATEGORY_NAME_MAX_LENGTH,
   CATEGORY_NAME_REGEX,
   MAX_ENTITY_ID,
   MAX_LIST_LIMIT,
@@ -38,6 +39,8 @@ export function categoryNameValidator(field) {
     .trim()
     .matches(CATEGORY_NAME_REGEX)
     .withMessage(ERROR_MESSAGE.INVALID_CATEGORY_NAME)
+    .isLength({ max: CATEGORY_NAME_MAX_LENGTH })
+    .withMessage(ERROR_MESSAGE.CATEGORY_NAME_TOO_LONG)
 }
 
 export function categorySearchValidator(field) {
@@ -45,4 +48,6 @@ export function categorySearchValidator(field) {
     .trim()
     .matches(CATEGORY_NAME_I_REGEX)
     .withMessage(ERROR_MESSAGE.INVALID_CATEGORY_SEARCH)
+    .isLength({ max: CATEGORY_NAME_MAX_LENGTH })
+    .withMessage(ERROR_MESSAGE.CATEGORY_NAME_TOO_LONG)
 }

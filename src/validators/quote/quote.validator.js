@@ -7,12 +7,13 @@ import {
   offsetQueryValidator,
 } from '#validators/shared'
 import {
-  CATEGORY_NAME_REGEX,
   ERROR_MESSAGE,
+  MAX_CATEGORIES_PER_QUOTE,
   MAX_RANDOM_QUOTES_LIMIT,
   QUOTE_AUTHOR_MAX_LENGTH,
   QUOTE_AUTHOR_MIN_LENGTH,
   QUOTE_PATCH_FIELDS,
+  QUOTE_TEXT_MAX_LENGTH,
   QUOTE_TEXT_MIN_LENGTH,
 } from '#constants'
 
@@ -26,7 +27,7 @@ function quoteTextBodyValidator({ optional = false } = {}) {
     .withMessage(ERROR_MESSAGE.INVALID_QUOTE_TEXT)
     .bail()
     .trim()
-    .isLength({ min: QUOTE_TEXT_MIN_LENGTH })
+    .isLength({ min: QUOTE_TEXT_MIN_LENGTH, max: QUOTE_TEXT_MAX_LENGTH })
     .withMessage(ERROR_MESSAGE.INVALID_QUOTE_TEXT)
 }
 
@@ -52,7 +53,10 @@ function quoteCategoriesBodyValidator({ optional = false } = {}) {
   return validator
     .isArray({ min: 1 })
     .withMessage(ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES)
+    .bail()
     .customSanitizer(removeDuplicateCategories)
+    .isArray({ max: MAX_CATEGORIES_PER_QUOTE })
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES)
 }
 
 function quoteCategoryItemBodyValidator({ optional = false } = {}) {
@@ -60,10 +64,7 @@ function quoteCategoryItemBodyValidator({ optional = false } = {}) {
 
   if (optional) validator.optional()
 
-  return validator
-    .trim()
-    .matches(CATEGORY_NAME_REGEX)
-    .withMessage(ERROR_MESSAGE.INVALID_CATEGORY_NAME)
+  return categoryNameValidator(validator)
 }
 
 function quotePatchBodyValidator() {

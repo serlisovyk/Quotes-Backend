@@ -8,7 +8,7 @@ import {
   listLimitQueryValidator,
   offsetQueryValidator,
 } from '#validators/shared'
-import { ERROR_MESSAGE, MAX_LIST_LIMIT } from '#constants'
+import { CATEGORY_NAME_MAX_LENGTH, ERROR_MESSAGE, MAX_LIST_LIMIT } from '#constants'
 
 describe('Shared Validator', () => {
   test('validates and converts list limit query', async () => {
@@ -93,6 +93,37 @@ describe('Shared Validator', () => {
         path: 'category',
         msg: ERROR_MESSAGE.INVALID_CATEGORY_NAME,
       },
+    ])
+  })
+
+  test('accepts category name of the maximum length', async () => {
+    const req = { query: { category: 'a'.repeat(CATEGORY_NAME_MAX_LENGTH) } }
+    const result = await runValidators(
+      [categoryNameValidator(query('category'))],
+      req,
+    )
+
+    expect(result.isEmpty()).toBe(true)
+  })
+
+  test('rejects category name longer than the maximum', async () => {
+    const req = { query: { category: 'a'.repeat(CATEGORY_NAME_MAX_LENGTH + 1) } }
+    const result = await runValidators(
+      [categoryNameValidator(query('category'))],
+      req,
+    )
+
+    expect(result.array()).toMatchObject([
+      { path: 'category', msg: ERROR_MESSAGE.CATEGORY_NAME_TOO_LONG },
+    ])
+  })
+
+  test('rejects category search longer than the maximum', async () => {
+    const req = { query: { name: 'A'.repeat(CATEGORY_NAME_MAX_LENGTH + 1) } }
+    const result = await runValidators([categorySearchValidator(query('name'))], req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'name', msg: ERROR_MESSAGE.CATEGORY_NAME_TOO_LONG },
     ])
   })
 

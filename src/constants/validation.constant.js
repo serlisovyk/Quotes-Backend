@@ -4,9 +4,15 @@ export const VALIDATION_ROOT_FIELD = '_root'
 
 export const QUOTE_TEXT_MIN_LENGTH = 10
 
+export const QUOTE_TEXT_MAX_LENGTH = 2500
+
 export const QUOTE_AUTHOR_MIN_LENGTH = 2
 
 export const QUOTE_AUTHOR_MAX_LENGTH = 255
+
+export const MAX_CATEGORIES_PER_QUOTE = 10
+
+export const CATEGORY_NAME_MAX_LENGTH = 50
 
 export const QUOTE_PATCH_FIELDS = ['text', 'author', 'categories']
 

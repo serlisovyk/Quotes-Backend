@@ -9,9 +9,12 @@ import {
   postQuoteValidators,
 } from '#validators/quote'
 import {
+  CATEGORY_NAME_MAX_LENGTH,
   ERROR_MESSAGE,
+  MAX_CATEGORIES_PER_QUOTE,
   MAX_RANDOM_QUOTES_LIMIT,
   QUOTE_AUTHOR_MAX_LENGTH,
+  QUOTE_TEXT_MAX_LENGTH,
 } from '#constants'
 
 const validCreateBody = {
@@ -196,6 +199,111 @@ describe('Quote Validator', () => {
 
     expect(result.isEmpty()).toBe(true)
     expect(req.body.categories).toEqual(['life'])
+  })
+
+  test('accepts text of the maximum length', async () => {
+    const req = {
+      body: { ...validCreateBody, text: 'a'.repeat(QUOTE_TEXT_MAX_LENGTH) },
+    }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+  })
+
+  test('rejects text longer than the maximum length', async () => {
+    const req = {
+      body: { ...validCreateBody, text: 'a'.repeat(QUOTE_TEXT_MAX_LENGTH + 1) },
+    }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'text', msg: ERROR_MESSAGE.INVALID_QUOTE_TEXT },
+    ])
+  })
+
+  test('accepts the maximum number of categories', async () => {
+    const categories = Array.from(
+      { length: MAX_CATEGORIES_PER_QUOTE },
+      (_, index) => `category-${index}`,
+    )
+    const req = { body: { ...validCreateBody, categories } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+  })
+
+  test('rejects more categories than the maximum', async () => {
+    const categories = Array.from(
+      { length: MAX_CATEGORIES_PER_QUOTE + 1 },
+      (_, index) => `category-${index}`,
+    )
+    const req = { body: { ...validCreateBody, categories } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'categories', msg: ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES },
+    ])
+  })
+
+  test('counts categories after removing duplicates', async () => {
+    const categories = [
+      ...Array.from(
+        { length: MAX_CATEGORIES_PER_QUOTE },
+        (_, index) => `category-${index}`,
+      ),
+      'category-0',
+    ]
+    const req = { body: { ...validCreateBody, categories } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+    expect(req.body.categories).toHaveLength(MAX_CATEGORIES_PER_QUOTE)
+  })
+
+  test('accepts a category name of the maximum length', async () => {
+    const categories = ['a'.repeat(CATEGORY_NAME_MAX_LENGTH)]
+    const req = { body: { ...validCreateBody, categories } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+  })
+
+  test('rejects a category name longer than the maximum', async () => {
+    const categories = ['a'.repeat(CATEGORY_NAME_MAX_LENGTH + 1)]
+    const req = { body: { ...validCreateBody, categories } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'categories[0]', msg: ERROR_MESSAGE.CATEGORY_NAME_TOO_LONG },
+    ])
+  })
+
+  test('rejects quotes category query longer than the maximum', async () => {
+    const req = { query: { category: 'a'.repeat(CATEGORY_NAME_MAX_LENGTH + 1) } }
+    const result = await runValidators(getQuotesValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'category', msg: ERROR_MESSAGE.CATEGORY_NAME_TOO_LONG },
+    ])
+  })
+
+  test('rejects patch limits the same way as create', async () => {
+    const req = {
+      body: {
+        categories: Array.from(
+          { length: MAX_CATEGORIES_PER_QUOTE + 1 },
+          (_, index) => `category-${index}`,
+        ),
+        text: 'a'.repeat(QUOTE_TEXT_MAX_LENGTH + 1),
+      },
+      params: { id: '1' },
+    }
+    const result = await runValidators(patchSingleQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'text', msg: ERROR_MESSAGE.INVALID_QUOTE_TEXT },
+      { path: 'categories', msg: ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES },
+    ])
   })
 
   test('validates quote id params', async () => {

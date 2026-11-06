@@ -1,8 +1,11 @@
 import { MAX_LIST_LIMIT, MAX_RANDOM_QUOTES_LIMIT } from './app.constant.js'
 import {
+  CATEGORY_NAME_MAX_LENGTH,
+  MAX_CATEGORIES_PER_QUOTE,
   MAX_ENTITY_ID,
   QUOTE_AUTHOR_MAX_LENGTH,
   QUOTE_AUTHOR_MIN_LENGTH,
+  QUOTE_TEXT_MAX_LENGTH,
   QUOTE_TEXT_MIN_LENGTH,
 } from './validation.constant.js'
 
@@ -40,8 +43,9 @@ export const ERROR_MESSAGE = {
   INVALID_LIST_LIMIT: `Limit must be in range 1..${MAX_LIST_LIMIT}`,
   INVALID_RANDOM_LIMIT: `Limit must be in range 1..${MAX_RANDOM_QUOTES_LIMIT}`,
   INVALID_OFFSET: 'Offset must be an integer, 0 or more',
-  INVALID_QUOTE_TEXT: `Text must be a string of at least ${QUOTE_TEXT_MIN_LENGTH} characters`,
+  INVALID_QUOTE_TEXT: `Text must be a string from ${QUOTE_TEXT_MIN_LENGTH} to ${QUOTE_TEXT_MAX_LENGTH} characters`,
   INVALID_QUOTE_AUTHOR: `Author must be a string from ${QUOTE_AUTHOR_MIN_LENGTH} to ${QUOTE_AUTHOR_MAX_LENGTH} characters`,
-  INVALID_QUOTE_CATEGORIES: 'Categories must be an array with at least one category',
+  INVALID_QUOTE_CATEGORIES: `Categories must be an array of 1 to ${MAX_CATEGORIES_PER_QUOTE} categories`,
+  CATEGORY_NAME_TOO_LONG: `Category name must be at most ${CATEGORY_NAME_MAX_LENGTH} characters`,
   NOTHING_TO_UPDATE: 'Nothing to update',
 }

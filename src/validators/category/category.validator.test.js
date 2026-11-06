@@ -4,7 +4,7 @@ import {
   getCategoriesValidators,
   getSingleCategoryValidators,
 } from '#validators/category'
-import { ERROR_MESSAGE } from '#constants'
+import { CATEGORY_NAME_MAX_LENGTH, ERROR_MESSAGE } from '#constants'
 
 describe('Category Validator', () => {
   test('accepts valid categories query', async () => {
@@ -37,6 +37,15 @@ describe('Category Validator', () => {
         path: 'name',
         msg: ERROR_MESSAGE.INVALID_CATEGORY_SEARCH,
       },
+    ])
+  })
+
+  test('rejects category search query longer than the maximum', async () => {
+    const req = { query: { name: 'a'.repeat(CATEGORY_NAME_MAX_LENGTH + 1) } }
+    const result = await runValidators(getCategoriesValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'name', msg: ERROR_MESSAGE.CATEGORY_NAME_TOO_LONG },
     ])
   })
 
