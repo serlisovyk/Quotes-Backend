@@ -4,6 +4,8 @@ import BadRequestError from './bad-request.error.js'
 import InternalServerError from './internal-server.error.js'
 import InvalidJsonError from './invalid-json.error.js'
 import NotFoundError from './not-found.error.js'
+import PayloadTooLargeError from './payload-too-large.error.js'
+import UnsupportedMediaTypeError from './unsupported-media-type.error.js'
 import ValidationError from './validation.error.js'
 
 describe('Http Errors', () => {
@@ -35,6 +37,20 @@ describe('Http Errors', () => {
 
     expect(error.statusCode).toBe(HTTP_STATUS.NOT_FOUND)
     expect(error.code).toBe(ERROR_CODE.NOT_FOUND)
+  })
+
+  test('creates payload too large error', () => {
+    const error = new PayloadTooLargeError('Payload too large')
+
+    expect(error.statusCode).toBe(HTTP_STATUS.PAYLOAD_TOO_LARGE)
+    expect(error.code).toBe(ERROR_CODE.PAYLOAD_TOO_LARGE)
+  })
+
+  test('creates unsupported media type error', () => {
+    const error = new UnsupportedMediaTypeError('Unsupported media type')
+
+    expect(error.statusCode).toBe(HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
+    expect(error.code).toBe(ERROR_CODE.UNSUPPORTED_MEDIA_TYPE)
   })
 
   test('creates internal server error', () => {

@@ -47,6 +47,39 @@ describe('Error Middleware', () => {
     expect(Logger.error).not.toHaveBeenCalled()
   })
 
+  test.each([
+    [
+      'entity.too.large',
+      HTTP_STATUS.PAYLOAD_TOO_LARGE,
+      ERROR_CODE.PAYLOAD_TOO_LARGE,
+      ERROR_MESSAGE.PAYLOAD_TOO_LARGE,
+    ],
+    [
+      'charset.unsupported',
+      HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE,
+      ERROR_CODE.UNSUPPORTED_MEDIA_TYPE,
+      ERROR_MESSAGE.UNSUPPORTED_MEDIA_TYPE,
+    ],
+    [
+      'encoding.unsupported',
+      HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE,
+      ERROR_CODE.UNSUPPORTED_MEDIA_TYPE,
+      ERROR_MESSAGE.UNSUPPORTED_MEDIA_TYPE,
+    ],
+  ])(
+    'normalizes %s body parser error without logging it',
+    (type, status, code, message) => {
+      const error = Object.assign(new Error('body parser error'), { status, type })
+      const res = createResponseMock()
+
+      errorMiddleware(error, {}, res, vi.fn())
+
+      expect(res.status).toHaveBeenCalledWith(status)
+      expect(res.json).toHaveBeenCalledWith({ error: { code, message } })
+      expect(Logger.error).not.toHaveBeenCalled()
+    },
+  )
+
   test('normalizes unknown error and logs it', () => {
     const error = new Error('Database is down')
     const res = createResponseMock()

@@ -6,13 +6,23 @@ export const ERROR_CODE = {
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
   INVALID_JSON: 'INVALID_JSON',
   NOT_FOUND: 'NOT_FOUND',
+  PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
+  UNSUPPORTED_MEDIA_TYPE: 'UNSUPPORTED_MEDIA_TYPE',
   VALIDATION_ERROR: 'VALIDATION_ERROR',
+}
+
+export const BODY_PARSER_ERROR_TYPE = {
+  ENTITY_TOO_LARGE: 'entity.too.large',
+  CHARSET_UNSUPPORTED: 'charset.unsupported',
+  ENCODING_UNSUPPORTED: 'encoding.unsupported',
 }
 
 export const ERROR_MESSAGE = {
   INTERNAL_SERVER_ERROR: 'Internal server error',
   INVALID_JSON: 'Invalid JSON',
   INVALID_REQUEST_DATA: 'Invalid request data',
+  PAYLOAD_TOO_LARGE: 'Payload too large',
+  UNSUPPORTED_MEDIA_TYPE: 'Unsupported media type',
   QUOTE_NOT_FOUND: (id) => `Quote with ID ${id} not found`,
   CATEGORY_NOT_FOUND: (id) => `Category with ID ${id} not found`,
   ROUTE_NOT_FOUND: (method, url) => `Route ${method} ${url} not found`,
