@@ -1,10 +1,9 @@
 {
   "name": "quotes-server",
   "version": "1.0.0",
-  "description": "Rest API for quotes app",
+  "description": "REST API for a quotes app built with Express, Sequelize, PostgreSQL, and Docker.",
   "author": "Serhii Lisovyk",
   "type": "module",
-  "main": "src/main.js",
   "imports": {
     "#config/*": "./src/config/*.js",
     "#constants/*": "./src/constants/*.js",
@@ -23,8 +22,8 @@
     "#validators/*": "./src/validators/*/index.js"
   },
   "scripts": {
-    "start": "node src/main.js",
     "dev": "nodemon src/main.js",
+    "start": "node src/main.js",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "test": "vitest run",
