@@ -26,8 +26,11 @@
   "scripts": {
     "dev": "nodemon src/main.js",
     "start": "node src/main.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
+    "prepare": "husky",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -44,6 +47,12 @@
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
     "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
     "supertest": "^7.2.2",
