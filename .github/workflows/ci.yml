@@ -28,6 +28,39 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm test
+      - run: npm audit --omit=dev --audit-level=high
+
+  integration:
+    name: Integration tests on Postgres
+    runs-on: ubuntu-latest
+    env:
+      HUSKY: 0
+      DATABASE_URL: postgres://quotes:quotes@localhost:5432/quotes
+      DB_DIALECT: postgres
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: quotes
+          POSTGRES_PASSWORD: quotes
+          POSTGRES_DB: quotes
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U quotes -d quotes"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run test:integration
 
   docker:
     name: Build the production image
