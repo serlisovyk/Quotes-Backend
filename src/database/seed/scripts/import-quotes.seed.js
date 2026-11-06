@@ -46,6 +46,7 @@ async function importQuotes() {
       if (!parsedRow) continue
 
       const { categories, ...quoteFields } = parsedRow
+
       const quote = await Quote.create(quoteFields)
       const categoryInstances = await findOrCreateCategories(categories)
 

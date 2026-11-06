@@ -7,12 +7,9 @@ function validationErrorHandler(req, _, next) {
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    return next(
-      new ValidationError(
-        ERROR_MESSAGE.INVALID_REQUEST_DATA,
-        formatValidationErrors(errors),
-      ),
-    )
+    const fields = formatValidationErrors(errors)
+
+    return next(new ValidationError(ERROR_MESSAGE.INVALID_REQUEST_DATA, fields))
   }
 
   next()

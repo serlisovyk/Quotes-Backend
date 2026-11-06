@@ -5,7 +5,7 @@ import {
   PayloadTooLargeError,
   UnsupportedMediaTypeError,
 } from '#errors/classes'
-import { BODY_PARSER_ERROR_TYPE, ERROR_MESSAGE } from '#constants'
+import { BODY_PARSER_ERROR_TYPE, ERROR_MESSAGE, HTTP_STATUS } from '#constants'
 
 export default class ErrorFactory {
   static from(error) {
@@ -29,16 +29,22 @@ export default class ErrorFactory {
   }
 
   static shouldLog(error) {
-    return !(
-      error instanceof AppError ||
+    const isAppError = error instanceof AppError
+    const isBodyParserError =
       this.isInvalidJsonError(error) ||
       this.isPayloadTooLargeError(error) ||
       this.isUnsupportedMediaTypeError(error)
-    )
+
+    return !isAppError && !isBodyParserError
   }
 
   static isInvalidJsonError(error) {
-    return error instanceof SyntaxError && error.status === 400 && 'body' in error
+    if (!(error instanceof SyntaxError)) return false
+
+    const isBadRequest = error.status === HTTP_STATUS.BAD_REQUEST
+    const hasBody = 'body' in error
+
+    return isBadRequest && hasBody
   }
 
   static isPayloadTooLargeError(error) {
@@ -46,9 +52,11 @@ export default class ErrorFactory {
   }
 
   static isUnsupportedMediaTypeError(error) {
-    return [
+    const unsupportedTypes = [
       BODY_PARSER_ERROR_TYPE.CHARSET_UNSUPPORTED,
       BODY_PARSER_ERROR_TYPE.ENCODING_UNSUPPORTED,
-    ].includes(error?.type)
+    ]
+
+    return unsupportedTypes.includes(error?.type)
   }
 }

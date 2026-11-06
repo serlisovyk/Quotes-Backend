@@ -10,12 +10,10 @@ export default class AppError extends Error {
   }
 
   toResponse() {
-    return {
-      error: {
-        code: this.code,
-        message: this.message,
-        ...(this.fields ? { fields: this.fields } : {}),
-      },
-    }
+    const { code, message, fields } = this
+    const details = fields ? { fields } : {}
+    const error = { code, message, ...details }
+
+    return { error }
   }
 }

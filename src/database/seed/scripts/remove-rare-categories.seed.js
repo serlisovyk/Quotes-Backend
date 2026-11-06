@@ -4,6 +4,8 @@ import { Category, Quote, QuoteCategory } from '#models'
 import Logger from '#logger'
 import closeDatabaseConnection from '#utils/database/close-database-connection'
 
+const RARE_CATEGORY_MAX_QUOTES = 2
+
 async function removeRareCategories() {
   try {
     const rareCategories = await QuoteCategory.findAll({
@@ -12,12 +14,12 @@ async function removeRareCategories() {
       having: sequelize.where(
         sequelize.fn('COUNT', sequelize.col('CategoryId')),
         Op.lte,
-        2,
+        RARE_CATEGORY_MAX_QUOTES,
       ),
       raw: true,
     })
 
-    const rareCategoryIds = rareCategories.map((category) => category.CategoryId)
+    const rareCategoryIds = rareCategories.map(({ CategoryId }) => CategoryId)
 
     if (rareCategoryIds.length) {
       await Category.destroy({ where: { id: rareCategoryIds } })
@@ -38,9 +40,7 @@ async function removeRareCategories() {
       },
     })
 
-    const quotesWithoutCategoriesIds = quotesWithoutCategories.map(
-      (quote) => quote.id,
-    )
+    const quotesWithoutCategoriesIds = quotesWithoutCategories.map(({ id }) => id)
 
     if (quotesWithoutCategoriesIds.length) {
       await Quote.destroy({ where: { id: quotesWithoutCategoriesIds } })

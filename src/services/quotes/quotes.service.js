@@ -71,8 +71,10 @@ export async function modifySingleQuote(id, { text, author, categories }) {
 }
 
 export async function deleteSingleQuote(id) {
-  const count = await Quote.destroy({ where: { id } })
-  return count > 0
+  const deletedCount = await Quote.destroy({ where: { id } })
+  const isDeleted = deletedCount > 0
+
+  return isDeleted
 }
 
 async function findQuotesByIds(ids) {

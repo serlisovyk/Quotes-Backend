@@ -8,7 +8,9 @@ function errorMiddleware(err, _req, res, _next) {
     Logger.error('Unhandled application error', err)
   }
 
-  return res.status(appError.statusCode).json(appError.toResponse())
+  const response = appError.toResponse()
+
+  return res.status(appError.statusCode).json(response)
 }
 
 export default errorMiddleware

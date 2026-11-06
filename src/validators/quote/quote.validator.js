@@ -57,6 +57,7 @@ function quoteCategoriesBodyValidator({ optional = false } = {}) {
 
 function quoteCategoryItemBodyValidator({ optional = false } = {}) {
   const validator = body('categories.*')
+
   if (optional) validator.optional()
 
   return validator

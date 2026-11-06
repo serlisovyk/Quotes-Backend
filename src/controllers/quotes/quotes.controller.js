@@ -42,7 +42,9 @@ export async function getQuoteById(req, res) {
 
   const quote = await QuotesService.findSingleQuote(quoteId)
 
-  if (!quote) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
+  if (!quote) {
+    throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
+  }
 
   sendOk(res, quote)
 }
@@ -52,7 +54,9 @@ export async function deleteQuoteById(req, res) {
 
   const isDeleted = await QuotesService.deleteSingleQuote(quoteId)
 
-  if (!isDeleted) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
+  if (!isDeleted) {
+    throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
+  }
 
   sendNoContent(res)
 }
@@ -66,7 +70,9 @@ export async function patchQuoteById(req, res) {
 
   const modifiedQuote = await QuotesService.modifySingleQuote(quoteId, updateData)
 
-  if (!modifiedQuote) throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
+  if (!modifiedQuote) {
+    throw new NotFoundError(ERROR_MESSAGE.QUOTE_NOT_FOUND(quoteId))
+  }
 
   sendOk(res, modifiedQuote)
 }
