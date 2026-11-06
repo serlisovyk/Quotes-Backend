@@ -1,22 +1,30 @@
-﻿# Scope Rules
+# Scope Rules
 
-This is a small educational/backend-practice project. Keep the implementation useful without turning it into an enterprise template.
+This is a small backend-practice project. Improve it without turning it into an enterprise
+template.
 
 ## Do Not Add Without Explicit Request
 
-- TypeScript migration
+- TypeScript
 - Config validation
-- Repository layer
-- JWT authentication
+- A repository layer
+- JWT or any other authentication
 - Redis
-- GraphQL
-- tRPC
-- gRPC
-- Swagger/OpenAPI
+- GraphQL, tRPC, gRPC
+- Swagger / OpenAPI
 - Dependency injection containers
 - Metrics platforms
 - Background jobs
 - Complex structured logging platforms
+
+Why each is out: decision `rejected-features`.
+
+## Dependencies
+
+- Runtime dependencies are `express`, `cors`, `helmet`, `express-rate-limit`, `express-validator`,
+  `sequelize`, `pg`, `pg-hstore`, `dotenv` and `csv-parser` (the seed import). Another one needs the
+  author's explicit yes and a decision record.
+- Tooling in scope: Prettier, Vitest, Supertest, nodemon, Docker and Docker Compose.
 
 ## Prefer
 
@@ -33,4 +41,4 @@ This is a small educational/backend-practice project. Keep the implementation us
 - If a feature is unused, do not implement it just in case.
 - If an abstraction hides more than it clarifies, do not add it.
 - If a change makes the project harder for a backend learner to understand, reconsider the design.
-- Keep Docker and seed behavior explicit because accidental database changes are expensive.
+- Keep Docker and seed behavior explicit: accidental database changes are expensive.
