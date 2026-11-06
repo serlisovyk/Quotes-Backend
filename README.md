@@ -197,19 +197,26 @@ GET /quotes
 
 Supported query parameters:
 
-| Parameter | Type   | Description                                                |
-| --------- | ------ | ---------------------------------------------------------- |
-| limit     | number | Page size, from `1` to `50`                                |
-| offset    | number | Number of rows to skip, starts from `0`                    |
-| author    | string | Case-insensitive author search                             |
-| text      | string | Case-insensitive quote text search                         |
-| category  | string | Filter quotes by category slug/name, up to `50` characters |
+| Parameter | Type   | Description                                                               |
+| --------- | ------ | ------------------------------------------------------------------------- |
+| limit     | number | Page size, from `1` to `50`                                               |
+| offset    | number | Number of rows to skip, starts from `0`                                   |
+| author    | string | Case-insensitive author search                                            |
+| text      | string | Case-insensitive quote text search                                        |
+| category  | string | Filter quotes by category slug/name, up to `50` characters                |
+| search    | string | Case-insensitive search in the text or the author, up to `100` characters |
+| sort      | string | Sort field: `id` (default), `author` or `createdAt`                       |
+| order     | string | Sort direction: `asc` (default) or `desc`                                 |
 
 Example:
 
 ```http
 GET /quotes?limit=10&offset=0&author=austen&category=wisdom
+GET /quotes?search=love&sort=author&order=desc
 ```
+
+`search`, `author`, `text` and `category` are combined with AND. Quotes with an equal `sort` value are
+ordered by `id` ascending. `total` counts every match, whatever the page and the sort.
 
 ```http
 GET /quotes/random?limit=5

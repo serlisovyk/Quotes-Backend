@@ -77,13 +77,13 @@ Paths are constants in `constants/app.constant.js` (`ROUTE`, `ROUTER_PATH`). `/`
 everything after them is rate limited (`generalRateLimiter`); `POST`, `PATCH` and `DELETE /quotes` also pass `writeRateLimiter`
 (`middlewares/rate-limit`). GET routes set `Cache-Control` through `middlewares/cache-control`, the error middleware sets `no-store`, and `compression` runs in `app.js`. Query and body rules are in the validators, answers in the controllers.
 
-| Endpoint                                                  | Handler                                                                          |
-| --------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `GET /`                                                   | `getRoot`: `API_INFO` (welcome, repository, endpoints), not logged               |
-| `GET /health`                                             | `getHealth`: `HEALTH_STATUS` `200` or `503` by `isDatabaseAvailable`, not logged |
-| `GET /quotes`, `GET /quotes/random`, `GET /quotes/:id`    | `getQuotes` (`{ total, quotes }`), `getRandomQuotes`, `getQuoteById`             |
-| `POST /quotes`, `PATCH /quotes/:id`, `DELETE /quotes/:id` | `postQuote`, `patchQuoteById`, `deleteQuoteById`                                 |
-| `GET /categories`, `GET /categories/:id`                  | `getCategories` (`{ total, categories }`), `getCategoryById`                     |
+| Endpoint                                                  | Handler                                                                                         |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `GET /`                                                   | `getRoot`: `API_INFO` (welcome, repository, endpoints), not logged                              |
+| `GET /health`                                             | `getHealth`: `HEALTH_STATUS` `200` or `503` by `isDatabaseAvailable`, not logged                |
+| `GET /quotes`, `GET /quotes/random`, `GET /quotes/:id`    | `getQuotes` (`{ total, quotes }`; `sort`, `order`, `search`), `getRandomQuotes`, `getQuoteById` |
+| `POST /quotes`, `PATCH /quotes/:id`, `DELETE /quotes/:id` | `postQuote`, `patchQuoteById`, `deleteQuoteById`                                                |
+| `GET /categories`, `GET /categories/:id`                  | `getCategories` (`{ total, categories }`), `getCategoryById`                                    |
 
 ## Database
 
