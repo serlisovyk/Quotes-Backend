@@ -22,7 +22,7 @@ This backend provides quote and category data through a compact Express + Sequel
 - Short `Cache-Control` on reads and gzip/brotli response compression
 - Graceful HTTP/database shutdown with a forced-exit timeout
 - Docker Compose setup for production-like and development environments
-- Vitest test suite for controllers, routes, services, middlewares, errors, and utilities
+- Vitest test suite for controllers, routes, services, middlewares, errors, and utilities, plus integration tests on a real Postgres
 
 ## 🧰 Tech Stack
 
@@ -165,9 +165,15 @@ Run tests in watch mode:
 npm run test:watch
 ```
 
+Run the integration tests (a real Postgres; they truncate every table, so use a throwaway database and pass the connection explicitly, `.env` is not read):
+
+```bash
+DATABASE_URL=postgres://quotes:quotes@localhost:5432/quotes DB_DIALECT=postgres npm run test:integration
+```
+
 ## 🔄 CI
 
-GitHub Actions runs lint, the format check and the tests on every push. The pre-commit hook (Husky and lint-staged) runs ESLint and Prettier on the staged files. The workflow is in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+GitHub Actions runs lint, the format check, the unit tests and `npm audit --omit=dev --audit-level=high` (a high or critical vulnerability in production dependencies fails the build) on every push; a separate job runs the integration tests against a `postgres:16-alpine` service container, and another builds the production Docker image. The pre-commit hook (Husky and lint-staged) runs ESLint and Prettier on the staged files. The workflow is in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## 🔌 API Endpoints
 

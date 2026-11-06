@@ -2,7 +2,8 @@
 
 The project keeps an automated suite: Vitest with Supertest for routes (decision
 `tests-vitest-supertest`). `npm test` runs it once; `npm run test:watch` watches. A change of behavior
-comes with tests.
+comes with tests. A small integration suite on a real Postgres runs separately
+(`npm run test:integration`).
 
 ## What to test
 
@@ -25,6 +26,18 @@ comes with tests.
 - Logger output, while the logger only wraps `console`.
 - Destructive seed scripts directly; test the helpers extracted from them.
 
+## Integration tests
+
+- Files are `src/tests/integration/*.int.test.js`; `npm test` excludes them, `vitest.integration.config.js`
+  includes only them.
+- They call the real `#app` through Supertest on a real Postgres. The schema comes from
+  `sequelize.sync()`, the tables are truncated before each test, and the files run one after another.
+- `DATABASE_URL` and `DB_DIALECT` must be set explicitly (a throwaway Postgres; recipe in
+  `AGENTS.md`); `.env` is never loaded, so the suite cannot wipe a real database.
+- The rate limiters are replaced by pass-through ones in `setup.js`; they have their own unit tests.
+- Keep the set focused on the path through the layers and the database: do not repeat the unit tests.
+  Create data through `POST /quotes` (`createQuote` in `helpers.js`).
+
 ## Structure
 
 - A test sits next to the module it checks, named `<module>.test.js`; the folder has an `index.js`
@@ -36,7 +49,8 @@ comes with tests.
 
 ## Mocking
 
-- Mock models, Sequelize transactions and response objects; a test never touches a real database.
+- In the unit suite, mock models, Sequelize transactions and response objects; a unit test never
+  touches a real database. Only the integration suite does.
 - Keep a mock small and explicit; share one through `src/tests/mocks` only when it removes real
   repetition.
 - A test is changed only when the behavior it describes changed on purpose.

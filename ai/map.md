@@ -8,16 +8,19 @@ Navigation only: where things live and who owns what. How it works is in the cod
 - `src/` — all sources (below); `src/main.js` is the entry (`npm start`; `npm run dev` adds `node --watch`).
   Both scripts load `.env` with `--env-file-if-exists=.env` (decision `node-watch-and-env-file`).
 - `package.json` — `engines` (Node `>=24`); scripts `dev`, `start`, `lint`, `lint:fix`, `format`,
-  `format:check`, `prepare` (Husky), `test`, `test:watch`; the `#` import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
-- `vitest.config.js` — runs `src/**/*.test.js` in the `node` environment with `clearMocks` and
-  `restoreMocks`.
+  `format:check`, `prepare` (Husky), `test`, `test:watch`, `test:integration`; the `#` import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
+- `vitest.config.js` — runs `src/**/*.test.js` (not `*.int.test.js`) in the `node` environment with
+  `clearMocks` and `restoreMocks`.
+- `vitest.integration.config.js` — runs `src/**/*.int.test.js` one file at a time, with
+  `src/tests/integration/setup.js`; needs `DATABASE_URL` and `DB_DIALECT` set explicitly.
 - `.env.sample` — every environment variable with a description; `.env*` is git-ignored.
 - `.prettierrc`, `.prettierignore` — Prettier.
 - `eslint.config.js` — ESLint flat config: recommended rules, Node globals, the architecture
   `no-restricted-imports` rules (decision `eslint-husky-ci`).
 - `.husky/pre-commit`, `.lintstagedrc.json` — the pre-commit hook: lint-staged runs ESLint and Prettier
   on the staged files.
-- `.github/workflows/ci.yml` — CI on every push: the `check` job (lint, format check, tests) and the `docker` job
+- `.github/workflows/ci.yml` — CI on every push: the `check` job (lint, format check, tests, `npm audit` of the production dependencies), the
+  `integration` job (integration tests on a `postgres:16-alpine` service container) and the `docker` job
   (builds the prod image, no push).
 - `Dockerfile`, `Dockerfile.dev`, `docker-compose.yml`, `docker-compose.dev.yml`, `.dockerignore` —
   see "Docker".
@@ -36,27 +39,27 @@ rules are in `ai/rules/architecture.md`.
 
 ## Sources (`src/`)
 
-| Folder                  | Holds                                                                                                      |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `config/`               | `app.config.js`, the one reader of environment variables, and its barrel                                   |
-| `constants/`            | app, error, query-option and validation constants                                                          |
-| `routes/<resource>/`    | `root`, `quotes`, `categories`, `health` routers                                                           |
-| `validators/`           | `quote`, `category`, and `shared` (limit, offset, id, category name chains)                                |
-| `controllers/`          | `root`, `quotes`, `categories`, `health` handlers                                                          |
-| `services/`             | `quotes`, `categories` and `health` logic and model calls                                                  |
-| `database/`             | `db.js` (the Sequelize instance), `models/` (with `associations.js`, `hooks/`), `seed/`                    |
-| `middlewares/`          | `async-handler`, `cache-control`, `error`, `not-found`, `rate-limit`, `request-logger`, `validation-error` |
-| `errors/`               | `classes/` (`AppError` and its subclasses), `factories/error/` (`ErrorFactory`)                            |
-| `logger/`               | `Logger` over `console`                                                                                    |
-| `utils/database/`       | sync, ID sequence reset, connection close, LIKE escaping                                                   |
-| `utils/http/`           | response helpers (`sendOk`, `sendCreated`, `sendNoContent`), request log line                              |
-| `utils/query-builders/` | quote, category and `iLike` filter query options                                                           |
-| `utils/seed/`           | CSV row parsing, stream pause, category validation and splitting                                           |
-| `utils/server/`         | graceful shutdown on SIGINT and SIGTERM, with a forced-exit timeout                                        |
-| `utils/validation/`     | formats validation results into `fields`; removes duplicate category names                                 |
-| `tests/`                | shared test mocks and helpers (`createRouterTestClient`, `runValidators`)                                  |
+| Folder                  | Holds                                                                                                                                                          |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `config/`               | `app.config.js`, the one reader of environment variables, and its barrel                                                                                       |
+| `constants/`            | app, error, query-option and validation constants                                                                                                              |
+| `routes/<resource>/`    | `root`, `quotes`, `categories`, `health` routers                                                                                                               |
+| `validators/`           | `quote`, `category`, and `shared` (limit, offset, id, category name chains)                                                                                    |
+| `controllers/`          | `root`, `quotes`, `categories`, `health` handlers                                                                                                              |
+| `services/`             | `quotes`, `categories` and `health` logic and model calls                                                                                                      |
+| `database/`             | `db.js` (the Sequelize instance), `models/` (with `associations.js`, `hooks/`), `seed/`                                                                        |
+| `middlewares/`          | `async-handler`, `cache-control`, `error`, `not-found`, `rate-limit`, `request-logger`, `validation-error`                                                     |
+| `errors/`               | `classes/` (`AppError` and its subclasses), `factories/error/` (`ErrorFactory`)                                                                                |
+| `logger/`               | `Logger` over `console`                                                                                                                                        |
+| `utils/database/`       | sync, ID sequence reset, connection close, LIKE escaping                                                                                                       |
+| `utils/http/`           | response helpers (`sendOk`, `sendCreated`, `sendNoContent`), request log line                                                                                  |
+| `utils/query-builders/` | quote, category and `iLike` filter query options                                                                                                               |
+| `utils/seed/`           | CSV row parsing, stream pause, category validation and splitting                                                                                               |
+| `utils/server/`         | graceful shutdown on SIGINT and SIGTERM, with a forced-exit timeout                                                                                            |
+| `utils/validation/`     | formats validation results into `fields`; removes duplicate category names                                                                                     |
+| `tests/`                | shared test mocks and helpers (`createRouterTestClient`, `runValidators`); `integration/` holds the Postgres suite (`setup.js`, `helpers.js`, `*.int.test.js`) |
 
-Tests (`*.test.js`) sit next to the module they check.
+Unit tests (`*.test.js`) sit next to the module they check; integration tests live in `src/tests/integration/`.
 
 ## Path aliases
 
@@ -64,7 +67,7 @@ Native `package.json#imports`; the `#` prefix is the rule (`ai/rules/style.md`).
 
 | Alias                                                                           | Resolves to                                                            |
 | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `#config`, `#constants`                                                         | `src/config/index.js`, `src/constants/index.js`                        |
+| `#app`, `#config`, `#constants`                                                 | `src/config/index.js`, `src/constants/index.js`                        |
 | `#controllers/*`, `#routes/*`, `#services/*`, `#validators/*`, `#middlewares/*` | the folder's `index.js`                                                |
 | `#errors/*`                                                                     | `src/errors/*/index.js` (`#errors/classes`, `#errors/factories/error`) |
 | `#utils/*`, `#tests/*`                                                          | `src/utils/*/index.js`, `src/tests/*/index.js`                         |

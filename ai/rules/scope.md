@@ -16,6 +16,7 @@ template.
 - Metrics platforms
 - Background jobs
 - Complex structured logging platforms
+- Database migrations (Umzug, sequelize-cli)
 
 Why each is out: decision `rejected-features`.
 

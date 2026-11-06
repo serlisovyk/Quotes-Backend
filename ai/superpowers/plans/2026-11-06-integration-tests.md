@@ -51,6 +51,8 @@ vulnerability in production dependencies.
 
 ## Changes
 
+- `package.json` and `jsconfig.json`: the `#app` alias (`src/app.js`), so the integration files import
+  the app without a `../` path.
 - `vitest.config.js` (exclude), `vitest.integration.config.js`, `package.json` script
   `test:integration`, `eslint.config.js` (node globals for the new config).
 - `src/tests/integration/`: `setup.js`, `helpers.js` (create a quote through `POST /quotes`),

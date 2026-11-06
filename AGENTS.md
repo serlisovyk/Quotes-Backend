@@ -91,7 +91,8 @@ If a change materially reshapes a pattern, update the matching skill in the same
 - Stack: Node.js, Express 5, JavaScript ESM, PostgreSQL with Sequelize, Express Validator.
 - Sources: everything under `src/`; `src/main.js` is the entry. `ai/map.md` shows where each part
   lives.
-- Tests: Vitest and Supertest, next to the modules (`ai/rules/testing.md`).
+- Tests: Vitest and Supertest; unit tests next to the modules, integration tests (`*.int.test.js`) in
+  `src/tests/integration/` (`ai/rules/testing.md`).
 - Formatting: Prettier (`.prettierrc`); `npm run format` applies it.
 
 ## Language
@@ -113,10 +114,26 @@ npm test
 - If formatting was changed, run `npm run format`; `npm run lint:fix` fixes the lint findings it can.
 - For a change to Docker, compose, a port or an env variable, also run `docker compose config` and
   `docker compose -f docker-compose.dev.yml config`.
+- A change to a route, a service, a query or a model also runs the integration suite on the throwaway
+  Postgres (below). CI runs it too.
 - Then call every affected endpoint by hand — a green test run does not prove an endpoint works
   (decision `manual-api-check-throwaway-postgres`).
 - If a check cannot be run, report that clearly. Do not claim the project works, tests or formats
   correctly unless the command ran successfully.
+
+### Integration tests
+
+`npm run test:integration` drives the real app through Supertest against a real Postgres. It truncates
+every table, so it never reads `.env`: pass the connection explicitly, on a throwaway container
+(same recipe as below, its own ports):
+
+```bash
+docker run -d --rm --name quotes-pg-my-<n> -e POSTGRES_USER=quotes -e POSTGRES_PASSWORD=quotes -e POSTGRES_DB=quotes -p <db-port>:5432 postgres:16-alpine
+DATABASE_URL=postgres://quotes:quotes@localhost:<db-port>/quotes DB_DIALECT=postgres npm run test:integration
+docker stop quotes-pg-my-<n>
+```
+
+Without Docker the suite cannot run locally; say so in the report, CI runs it on every push.
 
 ### Manual API check
 
