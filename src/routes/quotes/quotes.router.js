@@ -1,15 +1,17 @@
 import { Router } from 'express'
 import * as QuotesController from '#controllers/quotes'
 import * as QuotesValidator from '#validators/quote'
+import cacheControl from '#middlewares/cache-control'
 import asyncHandler from '#middlewares/async-handler'
 import validationErrorHandler from '#middlewares/validation-error'
 import { writeRateLimiter } from '#middlewares/rate-limit'
-import { ROUTER_PATH } from '#constants'
+import { CACHE_CONTROL, ROUTER_PATH } from '#constants'
 
 const router = Router()
 
 router.get(
   ROUTER_PATH.ROOT,
+  cacheControl(CACHE_CONTROL.PUBLIC_SHORT),
   QuotesValidator.getQuotesValidators,
   validationErrorHandler,
   asyncHandler(QuotesController.getQuotes),
@@ -17,6 +19,7 @@ router.get(
 
 router.get(
   ROUTER_PATH.RANDOM,
+  cacheControl(CACHE_CONTROL.NO_STORE),
   QuotesValidator.getRandomQuotesValidators,
   validationErrorHandler,
   asyncHandler(QuotesController.getRandomQuotes),
@@ -24,6 +27,7 @@ router.get(
 
 router.get(
   ROUTER_PATH.ID,
+  cacheControl(CACHE_CONTROL.PUBLIC_SHORT),
   QuotesValidator.getSingleQuoteValidators,
   validationErrorHandler,
   asyncHandler(QuotesController.getQuoteById),

@@ -23,6 +23,17 @@ export const TRUST_PROXY_HOPS = 1
 
 export const SHUTDOWN_TIMEOUT_MS = 10 * 1000
 
+export const CACHE_MAX_AGE_SECONDS = 60
+
+export const HEADER = {
+  CACHE_CONTROL: 'Cache-Control',
+}
+
+export const CACHE_CONTROL = {
+  PUBLIC_SHORT: `public, max-age=${CACHE_MAX_AGE_SECONDS}`,
+  NO_STORE: 'no-store',
+}
+
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,

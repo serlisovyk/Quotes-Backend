@@ -3,7 +3,13 @@ import { createResponseMock } from '#tests/mocks/response'
 import AppError from '#errors/classes/app'
 import Logger from '#logger'
 import errorMiddleware from '#middlewares/error'
-import { HTTP_STATUS, ERROR_CODE, ERROR_MESSAGE } from '#constants'
+import {
+  CACHE_CONTROL,
+  ERROR_CODE,
+  ERROR_MESSAGE,
+  HEADER,
+  HTTP_STATUS,
+} from '#constants'
 
 vi.mock('#logger', () => ({
   default: {
@@ -27,6 +33,22 @@ describe('Error Middleware', () => {
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.BAD_REQUEST)
     expect(res.json).toHaveBeenCalledWith(error.toResponse())
     expect(Logger.error).not.toHaveBeenCalled()
+  })
+
+  test('marks the error response as not cacheable', () => {
+    const error = new AppError({
+      statusCode: HTTP_STATUS.NOT_FOUND,
+      code: ERROR_CODE.NOT_FOUND,
+      message: 'Not found',
+    })
+    const res = createResponseMock()
+
+    errorMiddleware(error, {}, res, vi.fn())
+
+    expect(res.set).toHaveBeenCalledWith(
+      HEADER.CACHE_CONTROL,
+      CACHE_CONTROL.NO_STORE,
+    )
   })
 
   test('normalizes invalid JSON error without logging it', () => {

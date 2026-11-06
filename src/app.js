@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
+import compression from 'compression'
 import quotesRouter from '#routes/quotes'
 import categoriesRouter from '#routes/categories'
 import healthRouter from '#routes/health'
@@ -18,6 +19,7 @@ app.set('trust proxy', TRUST_PROXY_HOPS)
 
 app.use(helmet())
 app.use(cors())
+app.use(compression())
 
 app.use(express.json({ limit: JSON_BODY_LIMIT }))
 
