@@ -247,12 +247,4 @@ The CSV import script is destructive because it runs `sequelize.sync({ force: tr
 
 ## 🧱 Architecture Notes
 
-- `app.js` configures Express middleware and mounts resource routers explicitly.
-- `main.js` owns startup order: database sync, ID sequence reset, and server start.
-- `server.js` starts the HTTP server and registers graceful shutdown.
-- Controllers handle HTTP input/output only.
-- Services contain application decisions and Sequelize model calls.
-- Query builders prepare Sequelize query options outside controllers/services.
-- Validators normalize external input before controllers use it.
-- Errors are normalized by centralized error middleware.
-- Shared runtime imports use native Node `package.json#imports` aliases with the `#` prefix.
+Layer responsibilities, boundaries, naming and testing rules live in [`ai/`](ai/): start with the [repo map](ai/map.md) and the [rules](ai/rules). Agents and contributors start from [`AGENTS.md`](AGENTS.md).
