@@ -8,21 +8,21 @@ says where every folder lives; `ai/rules/api.md` covers validation, errors and r
 A request flows one way: router → validators → controller → service → model. Each folder has one
 job:
 
-| Layer          | Owns                                                                    | Must not                                     |
-| -------------- | ----------------------------------------------------------------------- | -------------------------------------------- |
-| `main.js`      | startup order: database sync, ID sequence reset, server start           | hold routes or logic                         |
-| `app.js`       | middleware setup and explicit route mounting                            | start the server or the database             |
-| `server.js`    | the HTTP listener and graceful shutdown registration                    | hold routes or logic                         |
-| `routes/`      | paths, validators, `validationErrorHandler`, `asyncHandler(controller)` | decide anything; call a service              |
-| `validators/`  | Express Validator chains                                                | read the database                            |
-| `controllers/` | HTTP input and output: read `req`, call a service, answer               | use Sequelize; parse or validate input       |
-| `services/`    | application logic and Sequelize model calls                             | read `req` or `res`; validate request input  |
-| `database/`    | the Sequelize instance, models, associations, hooks, seed scripts       | know about HTTP                              |
-| `middlewares/` | reusable Express middleware                                             | hold resource logic                          |
-| `errors/`      | error classes and the error factory                                     | know about a resource                        |
-| `utils/`       | reusable helpers grouped by domain                                      | know about a request                         |
-| `constants/`   | shared values used in more than one place                               | hold logic or import a service or controller |
-| `config/`      | the only reader of environment variables                                | be bypassed by a direct `process.env` read   |
+| Layer          | Owns                                                                    | Must not                                            |
+| -------------- | ----------------------------------------------------------------------- | --------------------------------------------------- |
+| `main.js`      | startup order: database sync, ID sequence reset, server start           | hold routes or logic                                |
+| `app.js`       | middleware setup and explicit route mounting                            | start the server or the database                    |
+| `server.js`    | the HTTP listener and graceful shutdown registration                    | hold routes or logic                                |
+| `routes/`      | paths, validators, `validationErrorHandler`, `asyncHandler(controller)` | decide anything; call a service                     |
+| `validators/`  | Express Validator chains                                                | read the database                                   |
+| `controllers/` | HTTP input and output: read `req`, call a service, answer               | use Sequelize; parse or validate input              |
+| `services/`    | application logic and Sequelize model calls                             | read `req` or `res`; validate request input         |
+| `database/`    | the Sequelize instance, models, associations, hooks, seed scripts       | know about HTTP                                     |
+| `middlewares/` | reusable Express middleware                                             | hold resource logic                                 |
+| `errors/`      | error classes and the error factory                                     | know about a resource                               |
+| `utils/`       | reusable helpers grouped by domain                                      | know about a request                                |
+| `constants/`   | shared values used in more than one place                               | hold logic or import a model, service or controller |
+| `config/`      | the only reader of environment variables                                | be bypassed by a direct `process.env` read          |
 
 ## Data access
 
@@ -31,7 +31,8 @@ job:
 - A complex query option set (`where`, `include`, `order`, `attributes`) is built in
   `utils/query-builders/`; options shared by queries live in `constants/query-options.constant.js`.
 - Many-to-many associations are set in `database/models/associations.js`; model hooks live in
-  `database/models/hooks/`.
+  `database/models/hooks/`. `database/models/index.js` loads the associations and exports the models,
+  so a service imports them from `#models`.
 - A collection or list answers an empty array when nothing matches, not an error, unless the API
   contract says otherwise.
 - Raw SQL only when Sequelize cannot express the operation clearly.

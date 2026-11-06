@@ -50,9 +50,11 @@ with the record that replaced it.
 - [Merge locally into `main`, no pull requests; only `main` is pushed](2026-11-06-local-merge-without-pr.md)
 - [Manual API checks run on a throwaway Postgres container](2026-11-06-manual-api-check-throwaway-postgres.md)
 - [Prettier `endOfLine: auto`, no `.gitattributes`](2026-11-06-line-endings-auto.md)
+- [`package.json`: `engines` yes, `packageManager`, `main`, `license` no](2026-11-06-package-json-choices.md)
 - [Features the author rejected](2026-11-06-rejected-features.md)
 
 ### Code structure and runtime
 
 - [`asyncHandler` stays with Express 5](2026-11-06-async-handler-with-express-5.md)
 - [`trust proxy` is a hop count](2026-11-06-trust-proxy-hop-count.md)
+- [Every shared module is imported through a folder barrel](2026-11-06-folder-barrels-for-aliases.md)

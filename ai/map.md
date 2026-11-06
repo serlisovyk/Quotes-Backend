@@ -6,8 +6,8 @@ Navigation only: where things live and who owns what. How it works is in the cod
 ## Repo
 
 - `src/` — all sources (below); `src/main.js` is the entry (`npm start`, `npm run dev` through nodemon).
-- `package.json` — scripts `dev`, `start`, `format`, `format:check`, `test`, `test:watch`; the `#`
-  import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
+- `package.json` — `engines` (Node `>=24`); scripts `dev`, `start`, `format`, `format:check`, `test`,
+  `test:watch`; the `#` import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
 - `vitest.config.js` — runs `src/**/*.test.js` in the `node` environment with `clearMocks` and
   `restoreMocks`.
 - `.env.sample` — every environment variable with a description; `.env*` is git-ignored.
@@ -31,7 +31,7 @@ rules are in `ai/rules/architecture.md`.
 
 | Folder                  | Holds                                                                                   |
 | ----------------------- | --------------------------------------------------------------------------------------- |
-| `config/`               | `app.config.js`, the one reader of environment variables                                |
+| `config/`               | `app.config.js`, the one reader of environment variables, and its barrel                |
 | `constants/`            | app, error, query-option and validation constants                                       |
 | `routes/<resource>/`    | `quotes`, `categories`, `health` routers                                                |
 | `validators/`           | `quote`, `category`, and `shared` (limit, offset, id, category name chains)             |
@@ -55,15 +55,14 @@ Tests (`*.test.js`) sit next to the module they check.
 
 Native `package.json#imports`; the `#` prefix is the rule (`ai/rules/style.md`).
 
-| Alias                                                                           | Resolves to                                                  |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| `#config/*`, `#constants/*`                                                     | `src/config/*.js`, `src/constants/*.js`                      |
-| `#controllers/*`, `#routes/*`, `#services/*`, `#validators/*`, `#middlewares/*` | the folder's `index.js`                                      |
-| `#errors/*`                                                                     | `src/errors/*/index.js` (`#errors/factories/error`)          |
-| `#error-classes/*`                                                              | `src/errors/classes/*.error.js` (`#error-classes/not-found`) |
-| `#utils/*`, `#tests/*`                                                          | `src/utils/*/index.js`, `src/tests/*/index.js`               |
-| `#database`, `#logger`                                                          | `src/database/db.js`, `src/logger/logger.service.js`         |
-| `#models/*`, `#models/hooks`                                                    | `src/database/models/*.js`, `.../models/hooks/index.js`      |
+| Alias                                                                           | Resolves to                                                            |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `#config`, `#constants`                                                         | `src/config/index.js`, `src/constants/index.js`                        |
+| `#controllers/*`, `#routes/*`, `#services/*`, `#validators/*`, `#middlewares/*` | the folder's `index.js`                                                |
+| `#errors/*`                                                                     | `src/errors/*/index.js` (`#errors/classes`, `#errors/factories/error`) |
+| `#utils/*`, `#tests/*`                                                          | `src/utils/*/index.js`, `src/tests/*/index.js`                         |
+| `#database`, `#logger`                                                          | `src/database/db.js`, `src/logger/logger.service.js`                   |
+| `#models`, `#models/hooks`                                                      | `src/database/models/index.js`, `.../models/hooks/index.js`            |
 
 ## Endpoints
 

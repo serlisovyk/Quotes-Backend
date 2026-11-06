@@ -45,11 +45,16 @@ author's code style standard plus this project's naming.
   (`ERROR_CODE.VALIDATION_ERROR`, `ROUTE.QUOTES`).
 - A file holds one responsibility: a constant goes to `constants/`, in the file of its domain, a
   reusable helper to its own module in `utils/`.
-- A folder that holds a module and its test has an `index.js` that re-exports the module, so an
-  import targets the folder. There are no wrapper folders for a simple constant file or an error class
-  that has no test of its own.
-- Shared internal modules are imported through the `#` aliases of `package.json#imports`
-  (`#controllers/quotes`), never through a deep relative path, and without `/index.js`. A file beside
-  the importer is imported relatively (`./bad-request.error.js`).
-- **Import order:** packages, then `#` aliases with `#constants/*` last, then `./` siblings. When only
+- A folder has an `index.js` that re-exports its modules, so an import targets the folder. This holds
+  for every shared module: config, constants, models and error classes included, however small
+  (decision `folder-barrels-for-aliases`). A barrel line re-exports one module: up to four names it
+  lists them, above four it is `export *` (decision `barrels-export-star` of the Todo reference);
+  two modules re-exported with `*` must not export the same name.
+- Shared internal modules are imported through the `#` aliases of `package.json#imports`, each
+  pointing at a folder `index.js` or one named module (`#controllers/quotes`, `#constants`,
+  `#models`, `#errors/classes`), never through a deep relative path, and without `/index.js`. A file
+  beside the importer is imported relatively (`./bad-request.error.js`); a module inside a barrel
+  folder never imports through that folder's own barrel (`constants/` files import each other
+  relatively).
+- **Import order**:** packages, then `#` aliases with `#constants` last, then `./` siblings. When only
   an import path changes, the existing order stays.
