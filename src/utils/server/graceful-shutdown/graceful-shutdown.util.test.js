@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import Logger from '#logger'
 import closeDatabaseConnection from '#utils/database/close-database-connection'
 import registerGracefulShutdown from '#utils/server/graceful-shutdown'
+import { SHUTDOWN_TIMEOUT_MS } from '#constants'
 
 vi.mock('#logger', () => ({
   default: {
@@ -91,5 +92,46 @@ describe('GracefulShutdown Util', () => {
       error,
     )
     expect(processExitSpy).toHaveBeenCalledWith(1)
+  })
+
+  describe('shutdown timeout', () => {
+    beforeEach(() => vi.useFakeTimers())
+
+    afterEach(() => vi.useRealTimers())
+
+    test('forces exit with failure when the server does not close in time', () => {
+      const server = { close: vi.fn() }
+
+      registerGracefulShutdown(server)
+
+      handlers.SIGTERM()
+      vi.advanceTimersByTime(SHUTDOWN_TIMEOUT_MS - 1)
+
+      expect(processExitSpy).not.toHaveBeenCalled()
+
+      vi.advanceTimersByTime(1)
+
+      expect(Logger.error).toHaveBeenCalledWith(
+        `Shutdown did not finish in ${SHUTDOWN_TIMEOUT_MS}ms. Forcing exit`,
+      )
+      expect(processExitSpy).toHaveBeenCalledWith(1)
+    })
+
+    test('ignores a second signal while shutting down', () => {
+      const server = { close: vi.fn() }
+
+      registerGracefulShutdown(server)
+
+      handlers.SIGINT()
+      handlers.SIGTERM()
+      handlers.SIGINT()
+
+      expect(server.close).toHaveBeenCalledTimes(1)
+      expect(Logger.info).toHaveBeenCalledTimes(1)
+
+      vi.advanceTimersByTime(SHUTDOWN_TIMEOUT_MS)
+
+      expect(processExitSpy).toHaveBeenCalledTimes(1)
+    })
   })
 })
