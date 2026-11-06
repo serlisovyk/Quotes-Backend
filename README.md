@@ -181,13 +181,13 @@ GET /quotes
 
 Supported query parameters:
 
-| Parameter | Type   | Description                             |
-| --------- | ------ | --------------------------------------- |
-| limit     | number | Page size, from `1` to `50`             |
-| offset    | number | Number of rows to skip, starts from `0` |
-| author    | string | Case-insensitive author search          |
-| text      | string | Case-insensitive quote text search      |
-| category  | string | Filter quotes by category slug/name     |
+| Parameter | Type   | Description                                                |
+| --------- | ------ | ---------------------------------------------------------- |
+| limit     | number | Page size, from `1` to `50`                                |
+| offset    | number | Number of rows to skip, starts from `0`                    |
+| author    | string | Case-insensitive author search                             |
+| text      | string | Case-insensitive quote text search                         |
+| category  | string | Filter quotes by category slug/name, up to `50` characters |
 
 Example:
 
@@ -218,11 +218,11 @@ Create/update body example:
 }
 ```
 
-| Field      | Rule                                                                                   |
-| ---------- | -------------------------------------------------------------------------------------- |
-| text       | String, at least `10` characters after trimming                                        |
-| author     | String, from `2` to `255` characters after trimming                                    |
-| categories | Array of at least one name: lowercase letters, numbers and dashes; repeats are removed |
+| Field      | Rule                                                                                                                               |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| text       | String, from `10` to `2500` characters after trimming                                                                              |
+| author     | String, from `2` to `255` characters after trimming                                                                                |
+| categories | Array of `1` to `10` names: lowercase letters, numbers and dashes, up to `50` characters each; repeats are removed before counting |
 
 All three are required on `POST` and optional on `PATCH`, but a `PATCH` body with none of them is a `400` with `Nothing to update` under `_root`.
 
@@ -234,11 +234,11 @@ GET /categories
 
 Supported query parameters:
 
-| Parameter | Type   | Description                             |
-| --------- | ------ | --------------------------------------- |
-| limit     | number | Page size, from `1` to `50`             |
-| offset    | number | Number of rows to skip, starts from `0` |
-| name      | string | Case-insensitive category search        |
+| Parameter | Type   | Description                                             |
+| --------- | ------ | ------------------------------------------------------- |
+| limit     | number | Page size, from `1` to `50`                             |
+| offset    | number | Number of rows to skip, starts from `0`                 |
+| name      | string | Case-insensitive category search, up to `50` characters |
 
 Returns `{ "total": 5, "categories": [{ "id": 1, "name": "life" }] }`: `total` counts every category matching `name`, `categories` is the requested page. No match is `{ "total": 0, "categories": [] }`.
 
