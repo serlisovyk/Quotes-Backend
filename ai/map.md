@@ -5,7 +5,8 @@ Navigation only: where things live and who owns what. How it works is in the cod
 
 ## Repo
 
-- `src/` — all sources (below); `src/main.js` is the entry (`npm start`, `npm run dev` through nodemon).
+- `src/` — all sources (below); `src/main.js` is the entry (`npm start`; `npm run dev` adds `node --watch`).
+  Both scripts load `.env` with `--env-file-if-exists=.env` (decision `node-watch-and-env-file`).
 - `package.json` — `engines` (Node `>=24`); scripts `dev`, `start`, `lint`, `lint:fix`, `format`,
   `format:check`, `prepare` (Husky), `test`, `test:watch`; the `#` import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
 - `vitest.config.js` — runs `src/**/*.test.js` in the `node` environment with `clearMocks` and
@@ -94,7 +95,8 @@ Paths are constants in `constants/app.constant.js` (`ROUTE`, `ROUTER_PATH`). Eve
 
 ## Seed scripts
 
-Run from the repo root; the guide is `src/database/seed/README.md`.
+Run from the repo root with `node --env-file-if-exists=.env <script>`; the guide is
+`src/database/seed/README.md`.
 
 - `database/seed/scripts/import-quotes.seed.js` — destructive (`sync({ force: true })`), refuses to run
   unless `ALLOW_SEED_RESET=true`; imports `data/test-quotes.csv` in batches. It parses a row with
@@ -106,7 +108,8 @@ Run from the repo root; the guide is `src/database/seed/README.md`.
 
 ## Environment
 
-All keys are in `.env.sample`, read only in `config/app.config.js`: `APP_PORT`, `DATABASE_URL`,
+All keys are in `.env.sample`, read only in `config/app.config.js` from `process.env`, which Node fills
+from `.env` through the `--env-file-if-exists` flag (the variables already in the environment win): `APP_PORT`, `DATABASE_URL`,
 `DB_DIALECT`, `CSV_IMPORT_BATCH_SIZE`, `CSV_IMPORT_BATCH_TIMEOUT`, `ALLOW_SEED_RESET` for the app and
 seeds; `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`, `ADMINER_DEFAULT_SERVER` for the
 containers.

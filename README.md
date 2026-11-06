@@ -65,7 +65,7 @@ src/
 
 ## ⚙️ Environment Variables
 
-Create a `.env` file in the project root. Use `.env.sample` as the list of required keys.
+Create a `.env` file in the project root. Use `.env.sample` as the list of required keys. Node loads it with `--env-file-if-exists=.env` (no `dotenv`); the tests do not need it.
 
 ```env
 APP_PORT=3001
@@ -111,7 +111,7 @@ Install dependencies:
 npm install
 ```
 
-Run in development mode:
+Run in development mode (`node --watch` restarts the server when a source file it imports changes):
 
 ```bash
 npm run dev
@@ -122,6 +122,10 @@ Run the server:
 ```bash
 npm start
 ```
+
+Both scripts load `.env` through `--env-file-if-exists=.env`, so the file is optional: without it
+(in Docker, for example) the variables come from the environment. Variables already set in the
+environment win over the ones in `.env`.
 
 Lint code:
 

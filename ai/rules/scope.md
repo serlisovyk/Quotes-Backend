@@ -22,9 +22,10 @@ Why each is out: decision `rejected-features`.
 ## Dependencies
 
 - Runtime dependencies are `express`, `cors`, `helmet`, `express-rate-limit`, `express-validator`,
-  `sequelize`, `pg`, `pg-hstore`, `dotenv` and `csv-parser` (the seed import). Another one needs the
-  author's explicit yes and a decision record.
-- Tooling in scope: Prettier, Vitest, Supertest, nodemon, Docker and Docker Compose.
+  `sequelize`, `pg`, `pg-hstore` and `csv-parser` (the seed import). Another one needs the
+  author's explicit yes and a decision record. `.env` and file watching are Node's own flags, not
+  packages (`node-watch-and-env-file`).
+- Tooling in scope: Prettier, Vitest, Supertest, Docker and Docker Compose.
 
 ## Prefer
 

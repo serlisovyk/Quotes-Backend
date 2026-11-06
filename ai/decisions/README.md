@@ -55,6 +55,7 @@ with the record that replaced it.
 - [`uuid` is overridden for Sequelize](2026-11-06-uuid-override.md)
 - [Docker images run Node 24](2026-11-06-docker-node-24.md)
 - [The prod image is built from the Dockerfile, with scripts off](2026-11-06-docker-build-from-dockerfile.md)
+- [Node's `--watch` and `--env-file-if-exists` replace nodemon and dotenv](2026-11-06-node-watch-and-env-file.md)
 - [Features the author rejected](2026-11-06-rejected-features.md)
 
 ### Code structure and runtime

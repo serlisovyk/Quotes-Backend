@@ -18,7 +18,9 @@ src/database/seed/
 
 ## ⚙️ Requirements
 
-Before running seed scripts, make sure the project root `.env` contains valid database settings:
+Seed scripts do not load `.env` themselves: start them with `node --env-file-if-exists=.env` as the
+commands below do (inside a container the variables come from its environment). Before running
+them, make sure the project root `.env` contains valid database settings:
 
 ```env
 DATABASE_URL=postgresql://user:password@host:5432/database?sslmode=verify-full
@@ -65,10 +67,10 @@ The CSV import script reads `src/database/seed/data/test-quotes.csv`, resets the
 Run from the project root:
 
 ```bash
-node src/database/seed/scripts/import-quotes.seed.js
+node --env-file-if-exists=.env src/database/seed/scripts/import-quotes.seed.js
 ```
 
-The script will refuse to run unless `ALLOW_SEED_RESET=true` is set in `.env`. Both seed scripts close the database connection when they finish, so the process exits by itself.
+The script will refuse to run unless `ALLOW_SEED_RESET=true` is set in `.env` or in the environment. Both seed scripts close the database connection when they finish, so the process exits by itself.
 
 If the import is too heavy for the current environment, tune:
 
@@ -86,7 +88,7 @@ After importing quote data, you can remove categories that are attached to one o
 Run from the project root:
 
 ```bash
-node src/database/seed/scripts/remove-rare-categories.seed.js
+node --env-file-if-exists=.env src/database/seed/scripts/remove-rare-categories.seed.js
 ```
 
 This script is not guarded by `ALLOW_SEED_RESET`, but it still mutates data. Run it only against a database where this cleanup is expected.
