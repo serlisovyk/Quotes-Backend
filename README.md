@@ -249,6 +249,8 @@ Create/update body example:
 
 All three are required on `POST` and optional on `PATCH`, but a `PATCH` body with none of them is a `400` with `Nothing to update` under `_root`.
 
+A quote is a duplicate of another when `text` and `author` are the same after trimming, ignoring case; categories do not count. `POST` of a duplicate and a `PATCH` that would leave a quote with the text and author of another one answer `409` `CONFLICT` and change nothing. Patching a quote to its own values is not a conflict. There is no unique index, so two identical requests sent at the same moment may both be stored.
+
 ### Categories
 
 ```http
@@ -316,6 +318,7 @@ Errors that happen before a route runs, and rate limit errors, use the same shap
 | Status | Code                     | When                                                       |
 | ------ | ------------------------ | ---------------------------------------------------------- |
 | 400    | `INVALID_JSON`           | The request body is not valid JSON                         |
+| 409    | `CONFLICT`               | A quote with the same text and author already exists       |
 | 413    | `PAYLOAD_TOO_LARGE`      | The JSON body is larger than `50kb`                        |
 | 415    | `UNSUPPORTED_MEDIA_TYPE` | The body uses an unsupported charset or `Content-Encoding` |
 | 429    | `TOO_MANY_REQUESTS`      | A rate limit is exceeded                                   |

@@ -33,6 +33,7 @@ The contract every endpoint keeps: validation, errors and responses. Why: decisi
   written inline. A message that needs a value is a function: `ERROR_MESSAGE.QUOTE_NOT_FOUND(id)`.
 - An operational error is thrown as a subclass of `AppError`. A missing row is a `NotFoundError`
   thrown by the controller.
+- A duplicate quote (same `text` and `author` after trim, ignoring case) is a `409 CONFLICT`, thrown as a `ConflictError` by the quotes service: `createQuote` and `modifySingleQuote` check first thing in their transaction, before any write, with the `buildDuplicateQuoteQuery` options (`lower(...)` comparison, the patched quote excluded by `id`). There is no unique index and no migration, so two simultaneous identical writes can both pass; that is accepted.
 - `asyncHandler` wraps every async controller in the router and hands a rejection to the central
   error middleware, which normalizes it through `ErrorFactory`. An error that is not an `AppError`
   is logged and answered as `INTERNAL_SERVER_ERROR`, except the errors `express.json` raises before a
