@@ -1,12 +1,4 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import {
-  DEFAULT_OFFSET,
-  DEFAULT_QUOTES_LIMIT,
-  HTTP_STATUS,
-  RANDOM_QUOTES_LIMIT,
-  ROUTE,
-  ERROR_MESSAGE,
-} from '#constants'
 import { NotFoundError } from '#errors/classes'
 import * as QuotesService from '#services/quotes'
 import { createResponseMock } from '#tests/mocks/response'
@@ -18,6 +10,14 @@ import {
   patchQuoteById,
   postQuote,
 } from '#controllers/quotes'
+import {
+  DEFAULT_OFFSET,
+  DEFAULT_QUOTES_LIMIT,
+  HTTP_STATUS,
+  RANDOM_QUOTES_LIMIT,
+  ROUTE,
+  ERROR_MESSAGE,
+} from '#constants'
 
 vi.mock('#services/quotes', () => ({
   createQuote: vi.fn(),

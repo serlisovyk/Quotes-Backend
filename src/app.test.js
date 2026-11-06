@@ -1,5 +1,6 @@
 import request from 'supertest'
 import { describe, expect, test, vi } from 'vitest'
+import Logger from '#logger'
 import {
   ERROR_CODE,
   ERROR_MESSAGE,
@@ -7,7 +8,6 @@ import {
   JSON_BODY_LIMIT,
   ROUTE,
 } from '#constants'
-import Logger from '#logger'
 import app from './app.js'
 
 vi.hoisted(() => {

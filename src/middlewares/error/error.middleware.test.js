@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createResponseMock } from '#tests/mocks/response'
-import { HTTP_STATUS, ERROR_CODE, ERROR_MESSAGE } from '#constants'
 import AppError from '#errors/classes/app'
 import Logger from '#logger'
 import errorMiddleware from '#middlewares/error'
+import { HTTP_STATUS, ERROR_CODE, ERROR_MESSAGE } from '#constants'
 
 vi.mock('#logger', () => ({
   default: {

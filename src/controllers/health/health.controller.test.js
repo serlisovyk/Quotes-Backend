@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { createResponseMock } from '#tests/mocks/response'
-import { HTTP_STATUS } from '#constants'
 import { getHealth } from '#controllers/health'
+import { HTTP_STATUS } from '#constants'
 
 describe('Health Controller', () => {
   test('returns ok status payload', () => {

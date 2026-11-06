@@ -2,13 +2,13 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createResponseMock } from '#tests/mocks/response'
 import { NotFoundError } from '#errors/classes'
 import * as CategoriesService from '#services/categories'
+import { getCategories, getCategoryById } from '#controllers/categories'
 import {
   DEFAULT_CATEGORIES_LIMIT,
   DEFAULT_OFFSET,
   HTTP_STATUS,
   ERROR_MESSAGE,
 } from '#constants'
-import { getCategories, getCategoryById } from '#controllers/categories'
 
 vi.mock('#services/categories', () => ({
   findCategories: vi.fn(),

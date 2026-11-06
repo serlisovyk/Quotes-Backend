@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createRouterTestClientFactory } from '#tests/utils/router-test-client'
 import * as CategoriesController from '#controllers/categories'
-import { HTTP_STATUS, ROUTE, ERROR_CODE } from '#constants'
 import categoriesRouter from '#routes/categories'
+import { HTTP_STATUS, ROUTE, ERROR_CODE } from '#constants'
 
 vi.mock('#controllers/categories', () => ({
   getCategories: vi.fn((req, res) => res.status(200).json({ query: req.query })),

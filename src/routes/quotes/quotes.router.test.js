@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createRouterTestClientFactory } from '#tests/utils/router-test-client'
 import * as QuotesController from '#controllers/quotes'
-import { HTTP_STATUS, ROUTE, ERROR_CODE } from '#constants'
 import quotesRouter from '#routes/quotes'
+import { HTTP_STATUS, ROUTE, ERROR_CODE } from '#constants'
 
 vi.mock('#controllers/quotes', () => ({
   deleteQuoteById: vi.fn((_, res) => res.status(204).send()),

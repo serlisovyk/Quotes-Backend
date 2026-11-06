@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { query } from 'express-validator'
 import { runValidators } from '#tests/utils/run-validators'
-import { ERROR_MESSAGE, MAX_LIST_LIMIT } from '#constants'
 import {
   categoryNameValidator,
   categorySearchValidator,
@@ -9,6 +8,7 @@ import {
   listLimitQueryValidator,
   offsetQueryValidator,
 } from '#validators/shared'
+import { ERROR_MESSAGE, MAX_LIST_LIMIT } from '#constants'
 
 describe('Shared Validator', () => {
   test('validates and converts list limit query', async () => {

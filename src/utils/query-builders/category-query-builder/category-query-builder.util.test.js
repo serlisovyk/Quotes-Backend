@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
-import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 import {
   buildCategoryDetailsQuery,
   buildCategoryListQuery,
 } from '#utils/query-builders/category-query-builder'
+import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 
 describe('CategoryQueryBuilder Util', () => {
   test('builds category list query without filters', () => {

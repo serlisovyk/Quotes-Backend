@@ -1,11 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { runValidators } from '#tests/utils/run-validators'
 import {
-  ERROR_MESSAGE,
-  MAX_RANDOM_QUOTES_LIMIT,
-  QUOTE_AUTHOR_MAX_LENGTH,
-} from '#constants'
-import {
   deleteSingleQuoteValidators,
   getQuotesValidators,
   getRandomQuotesValidators,
@@ -13,6 +8,11 @@ import {
   patchSingleQuoteValidators,
   postQuoteValidators,
 } from '#validators/quote'
+import {
+  ERROR_MESSAGE,
+  MAX_RANDOM_QUOTES_LIMIT,
+  QUOTE_AUTHOR_MAX_LENGTH,
+} from '#constants'
 
 const validCreateBody = {
   author: 'Seneca',

@@ -1,6 +1,12 @@
 import { query, body } from 'express-validator'
 import removeDuplicateCategories from '#utils/validation/remove-duplicate-categories'
 import {
+  categoryNameValidator,
+  idParamValidator,
+  listLimitQueryValidator,
+  offsetQueryValidator,
+} from '#validators/shared'
+import {
   CATEGORY_NAME_REGEX,
   ERROR_MESSAGE,
   MAX_RANDOM_QUOTES_LIMIT,
@@ -9,12 +15,6 @@ import {
   QUOTE_PATCH_FIELDS,
   QUOTE_TEXT_MIN_LENGTH,
 } from '#constants'
-import {
-  categoryNameValidator,
-  idParamValidator,
-  listLimitQueryValidator,
-  offsetQueryValidator,
-} from '#validators/shared'
 
 function quoteTextBodyValidator({ optional = false } = {}) {
   const validator = body('text')

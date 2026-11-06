@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { HTTP_STATUS, ROUTE, SKIPPED_REQUEST_LOG_ROUTES } from '#constants'
 import Logger from '#logger'
 import {
   buildRequestLogMessage,
   logRequest,
   shouldSkipRequestLog,
 } from '#utils/http/request-log'
+import { HTTP_STATUS, ROUTE, SKIPPED_REQUEST_LOG_ROUTES } from '#constants'
 
 vi.mock('#logger', () => ({
   default: {

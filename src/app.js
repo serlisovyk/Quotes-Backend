@@ -8,6 +8,7 @@ import healthRouter from '#routes/health'
 import errorMiddleware from '#middlewares/error'
 import notFoundMiddleware from '#middlewares/not-found'
 import requestLoggerMiddleware from '#middlewares/request-logger'
+import '#models'
 import {
   JSON_BODY_LIMIT,
   MINUTES_IN_MS,
@@ -15,7 +16,6 @@ import {
   ROUTE,
   TRUST_PROXY_HOPS,
 } from '#constants'
-import '#models'
 
 const app = express()
 

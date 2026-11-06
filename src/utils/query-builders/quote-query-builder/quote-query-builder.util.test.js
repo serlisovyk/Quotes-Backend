@@ -1,5 +1,4 @@
 import { describe, expect, test, vi } from 'vitest'
-import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 import {
   QUOTE_CATEGORY_INCLUDE,
   buildQuoteCategoryInclude,
@@ -9,6 +8,7 @@ import {
   buildQuoteWhere,
   buildRandomQuotesQuery,
 } from '#utils/query-builders/quote-query-builder'
+import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 
 vi.mock('#models', () => ({ Category: 'Category' }))
 

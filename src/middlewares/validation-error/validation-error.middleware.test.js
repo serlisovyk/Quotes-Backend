@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { validationResult } from 'express-validator'
 import { ValidationError } from '#errors/classes'
-import { ERROR_CODE, ERROR_MESSAGE } from '#constants'
 import validationErrorHandler from '#middlewares/validation-error'
+import { ERROR_CODE, ERROR_MESSAGE } from '#constants'
 
 vi.mock('express-validator', () => ({
   validationResult: vi.fn(),

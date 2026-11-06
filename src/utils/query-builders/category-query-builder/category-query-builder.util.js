@@ -1,5 +1,5 @@
-import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 import { buildLikeFilters } from '#utils/query-builders/query-filter-builder'
+import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 
 export function buildCategoryListQuery({ name }) {
   return {

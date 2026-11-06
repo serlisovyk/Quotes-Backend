@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { createResponseMock } from '#tests/mocks/response'
-import { HTTP_STATUS } from '#constants'
 import { sendCreated, sendNoContent, sendOk } from '#utils/http/response'
+import { HTTP_STATUS } from '#constants'
 
 describe('Response Util', () => {
   test('sends ok response', () => {

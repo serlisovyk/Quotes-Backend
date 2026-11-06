@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'vitest'
 import { runValidators } from '#tests/utils/run-validators'
-import { ERROR_MESSAGE } from '#constants'
 import {
   getCategoriesValidators,
   getSingleCategoryValidators,
 } from '#validators/category'
+import { ERROR_MESSAGE } from '#constants'
 
 describe('Category Validator', () => {
   test('accepts valid categories query', async () => {

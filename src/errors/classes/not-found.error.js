@@ -1,5 +1,5 @@
-import { ERROR_CODE, HTTP_STATUS } from '#constants'
 import AppError from '#errors/classes/app'
+import { ERROR_CODE, HTTP_STATUS } from '#constants'
 
 export default class NotFoundError extends AppError {
   constructor(message) {

@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { ERROR_CODE, ERROR_MESSAGE } from '#constants'
 import AppError from '#errors/classes/app'
 import {
   InternalServerError,
@@ -8,6 +7,7 @@ import {
   UnsupportedMediaTypeError,
 } from '#errors/classes'
 import ErrorFactory from '#errors/factories/error'
+import { ERROR_CODE, ERROR_MESSAGE } from '#constants'
 
 describe('Error Factory', () => {
   test('returns AppError instances unchanged', () => {

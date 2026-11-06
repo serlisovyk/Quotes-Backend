@@ -1,4 +1,3 @@
-import { BODY_PARSER_ERROR_TYPE, ERROR_MESSAGE } from '#constants'
 import {
   AppError,
   InternalServerError,
@@ -6,6 +5,7 @@ import {
   PayloadTooLargeError,
   UnsupportedMediaTypeError,
 } from '#errors/classes'
+import { BODY_PARSER_ERROR_TYPE, ERROR_MESSAGE } from '#constants'
 
 export default class ErrorFactory {
   static from(error) {
