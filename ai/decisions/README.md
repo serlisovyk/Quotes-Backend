@@ -52,6 +52,8 @@ with the record that replaced it.
 - [ESLint, a pre-commit hook and CI on every push](2026-11-06-eslint-husky-ci.md)
 - [Prettier `endOfLine: auto`, no `.gitattributes`](2026-11-06-line-endings-auto.md)
 - [`package.json`: `engines` yes, `packageManager`, `main`, `license` no](2026-11-06-package-json-choices.md)
+- [`uuid` is overridden for Sequelize](2026-11-06-uuid-override.md)
+- [Docker images run Node 24](2026-11-06-docker-node-24.md)
 - [Features the author rejected](2026-11-06-rejected-features.md)
 
 ### Code structure and runtime

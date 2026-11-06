@@ -108,8 +108,8 @@ containers.
 
 ## Docker
 
-- `Dockerfile` — `node:20-alpine`, production dependencies, a non-root user, `npm start`, port 3001.
-- `Dockerfile.dev` — `node:20-alpine`, all dependencies, `npm run dev`, port 3001.
+- `Dockerfile` — `node:24-alpine`, production dependencies, a non-root user, `npm start`, port 3001.
+- `Dockerfile.dev` — `node:24-alpine`, all dependencies, `npm run dev`, port 3001.
 - `docker-compose.yml` — production-like: `postgres:16-alpine` and the `server` image
   `serhii5105/quotes-server:latest`, healthchecks, `.env`.
 - `docker-compose.dev.yml` — Postgres, the `server` built from `Dockerfile.dev` with the source
