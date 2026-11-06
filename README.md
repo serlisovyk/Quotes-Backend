@@ -18,7 +18,8 @@ This backend provides quote and category data through a compact Express + Sequel
 - Express Validator request validation
 - Basic request logging middleware
 - Helmet, CORS, a general and a stricter write rate limit, and JSON body limits
-- Graceful HTTP/database shutdown
+- Welcome root with endpoint navigation and a database-aware health check
+- Graceful HTTP/database shutdown with a forced-exit timeout
 - Docker Compose setup for production-like and development environments
 - Vitest test suite for controllers, routes, services, middlewares, errors, and utilities
 
@@ -169,13 +170,23 @@ GitHub Actions runs lint, the format check and the tests on every push. The pre-
 
 ## 🔌 API Endpoints
 
+### Root
+
+```http
+GET /
+```
+
+Returns a welcome message, a short description, the repository link and the list of endpoints (`method` and `path`).
+
 ### Health
 
 ```http
 GET /health
 ```
 
-Returns the API health state.
+Checks the database connection. `200` with `{ "status": "ok", "database": "ok" }` when the database answers, `503` with `{ "status": "error", "database": "unavailable" }` when it does not.
+
+The compose healthchecks of the `server` service call `/health`, so the container also turns unhealthy while the database is down.
 
 ### Quotes
 
@@ -254,11 +265,11 @@ Returns a single category by numeric ID.
 
 ## 🚦 Rate Limits
 
-Limits are counted per client IP over a 15 minute window, in memory of the running process. `/health` is not limited.
+Limits are counted per client IP over a 15 minute window, in memory of the running process. `/` and `/health` are not limited.
 
 | Limit   | Applies to                                                | Max requests |
 | ------- | --------------------------------------------------------- | ------------ |
-| General | every endpoint except `/health`                           | `100`        |
+| General | every endpoint except `/` and `/health`                   | `100`        |
 | Write   | `POST /quotes`, `PATCH /quotes/:id`, `DELETE /quotes/:id` | `20`         |
 
 A write request counts against both limits, a read only against the general one, so reads keep working after the write limit is spent. Over a limit the API answers `429` with `TOO_MANY_REQUESTS` in the [error format](#-error-format) and sends the `RateLimit-*` headers (`Retry-After` on `429`).
@@ -289,6 +300,7 @@ Errors that happen before a route runs, and rate limit errors, use the same shap
 | 413    | `PAYLOAD_TOO_LARGE`      | The JSON body is larger than `50kb`                        |
 | 415    | `UNSUPPORTED_MEDIA_TYPE` | The body uses an unsupported charset or `Content-Encoding` |
 | 429    | `TOO_MANY_REQUESTS`      | A rate limit is exceeded                                   |
+| 503    | `SERVICE_UNAVAILABLE`    | The database connection fails                              |
 
 ## 🌱 Seed Data
 

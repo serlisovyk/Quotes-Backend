@@ -39,6 +39,7 @@ The contract every endpoint keeps: validation, errors and responses. Why: decisi
   route runs: invalid JSON is `400 INVALID_JSON`, a body over `JSON_BODY_LIMIT` is `413
 PAYLOAD_TOO_LARGE`, an unsupported charset or encoding is `415 UNSUPPORTED_MEDIA_TYPE`; none of
   them is logged. `ErrorFactory` recognizes them by the parser error `type`.
+- A Sequelize `ConnectionError` (or a subclass) is answered as `503 SERVICE_UNAVAILABLE` through `ErrorFactory` (`ServiceUnavailableError`), and is still logged.
 
 ## Responses
 
@@ -47,5 +48,6 @@ PAYLOAD_TOO_LARGE`, an unsupported charset or encoding is `415 UNSUPPORTED_MEDIA
 - Status codes come from `HTTP_STATUS`, paths from `ROUTE` and `ROUTER_PATH`.
 - A list endpoint answers `{ total, <resource> }` (`{ total, quotes }`, `{ total, categories }`): `total` counts every match, the array is the requested page, and an empty result is `total: 0` with an empty array, never an error (decision `list-response-format`).
 - A public model answer leaves out `createdAt` and `updatedAt` (`PUBLIC_MODEL_ATTRIBUTES`).
-- `/health` is mounted before the rate limiter and is not logged.
+- `/` (the welcome message and the endpoint list, built from `ROUTE`) and `/health` are mounted before the rate limiter and are not logged.
+- `/health` asks the health service whether the database answers: `200` `HEALTH_STATUS.OK`, otherwise `503` `HEALTH_STATUS.ERROR`. Its `503` body is the health payload, not the error shape.
 - Two rate limiters, both in `middlewares/rate-limit`: `generalRateLimiter` for everything after `/health`, and the stricter `writeRateLimiter` on `POST`, `PATCH` and `DELETE /quotes`. Their limits are constants. Over the limit the answer is `429 TOO_MANY_REQUESTS` in the common error shape, thrown as a `TooManyRequestsError` from the limiter handler, never the plain text of `express-rate-limit`; `RateLimit-*` headers are sent.
