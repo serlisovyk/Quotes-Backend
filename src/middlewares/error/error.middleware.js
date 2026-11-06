@@ -1,7 +1,7 @@
 import ErrorFactory from '#errors/factories/error'
 import Logger from '#logger'
 
-function errorMiddleware(err, _, res, __) {
+function errorMiddleware(err, _req, res, _next) {
   const appError = ErrorFactory.from(err)
 
   if (ErrorFactory.shouldLog(err)) {

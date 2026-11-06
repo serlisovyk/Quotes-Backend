@@ -17,6 +17,7 @@ export default [
   {
     files: ['src/**/*.js'],
     rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-restricted-imports': ['error', { patterns: [parentImports] }],
     },
   },
