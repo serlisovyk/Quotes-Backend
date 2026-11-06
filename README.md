@@ -218,6 +218,14 @@ Create/update body example:
 }
 ```
 
+| Field      | Rule                                                                                   |
+| ---------- | -------------------------------------------------------------------------------------- |
+| text       | String, at least `10` characters after trimming                                        |
+| author     | String, from `2` to `255` characters after trimming                                    |
+| categories | Array of at least one name: lowercase letters, numbers and dashes; repeats are removed |
+
+All three are required on `POST` and optional on `PATCH`, but a `PATCH` body with none of them is a `400` with `Nothing to update` under `_root`.
+
 ### Categories
 
 ```http

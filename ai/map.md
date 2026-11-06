@@ -51,7 +51,7 @@ rules are in `ai/rules/architecture.md`.
 | `utils/query-builders/` | quote, category and `iLike` filter query options                                        |
 | `utils/seed/`           | CSV row import, stream pause, category validation and splitting                         |
 | `utils/server/`         | graceful shutdown on SIGINT and SIGTERM                                                 |
-| `utils/validation/`     | formats validation results into the `fields` object                                     |
+| `utils/validation/`     | formats validation results into `fields`; removes duplicate category names              |
 | `tests/`                | shared test mocks and helpers (`createRouterTestClient`, `runValidators`)               |
 
 Tests (`*.test.js`) sit next to the module they check.
