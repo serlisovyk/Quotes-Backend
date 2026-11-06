@@ -10,9 +10,13 @@ export async function getCategories(req, res) {
     name,
   } = req.query
 
-  const categories = await CategoriesService.findCategories({ limit, offset, name })
+  const categoriesPage = await CategoriesService.findCategories({
+    limit,
+    offset,
+    name,
+  })
 
-  sendOk(res, categories)
+  sendOk(res, categoriesPage)
 }
 
 export async function getCategoryById(req, res) {

@@ -33,8 +33,7 @@ job:
 - Many-to-many associations are set in `database/models/associations.js`; model hooks live in
   `database/models/hooks/`. `database/models/index.js` loads the associations and exports the models,
   so a service imports them from `#models`.
-- A collection or list answers an empty array when nothing matches, not an error, unless the API
-  contract says otherwise.
+- A list that matches nothing is not an error; the shape of a list answer is in `ai/rules/api.md`.
 - Raw SQL only when Sequelize cannot express the operation clearly.
 - Writes that belong together run in one `sequelize.transaction`.
 

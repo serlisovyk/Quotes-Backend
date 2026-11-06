@@ -45,6 +45,6 @@ PAYLOAD_TOO_LARGE`, an unsupported charset or encoding is `415 UNSUPPORTED_MEDIA
 - A response goes through the helpers in `utils/http/response`: `sendOk`, `sendCreated` (with the
   `Location` of the new resource), `sendNoContent`.
 - Status codes come from `HTTP_STATUS`, paths from `ROUTE` and `ROUTER_PATH`.
-- A list endpoint answers an empty array, never an error, for an empty result.
+- A list endpoint answers `{ total, <resource> }` (`{ total, quotes }`, `{ total, categories }`): `total` counts every match, the array is the requested page, and an empty result is `total: 0` with an empty array, never an error (decision `list-response-format`).
 - A public model answer leaves out `createdAt` and `updatedAt` (`PUBLIC_MODEL_ATTRIBUTES`).
 - `/health` is mounted before the rate limiter and is not logged.

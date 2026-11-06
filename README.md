@@ -240,6 +240,8 @@ Supported query parameters:
 | offset    | number | Number of rows to skip, starts from `0` |
 | name      | string | Case-insensitive category search        |
 
+Returns `{ "total": 5, "categories": [{ "id": 1, "name": "life" }] }`: `total` counts every category matching `name`, `categories` is the requested page. No match is `{ "total": 0, "categories": [] }`.
+
 ```http
 GET /categories/:id
 ```

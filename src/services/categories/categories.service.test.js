@@ -13,7 +13,7 @@ import {
 
 vi.mock('#models', () => ({
   Category: {
-    findAll: vi.fn(),
+    findAndCountAll: vi.fn(),
     findByPk: vi.fn(),
     findOrCreate: vi.fn(),
   },
@@ -32,17 +32,26 @@ describe('Categories Service', () => {
     const listQuery = { attributes: ['id'], where: { name: 'life' } }
 
     buildCategoryListQuery.mockReturnValue(listQuery)
-    Category.findAll.mockResolvedValue(categories)
+    Category.findAndCountAll.mockResolvedValue({ count: 7, rows: categories })
 
     const result = await findCategories({ limit: 5, offset: 10, name: 'life' })
 
     expect(buildCategoryListQuery).toHaveBeenCalledWith({ name: 'life' })
-    expect(Category.findAll).toHaveBeenCalledWith({
+    expect(Category.findAndCountAll).toHaveBeenCalledWith({
       ...listQuery,
       limit: 5,
       offset: 10,
     })
-    expect(result).toBe(categories)
+    expect(result).toEqual({ total: 7, categories })
+  })
+
+  test('finds no categories when nothing matches', async () => {
+    buildCategoryListQuery.mockReturnValue({})
+    Category.findAndCountAll.mockResolvedValue({ count: 0, rows: [] })
+
+    const result = await findCategories({ limit: 5, offset: 0, name: 'none' })
+
+    expect(result).toEqual({ total: 0, categories: [] })
   })
 
   test('finds single category by id', async () => {

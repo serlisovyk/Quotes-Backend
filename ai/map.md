@@ -74,12 +74,12 @@ Native `package.json#imports`; the `#` prefix is the rule (`ai/rules/style.md`).
 Paths are constants in `constants/app.constant.js` (`ROUTE`, `ROUTER_PATH`). Everything mounted after
 `/health` is rate limited. Query and body rules are in the validators, answers in the controllers.
 
-| Endpoint                                                  | Handler                                          |
-| --------------------------------------------------------- | ------------------------------------------------ |
-| `GET /health`                                             | `getHealth`: `{ "status": "ok" }`, not logged    |
-| `GET /quotes`, `GET /quotes/random`, `GET /quotes/:id`    | `getQuotes`, `getRandomQuotes`, `getQuoteById`   |
-| `POST /quotes`, `PATCH /quotes/:id`, `DELETE /quotes/:id` | `postQuote`, `patchQuoteById`, `deleteQuoteById` |
-| `GET /categories`, `GET /categories/:id`                  | `getCategories`, `getCategoryById`               |
+| Endpoint                                                  | Handler                                                              |
+| --------------------------------------------------------- | -------------------------------------------------------------------- |
+| `GET /health`                                             | `getHealth`: `{ "status": "ok" }`, not logged                        |
+| `GET /quotes`, `GET /quotes/random`, `GET /quotes/:id`    | `getQuotes` (`{ total, quotes }`), `getRandomQuotes`, `getQuoteById` |
+| `POST /quotes`, `PATCH /quotes/:id`, `DELETE /quotes/:id` | `postQuote`, `patchQuoteById`, `deleteQuoteById`                     |
+| `GET /categories`, `GET /categories/:id`                  | `getCategories` (`{ total, categories }`), `getCategoryById`         |
 
 ## Database
 

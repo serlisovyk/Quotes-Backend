@@ -19,11 +19,11 @@ describe('Categories Controller', () => {
   beforeEach(() => vi.clearAllMocks())
 
   test('gets categories with default pagination', async () => {
-    const categories = [{ id: 1, name: 'life' }]
+    const result = { total: 1, categories: [{ id: 1, name: 'life' }] }
     const req = { query: {} }
     const res = createResponseMock()
 
-    CategoriesService.findCategories.mockResolvedValue(categories)
+    CategoriesService.findCategories.mockResolvedValue(result)
 
     await getCategories(req, res)
 
@@ -33,15 +33,15 @@ describe('Categories Controller', () => {
       name: undefined,
     })
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.OK)
-    expect(res.json).toHaveBeenCalledWith(categories)
+    expect(res.json).toHaveBeenCalledWith(result)
   })
 
   test('gets categories with provided query filters', async () => {
-    const categories = [{ id: 2, name: 'work' }]
+    const result = { total: 11, categories: [{ id: 2, name: 'work' }] }
     const req = { query: { limit: 5, offset: 10, name: 'wo' } }
     const res = createResponseMock()
 
-    CategoriesService.findCategories.mockResolvedValue(categories)
+    CategoriesService.findCategories.mockResolvedValue(result)
 
     await getCategories(req, res)
 
@@ -51,7 +51,20 @@ describe('Categories Controller', () => {
       name: 'wo',
     })
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.OK)
-    expect(res.json).toHaveBeenCalledWith(categories)
+    expect(res.json).toHaveBeenCalledWith(result)
+  })
+
+  test('gets an empty page of categories', async () => {
+    const result = { total: 0, categories: [] }
+    const req = { query: { name: 'none' } }
+    const res = createResponseMock()
+
+    CategoriesService.findCategories.mockResolvedValue(result)
+
+    await getCategories(req, res)
+
+    expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.OK)
+    expect(res.json).toHaveBeenCalledWith(result)
   })
 
   test('gets a category by id', async () => {

@@ -14,8 +14,8 @@ Self-review pass before handing over any non-trivial change, per `ai/workflow.md
 Walk the diff against `ai/rules/definition-of-done.md` and the rules of the areas it touches
 (`architecture`, `api`, `style`, `testing`, `scope`). Then check what the rules do not cover:
 
-- **Endpoints**: the status codes, the `Location` of a created resource, `204` with no body, an
-  empty array for an empty list, `404` for a missing row, the `categories` array of names on a quote.
+- **Endpoints**: the status codes, the `Location` of a created resource, `204` with no body, a
+  list answer shaped as in `ai/rules/api.md`, `404` for a missing row, the `categories` array of names on a quote.
 - **Validation**: every new input has a chain; a failure answers `400` with `VALIDATION_ERROR` and
   `fields` (`_root` for a request-wide error); numbers arrive as numbers; a bad ID or limit is
   rejected before a service runs.

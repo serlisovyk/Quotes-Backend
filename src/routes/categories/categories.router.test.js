@@ -5,7 +5,9 @@ import categoriesRouter from '#routes/categories'
 import { HTTP_STATUS, ROUTE, ERROR_CODE } from '#constants'
 
 vi.mock('#controllers/categories', () => ({
-  getCategories: vi.fn((req, res) => res.status(200).json({ query: req.query })),
+  getCategories: vi.fn((req, res) =>
+    res.status(200).json({ total: 0, categories: [], query: req.query }),
+  ),
   getCategoryById: vi.fn((req, res) => res.status(200).json({ id: req.params.id })),
 }))
 
@@ -24,6 +26,8 @@ describe('Categories Router', () => {
 
     expect(response.status).toBe(HTTP_STATUS.OK)
     expect(response.body).toEqual({
+      total: 0,
+      categories: [],
       query: {
         limit: '2',
         offset: '1',

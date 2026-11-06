@@ -5,13 +5,13 @@ import {
 } from '#utils/query-builders/category-query-builder'
 
 export async function findCategories({ limit, offset, name }) {
-  const categories = await Category.findAll({
+  const { rows: categories, count: total } = await Category.findAndCountAll({
     ...buildCategoryListQuery({ name }),
     limit,
     offset,
   })
 
-  return categories
+  return { total, categories }
 }
 
 export async function findSingleCategory(id) {

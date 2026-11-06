@@ -41,8 +41,8 @@ status code, an error.
 ## Recipes
 
 **A query parameter on a list** — a validator in the resource's chain (shared one if two resources use
-it), the controller passes it to the service, the query builder turns it into a `where`; an empty
-result stays an empty array.
+it), the controller passes it to the service, the query builder turns it into a `where`; the list
+answer keeps the shape in `ai/rules/api.md`.
 
 **A body field on a quote** — the validators for create (required) and update (`optional`), the
 controller destructures it, the service writes it inside the transaction, the model gets the column;

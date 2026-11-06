@@ -61,3 +61,7 @@ with the record that replaced it.
 - [`asyncHandler` stays with Express 5](2026-11-06-async-handler-with-express-5.md)
 - [`trust proxy` is a hop count](2026-11-06-trust-proxy-hop-count.md)
 - [Every shared module is imported through a folder barrel](2026-11-06-folder-barrels-for-aliases.md)
+
+### API contract
+
+- [Lists answer `{ total, <resource> }`](2026-11-06-list-response-format.md)
