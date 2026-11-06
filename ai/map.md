@@ -49,7 +49,7 @@ rules are in `ai/rules/architecture.md`.
 | `utils/database/`       | sync, ID sequence reset, connection close, LIKE escaping                                |
 | `utils/http/`           | response helpers (`sendOk`, `sendCreated`, `sendNoContent`), request log line           |
 | `utils/query-builders/` | quote, category and `iLike` filter query options                                        |
-| `utils/seed/`           | CSV row import, stream pause, category validation and splitting                         |
+| `utils/seed/`           | CSV row parsing, stream pause, category validation and splitting                        |
 | `utils/server/`         | graceful shutdown on SIGINT and SIGTERM                                                 |
 | `utils/validation/`     | formats validation results into `fields`; removes duplicate category names              |
 | `tests/`                | shared test mocks and helpers (`createRouterTestClient`, `runValidators`)               |
@@ -94,9 +94,11 @@ Paths are constants in `constants/app.constant.js` (`ROUTE`, `ROUTER_PATH`). Eve
 Run from the repo root; the guide is `src/database/seed/README.md`.
 
 - `database/seed/scripts/import-quotes.seed.js` — destructive (`sync({ force: true })`), refuses to run
-  unless `ALLOW_SEED_RESET=true`; imports `data/test-quotes.csv` in batches.
+  unless `ALLOW_SEED_RESET=true`; imports `data/test-quotes.csv` in batches. It parses a row with
+  `utils/seed/parse-quote-row` (no models, no services) and creates the quote and categories itself.
 - `database/seed/scripts/remove-rare-categories.seed.js` — removes categories attached to one or two
   quotes, and quotes left without categories; not guarded, still mutates data.
+- Both scripts close the database connection in `finally`, so the process exits by itself.
 - `database/seed/sampleSQLQueries.sql` — queries for manual inspection.
 
 ## Environment
@@ -109,6 +111,9 @@ containers.
 ## Docker
 
 - `Dockerfile` — `node:24-alpine`, production dependencies, a non-root user, `npm start`, port 3001.
+- `.dockerignore` — keeps out of the prod image `.git`, `.github`, `.husky`, `.claude`, `ai`, tests
+  (`**/*.test.js`, `src/tests`), Markdown, and linter and test configs. The seed scripts and the CSV
+  stay in the image.
 - `Dockerfile.dev` — `node:24-alpine`, all dependencies, `npm run dev`, port 3001.
 - `docker-compose.yml` — production-like: `postgres:16-alpine` and the `server` image
   `serhii5105/quotes-server:latest`, healthchecks, `.env`.
