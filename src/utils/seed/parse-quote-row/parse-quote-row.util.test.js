@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import parseQuoteRow from '#utils/seed/parse-quote-row'
+import { QUOTE_TEXT_MAX_LENGTH } from '#constants'
 
 describe('ParseQuoteRow Util', () => {
   test('returns null when categories are invalid', () => {
@@ -34,5 +35,15 @@ describe('ParseQuoteRow Util', () => {
     })
 
     expect(row.author).toHaveLength(255)
+  })
+
+  test('truncates text to the maximum length', () => {
+    const row = parseQuoteRow({
+      author: 'Author',
+      category: 'life',
+      quote: 'a'.repeat(QUOTE_TEXT_MAX_LENGTH + 100),
+    })
+
+    expect(row.text).toHaveLength(QUOTE_TEXT_MAX_LENGTH)
   })
 })
