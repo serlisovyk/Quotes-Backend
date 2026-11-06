@@ -1,8 +1,10 @@
+import { ConnectionError } from 'sequelize'
 import {
   AppError,
   InternalServerError,
   InvalidJsonError,
   PayloadTooLargeError,
+  ServiceUnavailableError,
   UnsupportedMediaTypeError,
 } from '#errors/classes'
 import { BODY_PARSER_ERROR_TYPE, ERROR_MESSAGE, HTTP_STATUS } from '#constants'
@@ -23,6 +25,10 @@ export default class ErrorFactory {
 
     if (error instanceof AppError) {
       return error
+    }
+
+    if (error instanceof ConnectionError) {
+      return new ServiceUnavailableError(ERROR_MESSAGE.SERVICE_UNAVAILABLE)
     }
 
     return new InternalServerError(ERROR_MESSAGE.INTERNAL_SERVER_ERROR)

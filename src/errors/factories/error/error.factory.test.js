@@ -1,9 +1,11 @@
+import { ConnectionRefusedError, ConnectionError } from 'sequelize'
 import { describe, expect, test } from 'vitest'
 import AppError from '#errors/classes/app'
 import {
   InternalServerError,
   InvalidJsonError,
   PayloadTooLargeError,
+  ServiceUnavailableError,
   UnsupportedMediaTypeError,
 } from '#errors/classes'
 import ErrorFactory from '#errors/factories/error'
@@ -62,6 +64,20 @@ describe('Error Factory', () => {
     })
 
     expect(ErrorFactory.from(error)).toBeInstanceOf(InternalServerError)
+    expect(ErrorFactory.shouldLog(error)).toBe(true)
+  })
+
+  test.each([
+    ['ConnectionError', new ConnectionError(new Error('connection lost'))],
+    [
+      'ConnectionRefusedError',
+      new ConnectionRefusedError(new Error('ECONNREFUSED')),
+    ],
+  ])('converts %s to ServiceUnavailableError', (_, error) => {
+    const result = ErrorFactory.from(error)
+
+    expect(result).toBeInstanceOf(ServiceUnavailableError)
+    expect(result.message).toBe(ERROR_MESSAGE.SERVICE_UNAVAILABLE)
     expect(ErrorFactory.shouldLog(error)).toBe(true)
   })
 

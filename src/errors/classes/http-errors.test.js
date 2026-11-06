@@ -5,6 +5,7 @@ import InternalServerError from './internal-server.error.js'
 import InvalidJsonError from './invalid-json.error.js'
 import NotFoundError from './not-found.error.js'
 import PayloadTooLargeError from './payload-too-large.error.js'
+import ServiceUnavailableError from './service-unavailable.error.js'
 import TooManyRequestsError from './too-many-requests.error.js'
 import UnsupportedMediaTypeError from './unsupported-media-type.error.js'
 import ValidationError from './validation.error.js'
@@ -59,6 +60,13 @@ describe('Http Errors', () => {
 
     expect(error.statusCode).toBe(HTTP_STATUS.TOO_MANY_REQUESTS)
     expect(error.code).toBe(ERROR_CODE.TOO_MANY_REQUESTS)
+  })
+
+  test('creates service unavailable error', () => {
+    const error = new ServiceUnavailableError('Service unavailable')
+
+    expect(error.statusCode).toBe(HTTP_STATUS.SERVICE_UNAVAILABLE)
+    expect(error.code).toBe(ERROR_CODE.SERVICE_UNAVAILABLE)
   })
 
   test('creates internal server error', () => {
