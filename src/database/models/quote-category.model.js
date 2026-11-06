@@ -2,10 +2,7 @@ import sequelize from '#database'
 
 const QuoteCategory = sequelize.define(
   'QuoteCategory',
-  {
-    // No need for any additional attributes in this table
-    // Sequelize will create QuoteId and CategoryId fields automatically
-  },
+  {},
   {
     indexes: [
       { name: 'QuoteCategories_CategoryId', fields: ['CategoryId'] },

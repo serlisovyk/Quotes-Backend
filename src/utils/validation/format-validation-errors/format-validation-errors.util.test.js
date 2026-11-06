@@ -10,7 +10,7 @@ function createValidationErrors(errors) {
   }
 }
 
-describe('FormatValidationErrorsUtil', () => {
+describe('FormatValidationErrors Util', () => {
   test('formats validation errors by field path', () => {
     const errors = createValidationErrors([
       { path: 'limit', msg: 'Invalid limit' },

@@ -20,7 +20,7 @@ export async function findQuotes({ limit, offset, author, text, category }) {
     return { total, quotes: pageQuotes }
   }
 
-  const ids = pageQuotes.map((q) => q.id)
+  const ids = pageQuotes.map(({ id }) => id)
 
   const quotes = await findQuotesByIds(ids)
 

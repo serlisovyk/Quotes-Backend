@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import removeDuplicateCategories from '#utils/validation/remove-duplicate-categories'
 
-describe('removeDuplicateCategories', () => {
+describe('RemoveDuplicateCategories Util', () => {
   test('removes repeated names and keeps the first occurrence order', () => {
     const result = removeDuplicateCategories(['life', 'work', 'life', 'work'])
 
