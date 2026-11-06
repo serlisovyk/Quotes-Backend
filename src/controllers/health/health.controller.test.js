@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { createResponseMock } from '#tests/mocks/response'
-import { HTTP_STATUS } from '#constants/app.constant'
+import { HTTP_STATUS } from '#constants'
 import { getHealth } from '#controllers/health'
 
 describe('Health Controller', () => {

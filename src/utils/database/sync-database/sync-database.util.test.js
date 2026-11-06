@@ -9,7 +9,7 @@ vi.mock('#database', () => ({
   },
 }))
 
-vi.mock('#models/associations', () => ({}))
+vi.mock('#models', () => ({}))
 
 vi.mock('#logger', () => ({
   default: {

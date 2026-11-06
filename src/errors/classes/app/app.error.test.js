@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { ERROR_CODE } from '#constants/errors.constant'
-import { HTTP_STATUS } from '#constants/app.constant'
+import { ERROR_CODE, HTTP_STATUS } from '#constants'
 import AppError from '#errors/classes/app'
 
 describe('App Error', () => {

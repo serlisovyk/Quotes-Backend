@@ -3,7 +3,7 @@ import * as QuotesController from '#controllers/quotes'
 import * as QuotesValidator from '#validators/quote'
 import asyncHandler from '#middlewares/async-handler'
 import validationErrorHandler from '#middlewares/validation-error'
-import { ROUTER_PATH } from '#constants/app.constant'
+import { ROUTER_PATH } from '#constants'
 
 const router = Router()
 

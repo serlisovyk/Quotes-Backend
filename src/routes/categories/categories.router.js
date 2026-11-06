@@ -3,7 +3,7 @@ import * as CategoriesController from '#controllers/categories'
 import * as CategoriesValidator from '#validators/category'
 import asyncHandler from '#middlewares/async-handler'
 import validationErrorHandler from '#middlewares/validation-error'
-import { ROUTER_PATH } from '#constants/app.constant'
+import { ROUTER_PATH } from '#constants'
 
 const router = Router()
 

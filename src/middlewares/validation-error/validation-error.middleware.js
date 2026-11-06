@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator'
-import ValidationError from '#error-classes/validation'
+import { ValidationError } from '#errors/classes'
 import formatValidationErrors from '#utils/validation/format-validation-errors'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { ERROR_MESSAGE } from '#constants'
 
 function validationErrorHandler(req, _, next) {
   const errors = validationResult(req)

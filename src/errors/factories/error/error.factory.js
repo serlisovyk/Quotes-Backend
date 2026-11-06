@@ -1,7 +1,5 @@
-import { ERROR_MESSAGE } from '#constants/errors.constant'
-import AppError from '#errors/classes/app'
-import InternalServerError from '#error-classes/internal-server'
-import InvalidJsonError from '#error-classes/invalid-json'
+import { ERROR_MESSAGE } from '#constants'
+import { AppError, InternalServerError, InvalidJsonError } from '#errors/classes'
 
 export default class ErrorFactory {
   static from(error) {

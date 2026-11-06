@@ -1,4 +1,4 @@
-import { ERROR_CODE } from '#constants/errors.constant'
+import { ERROR_CODE } from '#constants'
 import BadRequestError from './bad-request.error.js'
 
 export default class ValidationError extends BadRequestError {

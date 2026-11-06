@@ -1,5 +1,4 @@
-import { ERROR_CODE } from '#constants/errors.constant'
-import { HTTP_STATUS } from '#constants/app.constant'
+import { ERROR_CODE, HTTP_STATUS } from '#constants'
 import AppError from '#errors/classes/app'
 
 export default class InternalServerError extends AppError {

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { runValidators } from '#tests/utils/run-validators'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { ERROR_MESSAGE } from '#constants'
 import {
   getCategoriesValidators,
   getSingleCategoryValidators,

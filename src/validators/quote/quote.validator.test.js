@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { runValidators } from '#tests/utils/run-validators'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
-import { MAX_RANDOM_QUOTES_LIMIT } from '#constants/app.constant'
+import { ERROR_MESSAGE, MAX_RANDOM_QUOTES_LIMIT } from '#constants'
 import {
   deleteSingleQuoteValidators,
   getQuotesValidators,

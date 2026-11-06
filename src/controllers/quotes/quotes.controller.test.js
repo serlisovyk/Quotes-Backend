@@ -5,9 +5,9 @@ import {
   HTTP_STATUS,
   RANDOM_QUOTES_LIMIT,
   ROUTE,
-} from '#constants/app.constant'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
-import NotFoundError from '#error-classes/not-found'
+  ERROR_MESSAGE,
+} from '#constants'
+import { NotFoundError } from '#errors/classes'
 import * as QuotesService from '#services/quotes'
 import { createResponseMock } from '#tests/mocks/response'
 import {

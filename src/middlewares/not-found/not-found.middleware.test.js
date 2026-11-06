@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
-import NotFoundError from '#error-classes/not-found'
-import { ERROR_CODE, ERROR_MESSAGE } from '#constants/errors.constant'
+import { NotFoundError } from '#errors/classes'
+import { ERROR_CODE, ERROR_MESSAGE } from '#constants'
 import notFoundMiddleware from '#middlewares/not-found'
 
 describe('NotFound Middleware', () => {

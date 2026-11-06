@@ -1,17 +1,9 @@
-import { describe, expect, test, vi } from 'vitest'
-import {
-  ORDER_BY_ID_ASC,
-  PUBLIC_MODEL_ATTRIBUTES,
-} from '#constants/query-options.constant'
+import { describe, expect, test } from 'vitest'
+import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 import {
   buildCategoryDetailsQuery,
   buildCategoryListQuery,
 } from '#utils/query-builders/category-query-builder'
-
-vi.mock('#constants/query-options.constant', () => ({
-  ORDER_BY_ID_ASC: [['id', 'ASC']],
-  PUBLIC_MODEL_ATTRIBUTES: { exclude: ['createdAt', 'updatedAt'] },
-}))
 
 describe('CategoryQueryBuilder Util', () => {
   test('builds category list query without filters', () => {

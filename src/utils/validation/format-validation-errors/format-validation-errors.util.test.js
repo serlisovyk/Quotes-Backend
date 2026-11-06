@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { VALIDATION_ROOT_FIELD } from '#constants/validation.constant'
+import { VALIDATION_ROOT_FIELD } from '#constants'
 import formatValidationErrors from '#utils/validation/format-validation-errors'
 
 function createValidationErrors(errors) {

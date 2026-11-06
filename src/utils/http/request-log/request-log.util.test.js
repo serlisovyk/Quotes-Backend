@@ -1,9 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import {
-  HTTP_STATUS,
-  ROUTE,
-  SKIPPED_REQUEST_LOG_ROUTES,
-} from '#constants/app.constant'
+import { HTTP_STATUS, ROUTE, SKIPPED_REQUEST_LOG_ROUTES } from '#constants'
 import Logger from '#logger'
 import {
   buildRequestLogMessage,

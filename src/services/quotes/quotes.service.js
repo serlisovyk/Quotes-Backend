@@ -1,4 +1,4 @@
-import Quote from '#models/quote.model'
+import { Quote } from '#models'
 import sequelize from '#database'
 import {
   buildQuoteDetailsQuery,

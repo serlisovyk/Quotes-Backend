@@ -1,16 +1,12 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import Category from '#models/category.model'
-import Quote from '#models/quote.model'
+import { Category, Quote } from '#models'
 import Logger from '#logger'
 import resetSequence from '#utils/database/reset-sequence'
 import resetIdSequences from '#utils/database/reset-id-sequences'
 
-vi.mock('#models/category.model', () => ({
-  default: { tableName: 'Categories' },
-}))
-
-vi.mock('#models/quote.model', () => ({
-  default: { tableName: 'Quotes' },
+vi.mock('#models', () => ({
+  Category: { tableName: 'Categories' },
+  Quote: { tableName: 'Quotes' },
 }))
 
 vi.mock('#logger', () => ({

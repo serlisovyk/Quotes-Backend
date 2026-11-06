@@ -1,5 +1,5 @@
 import Logger from '#logger'
-import { HTTP_STATUS, SKIPPED_REQUEST_LOG_ROUTES } from '#constants/app.constant'
+import { HTTP_STATUS, SKIPPED_REQUEST_LOG_ROUTES } from '#constants'
 
 export function shouldSkipRequestLog(req) {
   return SKIPPED_REQUEST_LOG_ROUTES.includes(req.path)

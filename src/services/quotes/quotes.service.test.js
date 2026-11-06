@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import sequelize from '#database'
-import Quote from '#models/quote.model'
+import { Quote } from '#models'
 import {
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
@@ -24,8 +24,8 @@ vi.mock('#database', () => ({
   },
 }))
 
-vi.mock('#models/quote.model', () => ({
-  default: {
+vi.mock('#models', () => ({
+  Quote: {
     create: vi.fn(),
     destroy: vi.fn(),
     findAll: vi.fn(),

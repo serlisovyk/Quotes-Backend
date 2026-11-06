@@ -1,8 +1,7 @@
-import NotFoundError from '#error-classes/not-found'
+import { NotFoundError } from '#errors/classes'
 import * as CategoriesService from '#services/categories'
 import { sendOk } from '#utils/http/response'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
-import { DEFAULT_CATEGORIES_LIMIT, DEFAULT_OFFSET } from '#constants/app.constant'
+import { ERROR_MESSAGE, DEFAULT_CATEGORIES_LIMIT, DEFAULT_OFFSET } from '#constants'
 
 export async function getCategories(req, res) {
   const {

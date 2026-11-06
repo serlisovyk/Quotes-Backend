@@ -1,10 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
+import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 import {
-  ORDER_BY_ID_ASC,
-  PUBLIC_MODEL_ATTRIBUTES,
   QUOTE_CATEGORY_INCLUDE,
-} from '#constants/query-options.constant'
-import {
   buildQuoteCategoryInclude,
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
@@ -13,15 +10,7 @@ import {
   buildRandomQuotesQuery,
 } from '#utils/query-builders/quote-query-builder'
 
-vi.mock('#constants/query-options.constant', () => ({
-  ORDER_BY_ID_ASC: [['id', 'ASC']],
-  PUBLIC_MODEL_ATTRIBUTES: { exclude: ['createdAt', 'updatedAt'] },
-  QUOTE_CATEGORY_INCLUDE: {
-    attributes: ['name'],
-    model: 'Category',
-    through: { attributes: [] },
-  },
-}))
+vi.mock('#models', () => ({ Category: 'Category' }))
 
 describe('QuoteQueryBuilder Util', () => {
   test('builds quote where filters', () => {

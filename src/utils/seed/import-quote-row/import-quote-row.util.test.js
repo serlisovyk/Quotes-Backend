@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import Quote from '#models/quote.model'
+import { Quote } from '#models'
 import { findOrCreateCategories } from '#services/categories'
 import importQuoteRow from '#utils/seed/import-quote-row'
 
-vi.mock('#models/quote.model', () => ({
-  default: {
+vi.mock('#models', () => ({
+  Quote: {
     create: vi.fn(),
   },
 }))

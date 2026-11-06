@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
     "paths": {
-      "#config/*": ["./src/config/*.js"],
-      "#constants/*": ["./src/constants/*.js"],
+      "#config": ["./src/config/index.js"],
+      "#constants": ["./src/constants/index.js"],
       "#controllers/*": ["./src/controllers/*/index.js"],
       "#database": ["./src/database/db.js"],
       "#errors/*": ["./src/errors/*/index.js"],
-      "#error-classes/*": ["./src/errors/classes/*.error.js"],
       "#logger": ["./src/logger/logger.service.js"],
       "#middlewares/*": ["./src/middlewares/*/index.js"],
+      "#models": ["./src/database/models/index.js"],
       "#models/hooks": ["./src/database/models/hooks/index.js"],
-      "#models/*": ["./src/database/models/*.js"],
       "#routes/*": ["./src/routes/*/index.js"],
       "#services/*": ["./src/services/*/index.js"],
       "#tests/*": ["./src/tests/*/index.js"],

@@ -3,7 +3,7 @@ import path from 'path'
 import csv from 'csv-parser'
 import { fileURLToPath } from 'url'
 import sequelize from '#database'
-import '#models/associations'
+import '#models'
 import Logger from '#logger'
 import importQuoteRow from '#utils/seed/import-quote-row'
 import pauseStream from '#utils/seed/pause-stream'
@@ -11,7 +11,7 @@ import {
   ALLOW_SEED_RESET,
   CSV_IMPORT_BATCH_SIZE,
   CSV_IMPORT_BATCH_TIMEOUT,
-} from '#config/app.config'
+} from '#config'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

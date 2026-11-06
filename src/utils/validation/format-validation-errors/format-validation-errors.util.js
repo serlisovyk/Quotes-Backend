@@ -1,4 +1,4 @@
-import { VALIDATION_ROOT_FIELD } from '#constants/validation.constant'
+import { VALIDATION_ROOT_FIELD } from '#constants'
 
 export default function formatValidationErrors(errors) {
   return errors.array().reduce((fields, error) => {

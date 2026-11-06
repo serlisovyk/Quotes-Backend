@@ -1,6 +1,6 @@
 import pg from 'pg'
 import { Sequelize } from 'sequelize'
-import { DATABASE_URL, DB_DIALECT } from '#config/app.config'
+import { DATABASE_URL, DB_DIALECT } from '#config'
 
 const sequelize = new Sequelize(DATABASE_URL, {
   dialect: DB_DIALECT,

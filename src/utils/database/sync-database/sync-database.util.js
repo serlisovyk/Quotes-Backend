@@ -1,6 +1,6 @@
 import sequelize from '#database'
 import Logger from '#logger'
-import '#models/associations'
+import '#models'
 
 export default async function syncDatabase() {
   try {

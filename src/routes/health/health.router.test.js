@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { createRouterTestClientFactory } from '#tests/utils/router-test-client'
-import { HTTP_STATUS, ROUTE } from '#constants/app.constant'
+import { HTTP_STATUS, ROUTE } from '#constants'
 import healthRouter from '#routes/health'
 
 const requestHealthRouter = createRouterTestClientFactory({

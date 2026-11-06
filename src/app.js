@@ -14,8 +14,8 @@ import {
   RATE_LIMIT_MAX_REQUESTS,
   ROUTE,
   TRUST_PROXY_HOPS,
-} from '#constants/app.constant'
-import '#models/associations'
+} from '#constants'
+import '#models'
 
 const app = express()
 

@@ -1,4 +1,4 @@
-import Quote from '#models/quote.model'
+import { Quote } from '#models'
 import { findOrCreateCategories } from '#services/categories'
 import validateAndSplitCategories from '#utils/seed/validate-and-split-categories'
 

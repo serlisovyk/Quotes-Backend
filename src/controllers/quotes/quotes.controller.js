@@ -1,12 +1,12 @@
 import * as QuotesService from '#services/quotes'
-import NotFoundError from '#error-classes/not-found'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { NotFoundError } from '#errors/classes'
 import {
+  ERROR_MESSAGE,
   DEFAULT_OFFSET,
   DEFAULT_QUOTES_LIMIT,
   RANDOM_QUOTES_LIMIT,
   ROUTE,
-} from '#constants/app.constant'
+} from '#constants'
 import { sendCreated, sendNoContent, sendOk } from '#utils/http/response'
 
 export async function getQuotes(req, res) {

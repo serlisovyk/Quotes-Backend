@@ -1,5 +1,5 @@
-import NotFoundError from '#error-classes/not-found'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
+import { NotFoundError } from '#errors/classes'
+import { ERROR_MESSAGE } from '#constants'
 
 function notFoundMiddleware(req, _, next) {
   next(new NotFoundError(ERROR_MESSAGE.ROUTE_NOT_FOUND(req.method, req.originalUrl)))

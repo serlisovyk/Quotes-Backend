@@ -1,8 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { ERROR_CODE, ERROR_MESSAGE } from '#constants/errors.constant'
+import { ERROR_CODE, ERROR_MESSAGE } from '#constants'
 import AppError from '#errors/classes/app'
-import InternalServerError from '#error-classes/internal-server'
-import InvalidJsonError from '#error-classes/invalid-json'
+import { InternalServerError, InvalidJsonError } from '#errors/classes'
 import ErrorFactory from '#errors/factories/error'
 
 describe('Error Factory', () => {

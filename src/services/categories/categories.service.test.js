@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import Category from '#models/category.model'
+import { Category } from '#models'
 import {
   buildCategoryDetailsQuery,
   buildCategoryListQuery,
@@ -11,8 +11,8 @@ import {
   setQuoteCategories,
 } from '#services/categories'
 
-vi.mock('#models/category.model', () => ({
-  default: {
+vi.mock('#models', () => ({
+  Category: {
     findAll: vi.fn(),
     findByPk: vi.fn(),
     findOrCreate: vi.fn(),

@@ -1,8 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { query } from 'express-validator'
 import { runValidators } from '#tests/utils/run-validators'
-import { ERROR_MESSAGE } from '#constants/errors.constant'
-import { MAX_LIST_LIMIT } from '#constants/app.constant'
+import { ERROR_MESSAGE, MAX_LIST_LIMIT } from '#constants'
 import {
   categoryNameValidator,
   categorySearchValidator,

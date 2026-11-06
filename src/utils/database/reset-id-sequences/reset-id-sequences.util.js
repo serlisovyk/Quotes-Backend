@@ -1,5 +1,4 @@
-import Category from '#models/category.model'
-import Quote from '#models/quote.model'
+import { Category, Quote } from '#models'
 import Logger from '#logger'
 import resetSequence from '#utils/database/reset-sequence'
 

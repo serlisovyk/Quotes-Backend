@@ -1,7 +1,4 @@
-import {
-  ORDER_BY_ID_ASC,
-  PUBLIC_MODEL_ATTRIBUTES,
-} from '#constants/query-options.constant'
+import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
 import { buildLikeFilters } from '#utils/query-builders/query-filter-builder'
 
 export function buildCategoryListQuery({ name }) {
