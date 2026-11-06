@@ -256,6 +256,14 @@ The API returns errors in a consistent shape:
 
 Validation errors that are related to the whole request instead of a specific field are placed under the `_root` key.
 
+Errors that happen before a route runs use the same shape, without `fields`:
+
+| Status | Code                     | When                                                       |
+| ------ | ------------------------ | ---------------------------------------------------------- |
+| 400    | `INVALID_JSON`           | The request body is not valid JSON                         |
+| 413    | `PAYLOAD_TOO_LARGE`      | The JSON body is larger than `50kb`                        |
+| 415    | `UNSUPPORTED_MEDIA_TYPE` | The body uses an unsupported charset or `Content-Encoding` |
+
 ## 🌱 Seed Data
 
 Seed scripts live in `src/database/seed/scripts` and use helpers from `src/utils/seed`.

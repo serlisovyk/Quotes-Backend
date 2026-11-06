@@ -35,7 +35,10 @@ The contract every endpoint keeps: validation, errors and responses. Why: decisi
   thrown by the controller.
 - `asyncHandler` wraps every async controller in the router and hands a rejection to the central
   error middleware, which normalizes it through `ErrorFactory`. An error that is not an `AppError`
-  is logged and answered as `INTERNAL_SERVER_ERROR`.
+  is logged and answered as `INTERNAL_SERVER_ERROR`, except the errors `express.json` raises before a
+  route runs: invalid JSON is `400 INVALID_JSON`, a body over `JSON_BODY_LIMIT` is `413
+PAYLOAD_TOO_LARGE`, an unsupported charset or encoding is `415 UNSUPPORTED_MEDIA_TYPE`; none of
+  them is logged. `ErrorFactory` recognizes them by the parser error `type`.
 
 ## Responses
 
