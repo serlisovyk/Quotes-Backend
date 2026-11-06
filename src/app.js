@@ -30,7 +30,9 @@ app.use(requestLoggerMiddleware)
 
 app.use(ROUTE.HEALTH, healthRouter)
 
-app.use(rateLimit({ windowMs: MINUTES_IN_MS.FIFTEEN, max: RATE_LIMIT_MAX_REQUESTS }))
+app.use(
+  rateLimit({ windowMs: MINUTES_IN_MS.FIFTEEN, limit: RATE_LIMIT_MAX_REQUESTS }),
+)
 
 app.use(ROUTE.QUOTES, quotesRouter)
 app.use(ROUTE.CATEGORIES, categoriesRouter)
