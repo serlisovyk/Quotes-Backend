@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
+      "#app": ["./src/app.js"],
       "#config": ["./src/config/index.js"],
       "#constants": ["./src/constants/index.js"],
       "#controllers/*": ["./src/controllers/*/index.js"],
@@ -17,5 +18,5 @@
       "#validators/*": ["./src/validators/*/index.js"]
     }
   },
-  "include": ["./src/**/*.js", "vitest.config.js"]
+  "include": ["./src/**/*.js", "vitest.config.js", "vitest.integration.config.js"]
 }

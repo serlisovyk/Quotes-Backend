@@ -4,7 +4,12 @@ import prettier from 'eslint-config-prettier'
 import globals from 'globals'
 
 const SOURCE_FILES = 'src/**/*.js'
-const NODE_FILES = [SOURCE_FILES, 'eslint.config.js', 'vitest.config.js']
+const NODE_FILES = [
+  SOURCE_FILES,
+  'eslint.config.js',
+  'vitest.config.js',
+  'vitest.integration.config.js',
+]
 const ROUTES_FILES = 'src/routes/**/*.js'
 const SERVICES_FILES = 'src/services/**/*.js'
 const CONSTANTS_FILES = 'src/constants/**/*.js'

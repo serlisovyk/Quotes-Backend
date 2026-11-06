@@ -6,5 +6,6 @@ export default defineConfig({
     restoreMocks: true,
     environment: 'node',
     include: ['src/**/*.test.js'],
+    exclude: ['src/**/*.int.test.js'],
   },
 })

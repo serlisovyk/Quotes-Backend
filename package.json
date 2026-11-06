@@ -16,7 +16,8 @@
     "format:check": "prettier . --check",
     "prepare": "husky",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:integration": "vitest run --config vitest.integration.config.js"
   },
   "dependencies": {
     "compression": "^1.8.2",
@@ -45,6 +46,7 @@
     "uuid": "^11.1.1"
   },
   "imports": {
+    "#app": "./src/app.js",
     "#config": "./src/config/index.js",
     "#constants": "./src/constants/index.js",
     "#controllers/*": "./src/controllers/*/index.js",
