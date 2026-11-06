@@ -1,4 +1,4 @@
-﻿# 🌱 Seed Data
+# 🌱 Seed Data
 
 This folder contains database seed assets and maintenance scripts for the quotes database.
 
