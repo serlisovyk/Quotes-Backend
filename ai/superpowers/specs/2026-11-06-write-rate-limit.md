@@ -24,8 +24,8 @@ with the plain text of `express-rate-limit`, not the API error shape.
 | ------ | ------------------- | ------------------------------------------- |
 | `429`  | `TOO_MANY_REQUESTS` | `Too many requests, please try again later` |
 
-- Both send the standard `RateLimit-*` headers (`RateLimit`, `RateLimit-Policy`; plus `Retry-After`
-  on `429`) and no legacy `X-RateLimit-*` headers.
+- Both send the standard `RateLimit-*` headers (`RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset`, `RateLimit-Policy`;
+  plus `Retry-After` on `429`) and no legacy `X-RateLimit-*` headers.
 - The write limit counts a request before validation, so invalid writes count too.
 - `/health` stays outside both limits.
 

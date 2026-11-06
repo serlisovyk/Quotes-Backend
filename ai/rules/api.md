@@ -48,3 +48,4 @@ PAYLOAD_TOO_LARGE`, an unsupported charset or encoding is `415 UNSUPPORTED_MEDIA
 - A list endpoint answers `{ total, <resource> }` (`{ total, quotes }`, `{ total, categories }`): `total` counts every match, the array is the requested page, and an empty result is `total: 0` with an empty array, never an error (decision `list-response-format`).
 - A public model answer leaves out `createdAt` and `updatedAt` (`PUBLIC_MODEL_ATTRIBUTES`).
 - `/health` is mounted before the rate limiter and is not logged.
+- Two rate limiters, both in `middlewares/rate-limit`: `generalRateLimiter` for everything after `/health`, and the stricter `writeRateLimiter` on `POST`, `PATCH` and `DELETE /quotes`. Their limits are constants. Over the limit the answer is `429 TOO_MANY_REQUESTS` in the common error shape, thrown as a `TooManyRequestsError` from the limiter handler, never the plain text of `express-rate-limit`; `RateLimit-*` headers are sent.

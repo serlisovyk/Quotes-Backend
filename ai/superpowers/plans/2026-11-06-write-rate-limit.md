@@ -34,7 +34,7 @@ limit })` and two ready limiters, `generalRateLimiter` and `writeRateLimiter`. T
 - `constants`: `HTTP_STATUS.TOO_MANY_REQUESTS`, `ERROR_CODE.TOO_MANY_REQUESTS`,
   `ERROR_MESSAGE.TOO_MANY_REQUESTS`, `WRITE_RATE_LIMIT_MAX_REQUESTS = 20`.
 - `errors/classes`: `TooManyRequestsError`, exported from the barrel, covered in `http-errors.test.js`.
-- `middlewares/rate-limit`: the factory (`standardHeaders: 'draft-8'`, `legacyHeaders: false`),
+- `middlewares/rate-limit`: the factory (`standardHeaders: 'draft-6'`, `legacyHeaders: false`),
   `generalRateLimiter`, `writeRateLimiter`, barrel, tests.
 - `app.js`: uses `generalRateLimiter`, drops the direct `express-rate-limit` import.
 - `routes/quotes`: `writeRateLimiter` before the validators of `POST`, `PATCH`, `DELETE`.

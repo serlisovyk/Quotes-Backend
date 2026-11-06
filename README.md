@@ -17,7 +17,7 @@ This backend provides quote and category data through a compact Express + Sequel
 - Centralized application errors and consistent error responses
 - Express Validator request validation
 - Basic request logging middleware
-- Helmet, CORS, rate limiting, and JSON body limits
+- Helmet, CORS, a general and a stricter write rate limit, and JSON body limits
 - Graceful HTTP/database shutdown
 - Docker Compose setup for production-like and development environments
 - Vitest test suite for controllers, routes, services, middlewares, errors, and utilities
@@ -248,6 +248,17 @@ GET /categories/:id
 
 Returns a single category by numeric ID.
 
+## 🚦 Rate Limits
+
+Limits are counted per client IP over a 15 minute window, in memory of the running process. `/health` is not limited.
+
+| Limit   | Applies to                                                | Max requests |
+| ------- | --------------------------------------------------------- | ------------ |
+| General | every endpoint except `/health`                           | `100`        |
+| Write   | `POST /quotes`, `PATCH /quotes/:id`, `DELETE /quotes/:id` | `20`         |
+
+A write request counts against both limits, a read only against the general one, so reads keep working after the write limit is spent. Over a limit the API answers `429` with `TOO_MANY_REQUESTS` in the [error format](#-error-format) and sends the `RateLimit-*` headers (`Retry-After` on `429`).
+
 ## ❌ Error Format
 
 The API returns errors in a consistent shape:
@@ -266,13 +277,14 @@ The API returns errors in a consistent shape:
 
 Validation errors that are related to the whole request instead of a specific field are placed under the `_root` key.
 
-Errors that happen before a route runs use the same shape, without `fields`:
+Errors that happen before a route runs, and rate limit errors, use the same shape, without `fields`:
 
 | Status | Code                     | When                                                       |
 | ------ | ------------------------ | ---------------------------------------------------------- |
 | 400    | `INVALID_JSON`           | The request body is not valid JSON                         |
 | 413    | `PAYLOAD_TOO_LARGE`      | The JSON body is larger than `50kb`                        |
 | 415    | `UNSUPPORTED_MEDIA_TYPE` | The body uses an unsupported charset or `Content-Encoding` |
+| 429    | `TOO_MANY_REQUESTS`      | A rate limit is exceeded                                   |
 
 ## 🌱 Seed Data
 
