@@ -36,25 +36,25 @@ rules are in `ai/rules/architecture.md`.
 
 ## Sources (`src/`)
 
-| Folder                  | Holds                                                                                     |
-| ----------------------- | ----------------------------------------------------------------------------------------- |
-| `config/`               | `app.config.js`, the one reader of environment variables, and its barrel                  |
-| `constants/`            | app, error, query-option and validation constants                                         |
-| `routes/<resource>/`    | `root`, `quotes`, `categories`, `health` routers                                          |
-| `validators/`           | `quote`, `category`, and `shared` (limit, offset, id, category name chains)               |
-| `controllers/`          | `root`, `quotes`, `categories`, `health` handlers                                         |
-| `services/`             | `quotes`, `categories` and `health` logic and model calls                                 |
-| `database/`             | `db.js` (the Sequelize instance), `models/` (with `associations.js`, `hooks/`), `seed/`   |
-| `middlewares/`          | `async-handler`, `error`, `not-found`, `rate-limit`, `request-logger`, `validation-error` |
-| `errors/`               | `classes/` (`AppError` and its subclasses), `factories/error/` (`ErrorFactory`)           |
-| `logger/`               | `Logger` over `console`                                                                   |
-| `utils/database/`       | sync, ID sequence reset, connection close, LIKE escaping                                  |
-| `utils/http/`           | response helpers (`sendOk`, `sendCreated`, `sendNoContent`), request log line             |
-| `utils/query-builders/` | quote, category and `iLike` filter query options                                          |
-| `utils/seed/`           | CSV row parsing, stream pause, category validation and splitting                          |
-| `utils/server/`         | graceful shutdown on SIGINT and SIGTERM, with a forced-exit timeout                       |
-| `utils/validation/`     | formats validation results into `fields`; removes duplicate category names                |
-| `tests/`                | shared test mocks and helpers (`createRouterTestClient`, `runValidators`)                 |
+| Folder                  | Holds                                                                                                      |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `config/`               | `app.config.js`, the one reader of environment variables, and its barrel                                   |
+| `constants/`            | app, error, query-option and validation constants                                                          |
+| `routes/<resource>/`    | `root`, `quotes`, `categories`, `health` routers                                                           |
+| `validators/`           | `quote`, `category`, and `shared` (limit, offset, id, category name chains)                                |
+| `controllers/`          | `root`, `quotes`, `categories`, `health` handlers                                                          |
+| `services/`             | `quotes`, `categories` and `health` logic and model calls                                                  |
+| `database/`             | `db.js` (the Sequelize instance), `models/` (with `associations.js`, `hooks/`), `seed/`                    |
+| `middlewares/`          | `async-handler`, `cache-control`, `error`, `not-found`, `rate-limit`, `request-logger`, `validation-error` |
+| `errors/`               | `classes/` (`AppError` and its subclasses), `factories/error/` (`ErrorFactory`)                            |
+| `logger/`               | `Logger` over `console`                                                                                    |
+| `utils/database/`       | sync, ID sequence reset, connection close, LIKE escaping                                                   |
+| `utils/http/`           | response helpers (`sendOk`, `sendCreated`, `sendNoContent`), request log line                              |
+| `utils/query-builders/` | quote, category and `iLike` filter query options                                                           |
+| `utils/seed/`           | CSV row parsing, stream pause, category validation and splitting                                           |
+| `utils/server/`         | graceful shutdown on SIGINT and SIGTERM, with a forced-exit timeout                                        |
+| `utils/validation/`     | formats validation results into `fields`; removes duplicate category names                                 |
+| `tests/`                | shared test mocks and helpers (`createRouterTestClient`, `runValidators`)                                  |
 
 Tests (`*.test.js`) sit next to the module they check.
 
@@ -75,7 +75,7 @@ Native `package.json#imports`; the `#` prefix is the rule (`ai/rules/style.md`).
 
 Paths are constants in `constants/app.constant.js` (`ROUTE`, `ROUTER_PATH`). `/` and `/health` are mounted first;
 everything after them is rate limited (`generalRateLimiter`); `POST`, `PATCH` and `DELETE /quotes` also pass `writeRateLimiter`
-(`middlewares/rate-limit`). Query and body rules are in the validators, answers in the controllers.
+(`middlewares/rate-limit`). GET routes set `Cache-Control` through `middlewares/cache-control`, the error middleware sets `no-store`, and `compression` runs in `app.js`. Query and body rules are in the validators, answers in the controllers.
 
 | Endpoint                                                  | Handler                                                                          |
 | --------------------------------------------------------- | -------------------------------------------------------------------------------- |

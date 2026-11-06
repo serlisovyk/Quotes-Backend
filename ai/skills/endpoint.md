@@ -19,7 +19,8 @@ status code, an error.
      `ERROR_MESSAGE` entries (a message that needs a value is a function).
    - **Validator** — Express Validator chains in `validators/<resource>`; reuse `validators/shared`;
      `.toInt()` for numbers; messages from the constants.
-   - **Route** — `routes/<resource>/<resource>.router.js`: the path constant, the validators,
+   - **Route** — `routes/<resource>/<resource>.router.js`: the path constant, for a `GET` first
+     `cacheControl(CACHE_CONTROL.PUBLIC_SHORT | NO_STORE)`, then the validators,
      `validationErrorHandler`, `asyncHandler(controller)`, in that order. A new router is mounted
      explicitly in `app.js`.
    - **Controller** — read the validated values, apply the defaults from the constants, call one

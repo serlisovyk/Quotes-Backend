@@ -19,6 +19,7 @@ This backend provides quote and category data through a compact Express + Sequel
 - Basic request logging middleware
 - Helmet, CORS, a general and a stricter write rate limit, and JSON body limits
 - Welcome root with endpoint navigation and a database-aware health check
+- Short `Cache-Control` on reads and gzip/brotli response compression
 - Graceful HTTP/database shutdown with a forced-exit timeout
 - Docker Compose setup for production-like and development environments
 - Vitest test suite for controllers, routes, services, middlewares, errors, and utilities
@@ -262,6 +263,17 @@ GET /categories/:id
 ```
 
 Returns a single category by numeric ID.
+
+## 💾 Caching and Compression
+
+| Response                                                                                     | `Cache-Control`      |
+| -------------------------------------------------------------------------------------------- | -------------------- |
+| `200` of `GET /`, `GET /quotes`, `GET /quotes/:id`, `GET /categories`, `GET /categories/:id` | `public, max-age=60` |
+| `GET /quotes/random`, `GET /health`                                                          | `no-store`           |
+| every error (`4xx`, `5xx`)                                                                   | `no-store`           |
+| `POST`, `PATCH`, `DELETE`                                                                    | no header            |
+
+Express still sends an `ETag`, so a repeated request with `If-None-Match` gets `304`. Responses over 1 kb are compressed when the client sends a matching `Accept-Encoding` (`gzip`, `deflate` or `br`); they carry `Content-Encoding` and `Vary: Accept-Encoding`.
 
 ## 🚦 Rate Limits
 
