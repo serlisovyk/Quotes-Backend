@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import quotesRouter from '#routes/quotes'
 import categoriesRouter from '#routes/categories'
 import healthRouter from '#routes/health'
+import rootRouter from '#routes/root'
 import errorMiddleware from '#middlewares/error'
 import notFoundMiddleware from '#middlewares/not-found'
 import requestLoggerMiddleware from '#middlewares/request-logger'
@@ -22,6 +23,7 @@ app.use(express.json({ limit: JSON_BODY_LIMIT }))
 
 app.use(requestLoggerMiddleware)
 
+app.use(ROUTE.ROOT, rootRouter)
 app.use(ROUTE.HEALTH, healthRouter)
 
 app.use(generalRateLimiter)

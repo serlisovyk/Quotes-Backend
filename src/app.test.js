@@ -2,6 +2,7 @@ import request from 'supertest'
 import { describe, expect, test, vi } from 'vitest'
 import Logger from '#logger'
 import {
+  API_INFO,
   ERROR_CODE,
   ERROR_MESSAGE,
   HTTP_STATUS,
@@ -69,5 +70,15 @@ describe('App body parsing errors', () => {
     expect(res.status).toBe(HTTP_STATUS.BAD_REQUEST)
     expect(res.body.error.code).toBe(ERROR_CODE.INVALID_JSON)
     expect(Logger.error).not.toHaveBeenCalled()
+  })
+})
+
+describe('App root', () => {
+  test('answers 200 with the welcome message and the endpoints', async () => {
+    const res = await request(app).get(ROUTE.ROOT)
+
+    expect(res.status).toBe(HTTP_STATUS.OK)
+    expect(res.body.message).toBe(API_INFO.message)
+    expect(res.body.endpoints).toEqual(API_INFO.endpoints)
   })
 })

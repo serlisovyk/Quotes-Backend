@@ -13,3 +13,7 @@ export function sendCreated(res, data, location) {
 export function sendNoContent(res) {
   return res.status(HTTP_STATUS.NO_CONTENT).send()
 }
+
+export function sendServiceUnavailable(res, data) {
+  return res.status(HTTP_STATUS.SERVICE_UNAVAILABLE).json(data)
+}

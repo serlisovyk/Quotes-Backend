@@ -1,6 +1,11 @@
 import { describe, expect, test } from 'vitest'
 import { createResponseMock } from '#tests/mocks/response'
-import { sendCreated, sendNoContent, sendOk } from '#utils/http/response'
+import {
+  sendCreated,
+  sendNoContent,
+  sendOk,
+  sendServiceUnavailable,
+} from '#utils/http/response'
 import { HTTP_STATUS } from '#constants'
 
 describe('Response Util', () => {
@@ -43,5 +48,15 @@ describe('Response Util', () => {
 
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.NO_CONTENT)
     expect(res.send).toHaveBeenCalled()
+  })
+
+  test('sends service unavailable response', () => {
+    const res = createResponseMock()
+    const data = { status: 'error' }
+
+    sendServiceUnavailable(res, data)
+
+    expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.SERVICE_UNAVAILABLE)
+    expect(res.json).toHaveBeenCalledWith(data)
   })
 })
