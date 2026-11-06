@@ -15,7 +15,7 @@ services:
       retries: 10
 
   server:
-    image: serhii5105/quotes-server:latest
+    build: .
     restart: unless-stopped
     env_file:
       - ./.env
