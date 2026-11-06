@@ -85,6 +85,7 @@ Paths are constants in `constants/app.constant.js` (`ROUTE`, `ROUTER_PATH`). Eve
 
 - Models: `Quote` (`text`, `author`), `Category` (unique `name`), the join model `QuoteCategory`;
   `Quote` and `Category` are many-to-many through it (`database/models/associations.js`).
+- `QuoteCategory` declares no attributes: Sequelize adds `QuoteId` and `CategoryId` itself.
 - The `afterFind` hook of `Quote` turns the included categories into a `categories` array of names.
 - No migrations: `sequelize.sync()` runs at startup, so it creates missing tables and never alters
   existing ones.

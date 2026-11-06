@@ -56,5 +56,5 @@ author's code style standard plus this project's naming.
   beside the importer is imported relatively (`./bad-request.error.js`); a module inside a barrel
   folder never imports through that folder's own barrel (`constants/` files import each other
   relatively).
-- **Import order**:** packages, then `#` aliases with `#constants` last, then `./` siblings. When only
-  an import path changes, the existing order stays.
+- **Import order:** packages, then `#` aliases with `#constants` last, then `./` siblings. Nothing
+  enforces it (no built-in ESLint rule groups imports this way), so a review checks it.
