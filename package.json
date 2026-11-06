@@ -4,6 +4,9 @@
   "description": "REST API for a quotes app built with Express, Sequelize, PostgreSQL, and Docker.",
   "author": "Serhii Lisovyk",
   "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
   "imports": {
     "#config": "./src/config/index.js",
     "#constants": "./src/constants/index.js",
