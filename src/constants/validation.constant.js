@@ -14,6 +14,12 @@ export const MAX_CATEGORIES_PER_QUOTE = 10
 
 export const CATEGORY_NAME_MAX_LENGTH = 50
 
+export const QUOTE_SEARCH_MAX_LENGTH = 100
+
+export const QUOTE_SORT_FIELDS = ['id', 'author', 'createdAt']
+
+export const SORT_ORDERS = ['asc', 'desc']
+
 export const QUOTE_PATCH_FIELDS = ['text', 'author', 'categories']
 
 export const CATEGORY_NAME_REGEX = /^[a-z0-9-]+$/

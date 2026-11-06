@@ -12,7 +12,9 @@ import {
 } from '#controllers/quotes'
 import {
   DEFAULT_OFFSET,
+  DEFAULT_QUOTE_SORT,
   DEFAULT_QUOTES_LIMIT,
+  DEFAULT_SORT_ORDER,
   HTTP_STATUS,
   RANDOM_QUOTES_LIMIT,
   ROUTE,
@@ -45,7 +47,10 @@ describe('Quotes Controller', () => {
       offset: DEFAULT_OFFSET,
       author: undefined,
       text: undefined,
+      search: undefined,
       category: undefined,
+      sort: DEFAULT_QUOTE_SORT,
+      order: DEFAULT_SORT_ORDER,
     })
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.OK)
     expect(res.json).toHaveBeenCalledWith(result)
@@ -59,6 +64,9 @@ describe('Quotes Controller', () => {
         category: 'focus',
         limit: 7,
         offset: 14,
+        order: 'desc',
+        search: 'sharp',
+        sort: 'author',
         text: 'sharp',
       },
     }
@@ -73,7 +81,10 @@ describe('Quotes Controller', () => {
       offset: 14,
       author: 'Author',
       text: 'sharp',
+      search: 'sharp',
       category: 'focus',
+      sort: 'author',
+      order: 'desc',
     })
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.OK)
     expect(res.json).toHaveBeenCalledWith(result)

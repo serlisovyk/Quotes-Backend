@@ -5,6 +5,7 @@ import {
   idParamValidator,
   listLimitQueryValidator,
   offsetQueryValidator,
+  sortOrderQueryValidator,
 } from '#validators/shared'
 import {
   ERROR_MESSAGE,
@@ -13,6 +14,8 @@ import {
   QUOTE_AUTHOR_MAX_LENGTH,
   QUOTE_AUTHOR_MIN_LENGTH,
   QUOTE_PATCH_FIELDS,
+  QUOTE_SEARCH_MAX_LENGTH,
+  QUOTE_SORT_FIELDS,
   QUOTE_TEXT_MAX_LENGTH,
   QUOTE_TEXT_MIN_LENGTH,
 } from '#constants'
@@ -82,6 +85,17 @@ function quotePatchBodyValidator() {
 export const getQuotesValidators = [
   listLimitQueryValidator(),
   offsetQueryValidator(),
+  query('sort')
+    .optional()
+    .trim()
+    .isIn(QUOTE_SORT_FIELDS)
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_SORT),
+  sortOrderQueryValidator(),
+  query('search')
+    .optional()
+    .trim()
+    .isLength({ max: QUOTE_SEARCH_MAX_LENGTH })
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_SEARCH),
   query('author').optional().trim(),
   query('text').optional().trim(),
   categoryNameValidator(query('category').optional()),

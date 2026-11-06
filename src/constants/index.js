@@ -7,5 +7,8 @@ export {
 export {
   ORDER_BY_ID_ASC,
   PUBLIC_MODEL_ATTRIBUTES,
+  QUOTE_SEARCH_FIELDS,
+  QUOTE_TIEBREAKER_ORDER,
+  SORT_DIRECTION,
 } from './query-options.constant.js'
 export * from './validation.constant.js'

@@ -6,6 +6,10 @@ export const DEFAULT_CATEGORIES_LIMIT = 10
 
 export const DEFAULT_OFFSET = 0
 
+export const DEFAULT_QUOTE_SORT = 'id'
+
+export const DEFAULT_SORT_ORDER = 'asc'
+
 export const MAX_LIST_LIMIT = 50
 
 export const MAX_RANDOM_QUOTES_LIMIT = 20

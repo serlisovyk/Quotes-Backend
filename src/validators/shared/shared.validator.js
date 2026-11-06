@@ -5,6 +5,7 @@ import {
   CATEGORY_NAME_REGEX,
   MAX_ENTITY_ID,
   MAX_LIST_LIMIT,
+  SORT_ORDERS,
   ERROR_MESSAGE,
 } from '#constants'
 
@@ -24,6 +25,14 @@ export function offsetQueryValidator() {
     .isInt({ min: 0 })
     .withMessage(ERROR_MESSAGE.INVALID_OFFSET)
     .toInt()
+}
+
+export function sortOrderQueryValidator() {
+  return query('order')
+    .optional()
+    .trim()
+    .isIn(SORT_ORDERS)
+    .withMessage(ERROR_MESSAGE.INVALID_SORT_ORDER)
 }
 
 export function idParamValidator() {

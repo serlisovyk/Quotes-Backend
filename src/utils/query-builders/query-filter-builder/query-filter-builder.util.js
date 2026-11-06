@@ -11,3 +11,11 @@ export function buildLikeFilters(filters) {
     }
   }, {})
 }
+
+export function buildAnyLikeFilter(fields, value) {
+  if (!value) return {}
+
+  const conditions = fields.map((field) => buildLikeFilters({ [field]: value }))
+
+  return { [Op.or]: conditions }
+}

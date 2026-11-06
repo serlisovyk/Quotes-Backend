@@ -14,6 +14,7 @@ import {
   MAX_CATEGORIES_PER_QUOTE,
   MAX_RANDOM_QUOTES_LIMIT,
   QUOTE_AUTHOR_MAX_LENGTH,
+  QUOTE_SEARCH_MAX_LENGTH,
   QUOTE_TEXT_MAX_LENGTH,
 } from '#constants'
 
@@ -42,6 +43,48 @@ describe('Quote Validator', () => {
     expect(req.query.offset).toBe(10)
     expect(req.query.author).toBe('Seneca')
     expect(req.query.text).toBe('time')
+  })
+
+  test('accepts sort, order and search and trims search', async () => {
+    const req = { query: { order: 'desc', search: '  love ', sort: 'createdAt' } }
+    const result = await runValidators(getQuotesValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+    expect(req.query.search).toBe('love')
+  })
+
+  test('rejects unknown sort field', async () => {
+    const result = await runValidators(getQuotesValidators, {
+      query: { sort: 'foo' },
+    })
+
+    expect(result.array()).toMatchObject([
+      { path: 'sort', msg: ERROR_MESSAGE.INVALID_QUOTE_SORT },
+    ])
+  })
+
+  test('rejects unknown order', async () => {
+    const result = await runValidators(getQuotesValidators, {
+      query: { order: 'up' },
+    })
+
+    expect(result.array()).toMatchObject([
+      { path: 'order', msg: ERROR_MESSAGE.INVALID_SORT_ORDER },
+    ])
+  })
+
+  test('accepts search at the max length and rejects one more', async () => {
+    const accepted = await runValidators(getQuotesValidators, {
+      query: { search: 'a'.repeat(QUOTE_SEARCH_MAX_LENGTH) },
+    })
+    const rejected = await runValidators(getQuotesValidators, {
+      query: { search: 'a'.repeat(QUOTE_SEARCH_MAX_LENGTH + 1) },
+    })
+
+    expect(accepted.isEmpty()).toBe(true)
+    expect(rejected.array()).toMatchObject([
+      { path: 'search', msg: ERROR_MESSAGE.INVALID_QUOTE_SEARCH },
+    ])
   })
 
   test('rejects invalid quote category query', async () => {

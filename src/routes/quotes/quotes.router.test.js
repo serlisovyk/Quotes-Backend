@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createRouterTestClientFactory } from '#tests/utils/router-test-client'
 import * as QuotesController from '#controllers/quotes'
 import quotesRouter from '#routes/quotes'
-import { HTTP_STATUS, ROUTE, ERROR_CODE } from '#constants'
+import { HTTP_STATUS, QUOTE_SEARCH_MAX_LENGTH, ROUTE, ERROR_CODE } from '#constants'
 
 vi.mock('#controllers/quotes', () => ({
   deleteQuoteById: vi.fn((_, res) => res.status(204).send()),
@@ -73,4 +73,35 @@ describe('Quotes Router', () => {
     expect(response.body.error.code).toBe(ERROR_CODE.VALIDATION_ERROR)
     expect(QuotesController.postQuote).not.toHaveBeenCalled()
   })
+
+  test('routes quotes list with sort, order and search to controller', async () => {
+    const response = await requestQuotesRouter().get(
+      `${ROUTE.QUOTES}?sort=author&order=desc&search=love`,
+    )
+
+    expect(response.status).toBe(HTTP_STATUS.OK)
+    expect(response.body.query).toEqual({
+      sort: 'author',
+      order: 'desc',
+      search: 'love',
+    })
+    expect(QuotesController.getQuotes).toHaveBeenCalled()
+  })
+
+  test.each([
+    'sort=foo',
+    'order=up',
+    `search=${'a'.repeat(QUOTE_SEARCH_MAX_LENGTH + 1)}`,
+  ])(
+    'rejects invalid quotes list query %s before controller',
+    async (queryString) => {
+      const response = await requestQuotesRouter().get(
+        `${ROUTE.QUOTES}?${queryString}`,
+      )
+
+      expect(response.status).toBe(HTTP_STATUS.BAD_REQUEST)
+      expect(response.body.error.code).toBe(ERROR_CODE.VALIDATION_ERROR)
+      expect(QuotesController.getQuotes).not.toHaveBeenCalled()
+    },
+  )
 })

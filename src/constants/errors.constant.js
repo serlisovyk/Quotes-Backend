@@ -5,8 +5,11 @@ import {
   MAX_ENTITY_ID,
   QUOTE_AUTHOR_MAX_LENGTH,
   QUOTE_AUTHOR_MIN_LENGTH,
+  QUOTE_SEARCH_MAX_LENGTH,
+  QUOTE_SORT_FIELDS,
   QUOTE_TEXT_MAX_LENGTH,
   QUOTE_TEXT_MIN_LENGTH,
+  SORT_ORDERS,
 } from './validation.constant.js'
 
 export const ERROR_CODE = {
@@ -45,6 +48,9 @@ export const ERROR_MESSAGE = {
   INVALID_LIST_LIMIT: `Limit must be in range 1..${MAX_LIST_LIMIT}`,
   INVALID_RANDOM_LIMIT: `Limit must be in range 1..${MAX_RANDOM_QUOTES_LIMIT}`,
   INVALID_OFFSET: 'Offset must be an integer, 0 or more',
+  INVALID_QUOTE_SORT: `Sort must be one of: ${QUOTE_SORT_FIELDS.join(', ')}`,
+  INVALID_SORT_ORDER: `Order must be ${SORT_ORDERS.join(' or ')}`,
+  INVALID_QUOTE_SEARCH: `Search must be at most ${QUOTE_SEARCH_MAX_LENGTH} characters`,
   INVALID_QUOTE_TEXT: `Text must be a string from ${QUOTE_TEXT_MIN_LENGTH} to ${QUOTE_TEXT_MAX_LENGTH} characters`,
   INVALID_QUOTE_AUTHOR: `Author must be a string from ${QUOTE_AUTHOR_MIN_LENGTH} to ${QUOTE_AUTHOR_MAX_LENGTH} characters`,
   INVALID_QUOTE_CATEGORIES: `Categories must be an array of 1 to ${MAX_CATEGORIES_PER_QUOTE} categories`,

@@ -1,6 +1,17 @@
 import { Category } from '#models'
-import { buildLikeFilters } from '#utils/query-builders/query-filter-builder'
-import { ORDER_BY_ID_ASC, PUBLIC_MODEL_ATTRIBUTES } from '#constants'
+import {
+  buildAnyLikeFilter,
+  buildLikeFilters,
+} from '#utils/query-builders/query-filter-builder'
+import {
+  DEFAULT_QUOTE_SORT,
+  DEFAULT_SORT_ORDER,
+  PUBLIC_MODEL_ATTRIBUTES,
+  QUOTE_SEARCH_FIELDS,
+  QUOTE_SORT_FIELDS,
+  QUOTE_TIEBREAKER_ORDER,
+  SORT_DIRECTION,
+} from '#constants'
 
 export const QUOTE_CATEGORY_INCLUDE = {
   model: Category,
@@ -8,8 +19,23 @@ export const QUOTE_CATEGORY_INCLUDE = {
   through: { attributes: [] },
 }
 
-export function buildQuoteWhere({ author, text }) {
-  return buildLikeFilters({ author, text })
+export function buildQuoteWhere({ author, text, search }) {
+  return {
+    ...buildLikeFilters({ author, text }),
+    ...buildAnyLikeFilter(QUOTE_SEARCH_FIELDS, search),
+  }
+}
+
+export function buildQuoteOrder({
+  sort = DEFAULT_QUOTE_SORT,
+  order = DEFAULT_SORT_ORDER,
+} = {}) {
+  const sortOrder = [sort, SORT_DIRECTION[order]]
+  const isSortedById = sort === DEFAULT_QUOTE_SORT
+
+  if (isSortedById) return [sortOrder]
+
+  return [sortOrder, QUOTE_TIEBREAKER_ORDER]
 }
 
 export function buildQuoteCategoryInclude(category) {
@@ -21,19 +47,26 @@ export function buildQuoteCategoryInclude(category) {
   }
 }
 
-export function buildQuoteListQuery({ author, text, category }) {
+export function buildQuoteListQuery({
+  author,
+  text,
+  search,
+  category,
+  sort,
+  order,
+}) {
   return {
-    attributes: PUBLIC_MODEL_ATTRIBUTES,
-    order: ORDER_BY_ID_ASC,
-    where: buildQuoteWhere({ author, text }),
+    attributes: QUOTE_SORT_FIELDS,
+    order: buildQuoteOrder({ sort, order }),
+    where: buildQuoteWhere({ author, text, search }),
     include: buildQuoteCategoryInclude(category),
   }
 }
 
-export function buildQuotesByIdsQuery(ids) {
+export function buildQuotesByIdsQuery(ids, { sort, order } = {}) {
   return {
     attributes: PUBLIC_MODEL_ATTRIBUTES,
-    order: ORDER_BY_ID_ASC,
+    order: buildQuoteOrder({ sort, order }),
     include: QUOTE_CATEGORY_INCLUDE,
     where: { id: ids },
   }

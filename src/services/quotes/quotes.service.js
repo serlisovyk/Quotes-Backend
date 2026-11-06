@@ -8,21 +8,26 @@ import {
 } from '#utils/query-builders/quote-query-builder'
 import { setQuoteCategories } from '#services/categories'
 
-export async function findQuotes({ limit, offset, author, text, category }) {
+export async function findQuotes({
+  limit,
+  offset,
+  author,
+  text,
+  search,
+  category,
+  sort,
+  order,
+}) {
   const { rows: pageQuotes, count: total } = await Quote.findAndCountAll({
-    ...buildQuoteListQuery({ author, text, category }),
+    ...buildQuoteListQuery({ author, text, search, category, sort, order }),
     distinct: true,
     limit,
     offset,
   })
 
-  if (!category) {
-    return { total, quotes: pageQuotes }
-  }
-
   const ids = pageQuotes.map(({ id }) => id)
 
-  const quotes = await findQuotesByIds(ids)
+  const quotes = await findQuotesByIds(ids, { sort, order })
 
   return { total, quotes }
 }
@@ -77,6 +82,6 @@ export async function deleteSingleQuote(id) {
   return isDeleted
 }
 
-async function findQuotesByIds(ids) {
-  return Quote.findAll(buildQuotesByIdsQuery(ids))
+async function findQuotesByIds(ids, sortOptions) {
+  return Quote.findAll(buildQuotesByIdsQuery(ids, sortOptions))
 }

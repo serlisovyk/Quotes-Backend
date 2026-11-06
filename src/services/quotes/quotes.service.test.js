@@ -54,12 +54,16 @@ describe('Quotes Service', () => {
     sequelize.transaction.mockImplementation((callback) => callback(transaction))
   })
 
-  test('finds quotes without category filter', async () => {
+  test('finds the page and then full quotes by its ids without category filter', async () => {
     const listQuery = { include: [], where: { author: 'a' } }
     const pageQuotes = [{ id: 1 }]
+    const quotes = [{ id: 1, categories: [] }]
+    const byIdsQuery = { where: { id: [1] } }
 
     buildQuoteListQuery.mockReturnValue(listQuery)
+    buildQuotesByIdsQuery.mockReturnValue(byIdsQuery)
     Quote.findAndCountAll.mockResolvedValue({ count: 1, rows: pageQuotes })
+    Quote.findAll.mockResolvedValue(quotes)
 
     const result = await findQuotes({
       author: 'a',
@@ -75,8 +79,12 @@ describe('Quotes Service', () => {
       limit: 5,
       offset: 10,
     })
-    expect(Quote.findAll).not.toHaveBeenCalled()
-    expect(result).toEqual({ total: 1, quotes: pageQuotes })
+    expect(buildQuotesByIdsQuery).toHaveBeenCalledWith([1], {
+      sort: undefined,
+      order: undefined,
+    })
+    expect(Quote.findAll).toHaveBeenCalledWith(byIdsQuery)
+    expect(result).toEqual({ total: 1, quotes })
   })
 
   test('finds full quotes by ids when category filter is used', async () => {
@@ -95,17 +103,54 @@ describe('Quotes Service', () => {
       category: 'life',
       limit: 5,
       offset: 0,
+      order: 'desc',
+      search: 'love',
+      sort: 'createdAt',
       text: undefined,
     })
 
     expect(buildQuoteListQuery).toHaveBeenCalledWith({
       author: undefined,
       text: undefined,
+      search: 'love',
       category: 'life',
+      sort: 'createdAt',
+      order: 'desc',
     })
-    expect(buildQuotesByIdsQuery).toHaveBeenCalledWith([1, 2])
+    expect(buildQuotesByIdsQuery).toHaveBeenCalledWith([1, 2], {
+      sort: 'createdAt',
+      order: 'desc',
+    })
     expect(Quote.findAll).toHaveBeenCalledWith(byIdsQuery)
     expect(result).toEqual({ total: 2, quotes })
+  })
+
+  test('passes search, sort and order to the list query without category filter', async () => {
+    const listQuery = { include: [], where: {} }
+
+    buildQuoteListQuery.mockReturnValue(listQuery)
+    Quote.findAndCountAll.mockResolvedValue({ count: 0, rows: [] })
+
+    await findQuotes({
+      limit: 5,
+      offset: 0,
+      order: 'desc',
+      search: 'love',
+      sort: 'author',
+    })
+
+    expect(buildQuoteListQuery).toHaveBeenCalledWith({
+      author: undefined,
+      text: undefined,
+      search: 'love',
+      category: undefined,
+      sort: 'author',
+      order: 'desc',
+    })
+    expect(buildQuotesByIdsQuery).toHaveBeenCalledWith([], {
+      sort: 'author',
+      order: 'desc',
+    })
   })
 
   test('finds random quotes', async () => {

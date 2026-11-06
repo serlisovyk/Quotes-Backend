@@ -4,7 +4,9 @@ import { sendCreated, sendNoContent, sendOk } from '#utils/http/response'
 import {
   ERROR_MESSAGE,
   DEFAULT_OFFSET,
+  DEFAULT_QUOTE_SORT,
   DEFAULT_QUOTES_LIMIT,
+  DEFAULT_SORT_ORDER,
   RANDOM_QUOTES_LIMIT,
   ROUTE,
 } from '#constants'
@@ -13,9 +15,12 @@ export async function getQuotes(req, res) {
   const {
     text,
     author,
+    search,
     category,
     limit = DEFAULT_QUOTES_LIMIT,
     offset = DEFAULT_OFFSET,
+    sort = DEFAULT_QUOTE_SORT,
+    order = DEFAULT_SORT_ORDER,
   } = req.query
 
   const quotes = await QuotesService.findQuotes({
@@ -23,7 +28,10 @@ export async function getQuotes(req, res) {
     offset,
     author,
     text,
+    search,
     category,
+    sort,
+    order,
   })
 
   sendOk(res, quotes)

@@ -7,6 +7,7 @@ import {
   idParamValidator,
   listLimitQueryValidator,
   offsetQueryValidator,
+  sortOrderQueryValidator,
 } from '#validators/shared'
 import { CATEGORY_NAME_MAX_LENGTH, ERROR_MESSAGE, MAX_LIST_LIMIT } from '#constants'
 
@@ -143,6 +144,28 @@ describe('Shared Validator', () => {
         path: 'name',
         msg: ERROR_MESSAGE.INVALID_CATEGORY_SEARCH,
       },
+    ])
+  })
+
+  test('accepts asc and desc sort order', async () => {
+    const ascending = await runValidators([sortOrderQueryValidator()], {
+      query: { order: 'asc' },
+    })
+    const descending = await runValidators([sortOrderQueryValidator()], {
+      query: { order: ' desc ' },
+    })
+
+    expect(ascending.isEmpty()).toBe(true)
+    expect(descending.isEmpty()).toBe(true)
+  })
+
+  test('rejects any other sort order', async () => {
+    const result = await runValidators([sortOrderQueryValidator()], {
+      query: { order: 'DESC' },
+    })
+
+    expect(result.array()).toMatchObject([
+      { path: 'order', msg: ERROR_MESSAGE.INVALID_SORT_ORDER },
     ])
   })
 })
