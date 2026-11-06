@@ -28,3 +28,11 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
       - run: npm test
+
+  docker:
+    name: Build the production image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - run: docker build .
