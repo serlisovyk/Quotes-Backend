@@ -19,14 +19,18 @@ export async function findSingleCategory(id) {
 }
 
 export async function findOrCreateCategories(categoryNames, transaction) {
-  return Promise.all(
-    categoryNames.map((name) =>
-      Category.findOrCreate({
-        where: { name },
-        transaction,
-      }).then(([category]) => category),
-    ),
-  )
+  const categories = []
+
+  for (const name of categoryNames) {
+    const [category] = await Category.findOrCreate({
+      where: { name },
+      transaction,
+    })
+
+    categories.push(category)
+  }
+
+  return categories
 }
 
 export async function setQuoteCategories(quote, categoryNames, transaction) {

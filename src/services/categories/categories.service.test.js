@@ -89,6 +89,26 @@ describe('Categories Service', () => {
     expect(result).toEqual([life, work])
   })
 
+  test('finds or creates categories one after another', async () => {
+    const transaction = { id: 'transaction' }
+    let runningCalls = 0
+    let maxRunningCalls = 0
+
+    Category.findOrCreate.mockImplementation(async ({ where: { name } }) => {
+      runningCalls += 1
+      maxRunningCalls = Math.max(maxRunningCalls, runningCalls)
+      await Promise.resolve()
+      runningCalls -= 1
+
+      return [{ name }, false]
+    })
+
+    const result = await findOrCreateCategories(['a', 'b', 'c'], transaction)
+
+    expect(maxRunningCalls).toBe(1)
+    expect(result).toEqual([{ name: 'a' }, { name: 'b' }, { name: 'c' }])
+  })
+
   test('sets quote categories inside transaction', async () => {
     const transaction = { id: 'transaction' }
     const quote = {
