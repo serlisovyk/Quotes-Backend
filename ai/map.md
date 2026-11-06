@@ -16,7 +16,8 @@ Navigation only: where things live and who owns what. How it works is in the cod
   `no-restricted-imports` rules (decision `eslint-husky-ci`).
 - `.husky/pre-commit`, `.lintstagedrc.json` — the pre-commit hook: lint-staged runs ESLint and Prettier
   on the staged files.
-- `.github/workflows/ci.yml` — CI on every push: lint, format check, tests.
+- `.github/workflows/ci.yml` — CI on every push: the `check` job (lint, format check, tests) and the `docker` job
+  (builds the prod image, no push).
 - `Dockerfile`, `Dockerfile.dev`, `docker-compose.yml`, `docker-compose.dev.yml`, `.dockerignore` —
   see "Docker".
 - `README.md` — setup, scripts, the public API; `AGENTS.md` — the entry point for agents, `CLAUDE.md`
@@ -111,13 +112,14 @@ containers.
 
 ## Docker
 
-- `Dockerfile` — `node:24-alpine`, production dependencies, a non-root user, `npm start`, port 3001.
+- `Dockerfile` — `node:24-alpine`, production dependencies installed with `--ignore-scripts`
+  (decision `docker-build-from-dockerfile`), a non-root user, `npm start`, port 3001.
 - `.dockerignore` — keeps out of the prod image `.git`, `.github`, `.husky`, `.claude`, `ai`, tests
   (`**/*.test.js`, `src/tests`), Markdown, and linter and test configs. The seed scripts and the CSV
   stay in the image.
 - `Dockerfile.dev` — `node:24-alpine`, all dependencies, `npm run dev`, port 3001.
-- `docker-compose.yml` — production-like: `postgres:16-alpine` and the `server` image
-  `serhii5105/quotes-server:latest`, healthchecks, `.env`.
+- `docker-compose.yml` — production-like: `postgres:16-alpine` and the `server` built from
+  `Dockerfile`, healthchecks, `.env`.
 - `docker-compose.dev.yml` — Postgres, the `server` built from `Dockerfile.dev` with the source
   mounted, and Adminer on port 8080.
 - Neither compose file publishes the Postgres port, so manual API checks use a separate throwaway

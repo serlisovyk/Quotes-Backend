@@ -89,10 +89,10 @@ ADMINER_DEFAULT_SERVER=postgres
 
 ## 🐳 Docker
 
-Run the production-like compose file:
+Run the production-like compose file (it builds the image from the `Dockerfile`):
 
 ```bash
-docker compose up -d
+docker compose up -d --build
 ```
 
 Run the development compose file with live source mounting and Adminer:
