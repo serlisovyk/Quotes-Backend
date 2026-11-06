@@ -37,7 +37,7 @@ Walk the diff against `ai/rules/definition-of-done.md` and the rules of the area
 
 - Tests green, but the endpoint was never called against a running server.
 - Only the happy path was called: no validation failure, no missing row, no invalid JSON.
-- `format:check` skipped.
+- `lint` or `format:check` skipped.
 - A Docker or env change without `docker compose config`.
 
 ## Report

@@ -36,7 +36,10 @@ This backend provides quote and category data through a compact Express + Sequel
 - Docker
 - Vitest
 - Supertest
+- ESLint
 - Prettier
+- Husky and lint-staged
+- GitHub Actions
 - Npm
 
 ## 📁 Project Structure
@@ -120,6 +123,18 @@ Run the server:
 npm start
 ```
 
+Lint code:
+
+```bash
+npm run lint
+```
+
+Fix what ESLint can fix:
+
+```bash
+npm run lint:fix
+```
+
 Format code:
 
 ```bash
@@ -143,6 +158,10 @@ Run tests in watch mode:
 ```bash
 npm run test:watch
 ```
+
+## 🔄 CI
+
+GitHub Actions runs lint, the format check and the tests on every push. The pre-commit hook (Husky and lint-staged) runs ESLint and Prettier on the staged files. The workflow is in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## 🔌 API Endpoints
 

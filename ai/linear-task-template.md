@@ -69,6 +69,7 @@ Keep the relevant lines, delete the rest. Copy them into the issue as-is:
 
 Copy into the issue, one line per check under "Verification" in `AGENTS.md`, plus the manual line:
 
+- [ ] `npm run lint`
 - [ ] `npm run format:check`
 - [ ] `npm test`
 - [ ] Прогнано руками: запросы к каждому затронутому эндпоинту (curl) на своём временном Postgres, включая ошибки (валидация, 404, невалидный JSON)

@@ -60,7 +60,8 @@ archive of past tasks: read only the plan or spec of the feature you change.
 
 - Follow the plan; commit in logical units, not one giant snapshot. Inspect `git status` and
   `git diff` before each commit.
-- A pre-commit hook, once the repo has one, is never bypassed with `--no-verify`; fix what it reports.
+- The pre-commit hook (Husky + lint-staged: ESLint and Prettier on the staged files) is never
+  bypassed with `--no-verify`; fix what it reports.
 - Conventional Commit messages in English (`feat:`, `fix:`, `refactor:`, `docs:`, `style:`, `test:`,
   `build:`, `ci:`, `chore:`) — specific, never `update` or `changes`.
 - Use the matching skill instead of improvising a pattern that already exists.
@@ -124,7 +125,7 @@ git switch my-<n>-<slug>
 git rebase main            # re-run the checks if the rebase brought in new commits
 git switch main
 git merge --ff-only my-<n>-<slug>
-npm run format:check && npm test
+npm run lint && npm run format:check && npm test
 git push origin main
 git branch -d my-<n>-<slug>
 ```
@@ -132,15 +133,14 @@ git branch -d my-<n>-<slug>
 - The feature branch is never pushed: only `main` is (decision `local-merge-without-pr`).
 - After a rebase that brings in another branch's work, call the affected endpoints on the combined
   result too: a change in one branch can break an endpoint of the other.
-- Once the repo has CI, wait after the push for CI on `main` to go green, polling a few minutes apart
+- After the push, wait for CI on `main` (lint, format check, tests) to go green, polling a few minutes apart
   (the unauthenticated GitHub API allows 60 requests an hour); a red `main` is fixed right away with
   a follow-up commit.
 - If `main` deploys on the push, check the live service read-only (call it) and never touch the
   hosting project.
 - History stays linear: rebase onto `main`, then fast-forward. Never force-push `main`.
 - Remove the worktree if one was used (`git worktree remove <path>`).
-- Move the Linear issue to `Done` only once the checks on `main` pass (and CI is green, when the repo
-  has it), and comment with the merged commit SHAs, the author's decisions, what was checked and what
+- Move the Linear issue to `Done` only once the checks on `main` pass (and CI is green), and comment with the merged commit SHAs, the author's decisions, what was checked and what
   was not.
 
 ## Parallel work

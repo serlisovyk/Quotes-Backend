@@ -49,6 +49,7 @@ with the record that replaced it.
 - [Automated tests stay: Vitest and Supertest](2026-11-06-tests-vitest-supertest.md)
 - [Merge locally into `main`, no pull requests; only `main` is pushed](2026-11-06-local-merge-without-pr.md)
 - [Manual API checks run on a throwaway Postgres container](2026-11-06-manual-api-check-throwaway-postgres.md)
+- [ESLint, a pre-commit hook and CI on every push](2026-11-06-eslint-husky-ci.md)
 - [Prettier `endOfLine: auto`, no `.gitattributes`](2026-11-06-line-endings-auto.md)
 - [`package.json`: `engines` yes, `packageManager`, `main`, `license` no](2026-11-06-package-json-choices.md)
 - [Features the author rejected](2026-11-06-rejected-features.md)

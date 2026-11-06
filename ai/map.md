@@ -6,12 +6,17 @@ Navigation only: where things live and who owns what. How it works is in the cod
 ## Repo
 
 - `src/` — all sources (below); `src/main.js` is the entry (`npm start`, `npm run dev` through nodemon).
-- `package.json` — `engines` (Node `>=24`); scripts `dev`, `start`, `format`, `format:check`, `test`,
-  `test:watch`; the `#` import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
+- `package.json` — `engines` (Node `>=24`); scripts `dev`, `start`, `lint`, `lint:fix`, `format`,
+  `format:check`, `prepare` (Husky), `test`, `test:watch`; the `#` import aliases in `imports`; `jsconfig.json` mirrors the aliases for editors only.
 - `vitest.config.js` — runs `src/**/*.test.js` in the `node` environment with `clearMocks` and
   `restoreMocks`.
 - `.env.sample` — every environment variable with a description; `.env*` is git-ignored.
-- `.prettierrc`, `.prettierignore` — Prettier. There is no ESLint, hook or CI yet.
+- `.prettierrc`, `.prettierignore` — Prettier.
+- `eslint.config.js` — ESLint flat config: recommended rules, Node globals, the architecture
+  `no-restricted-imports` rules (decision `eslint-husky-ci`).
+- `.husky/pre-commit`, `.lintstagedrc.json` — the pre-commit hook: lint-staged runs ESLint and Prettier
+  on the staged files.
+- `.github/workflows/ci.yml` — CI on every push: lint, format check, tests.
 - `Dockerfile`, `Dockerfile.dev`, `docker-compose.yml`, `docker-compose.dev.yml`, `.dockerignore` —
   see "Docker".
 - `README.md` — setup, scripts, the public API; `AGENTS.md` — the entry point for agents, `CLAUDE.md`
@@ -123,5 +128,5 @@ recreate, reconnect or reconfigure a hosting project.
 - No TypeScript, repository layer, authentication, config validation, Swagger, dependency injection,
   Redis, GraphQL, tRPC, gRPC, metrics, background jobs or logging platform: `ai/rules/scope.md`,
   decision `rejected-features`.
-- No migrations, ESLint, pre-commit hook or CI yet.
+- No migrations.
 - No pull requests: work merges locally (decision `local-merge-without-pr`).

@@ -52,7 +52,7 @@ author's code style standard plus this project's naming.
   two modules re-exported with `*` must not export the same name.
 - Shared internal modules are imported through the `#` aliases of `package.json#imports`, each
   pointing at a folder `index.js` or one named module (`#controllers/quotes`, `#constants`,
-  `#models`, `#errors/classes`), never through a deep relative path, and without `/index.js`. A file
+  `#models`, `#errors/classes`), never through a deep relative path (ESLint rejects `../`), and without `/index.js`. A file
   beside the importer is imported relatively (`./bad-request.error.js`); a module inside a barrel
   folder never imports through that folder's own barrel (`constants/` files import each other
   relatively).

@@ -53,7 +53,8 @@ The parts that never bend:
 - Nothing is merged and no issue is marked `Done` without the author's explicit approval.
 - Merges happen locally into `main`, then `main` is pushed. No pull requests, no pushed feature
   branches, and never a force-push of `main`.
-- Never bypass a pre-commit hook (`--no-verify`).
+- Never bypass the pre-commit hook (`--no-verify`): it runs lint-staged (ESLint and Prettier on the
+  staged files); fix what it reports.
 - Tests stay: a change of behavior comes with tests.
 
 Prompts to start agent sessions live in `ai/prompts/` (index in `ai/prompts/README.md`):
@@ -104,11 +105,12 @@ If a change materially reshapes a pattern, update the matching skill in the same
 Run before handing over any change:
 
 ```bash
+npm run lint
 npm run format:check
 npm test
 ```
 
-- If formatting was changed, run `npm run format`.
+- If formatting was changed, run `npm run format`; `npm run lint:fix` fixes the lint findings it can.
 - For a change to Docker, compose, a port or an env variable, also run `docker compose config` and
   `docker compose -f docker-compose.dev.yml config`.
 - Then call every affected endpoint by hand — a green test run does not prove an endpoint works
