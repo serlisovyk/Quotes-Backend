@@ -2,6 +2,14 @@ export const MAX_ENTITY_ID = 2147483647
 
 export const VALIDATION_ROOT_FIELD = '_root'
 
+export const QUOTE_TEXT_MIN_LENGTH = 10
+
+export const QUOTE_AUTHOR_MIN_LENGTH = 2
+
+export const QUOTE_AUTHOR_MAX_LENGTH = 255
+
+export const QUOTE_PATCH_FIELDS = ['text', 'author', 'categories']
+
 export const CATEGORY_NAME_REGEX = /^[a-z0-9-]+$/
 
 export const CATEGORY_NAME_I_REGEX = /^[a-z0-9-]+$/i

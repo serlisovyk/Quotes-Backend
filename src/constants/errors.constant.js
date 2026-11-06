@@ -1,5 +1,10 @@
-import { MAX_LIST_LIMIT } from './app.constant.js'
-import { MAX_ENTITY_ID } from './validation.constant.js'
+import { MAX_LIST_LIMIT, MAX_RANDOM_QUOTES_LIMIT } from './app.constant.js'
+import {
+  MAX_ENTITY_ID,
+  QUOTE_AUTHOR_MAX_LENGTH,
+  QUOTE_AUTHOR_MIN_LENGTH,
+  QUOTE_TEXT_MIN_LENGTH,
+} from './validation.constant.js'
 
 export const ERROR_CODE = {
   BAD_REQUEST: 'BAD_REQUEST',
@@ -31,4 +36,10 @@ export const ERROR_MESSAGE = {
   INVALID_CATEGORY_SEARCH: 'Category can only contain letters, numbers and dashes',
   INVALID_ENTITY_ID: `ID must be integer in the range from 1 to ${MAX_ENTITY_ID}`,
   INVALID_LIST_LIMIT: `Limit must be in range 1..${MAX_LIST_LIMIT}`,
+  INVALID_RANDOM_LIMIT: `Limit must be in range 1..${MAX_RANDOM_QUOTES_LIMIT}`,
+  INVALID_OFFSET: 'Offset must be an integer, 0 or more',
+  INVALID_QUOTE_TEXT: `Text must be a string of at least ${QUOTE_TEXT_MIN_LENGTH} characters`,
+  INVALID_QUOTE_AUTHOR: `Author must be a string from ${QUOTE_AUTHOR_MIN_LENGTH} to ${QUOTE_AUTHOR_MAX_LENGTH} characters`,
+  INVALID_QUOTE_CATEGORIES: 'Categories must be an array with at least one category',
+  NOTHING_TO_UPDATE: 'Nothing to update',
 }

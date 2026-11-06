@@ -1,8 +1,10 @@
 import { Quote } from '#models'
 import { findOrCreateCategories } from '#services/categories'
 import validateAndSplitCategories from '#utils/seed/validate-and-split-categories'
+import { QUOTE_AUTHOR_MAX_LENGTH } from '#constants'
 
-const getQuoteAuthor = (author) => author.split(',')[0].slice(0, 255)
+const getQuoteAuthor = (author) =>
+  author.split(',')[0].slice(0, QUOTE_AUTHOR_MAX_LENGTH)
 
 export default async function importQuoteRow(row) {
   const categories = validateAndSplitCategories(row.category)

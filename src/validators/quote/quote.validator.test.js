@@ -1,6 +1,10 @@
 import { describe, expect, test } from 'vitest'
 import { runValidators } from '#tests/utils/run-validators'
-import { ERROR_MESSAGE, MAX_RANDOM_QUOTES_LIMIT } from '#constants'
+import {
+  ERROR_MESSAGE,
+  MAX_RANDOM_QUOTES_LIMIT,
+  QUOTE_AUTHOR_MAX_LENGTH,
+} from '#constants'
 import {
   deleteSingleQuoteValidators,
   getQuotesValidators,
@@ -9,6 +13,12 @@ import {
   patchSingleQuoteValidators,
   postQuoteValidators,
 } from '#validators/quote'
+
+const validCreateBody = {
+  author: 'Seneca',
+  categories: ['life'],
+  text: 'A valid quote text',
+}
 
 describe('Quote Validator', () => {
   test('accepts valid quotes query and converts pagination', async () => {
@@ -43,6 +53,15 @@ describe('Quote Validator', () => {
     ])
   })
 
+  test('rejects quotes offset with a message', async () => {
+    const req = { query: { offset: '-1' } }
+    const result = await runValidators(getQuotesValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'offset', msg: ERROR_MESSAGE.INVALID_OFFSET },
+    ])
+  })
+
   test('accepts random quotes limit and converts it', async () => {
     const req = { query: { limit: '3' } }
     const result = await runValidators(getRandomQuotesValidators, req)
@@ -55,7 +74,18 @@ describe('Quote Validator', () => {
     const req = { query: { limit: String(MAX_RANDOM_QUOTES_LIMIT + 1) } }
     const result = await runValidators(getRandomQuotesValidators, req)
 
-    expect(result.array()).toMatchObject([{ path: 'limit' }])
+    expect(result.array()).toMatchObject([
+      { path: 'limit', msg: ERROR_MESSAGE.INVALID_RANDOM_LIMIT },
+    ])
+  })
+
+  test('rejects random quotes limit that is not a number', async () => {
+    const req = { query: { limit: 'many' } }
+    const result = await runValidators(getRandomQuotesValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'limit', msg: ERROR_MESSAGE.INVALID_RANDOM_LIMIT },
+    ])
   })
 
   test('accepts valid quote create body', async () => {
@@ -84,15 +114,88 @@ describe('Quote Validator', () => {
     }
 
     const result = await runValidators(postQuoteValidators, req)
-    const errors = result.array()
 
-    expect(errors).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ path: 'text' }),
-        expect.objectContaining({ path: 'author' }),
-        expect.objectContaining({ path: 'categories' }),
-      ]),
-    )
+    expect(result.array()).toMatchObject([
+      { path: 'text', msg: ERROR_MESSAGE.INVALID_QUOTE_TEXT },
+      { path: 'author', msg: ERROR_MESSAGE.INVALID_QUOTE_AUTHOR },
+      { path: 'categories', msg: ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES },
+    ])
+  })
+
+  test('rejects a create body with no fields', async () => {
+    const req = { body: {} }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'text', msg: ERROR_MESSAGE.INVALID_QUOTE_TEXT },
+      { path: 'author', msg: ERROR_MESSAGE.INVALID_QUOTE_AUTHOR },
+      { path: 'categories', msg: ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES },
+    ])
+  })
+
+  test('rejects numeric text instead of turning it into a string', async () => {
+    const req = { body: { ...validCreateBody, text: 12345678901 } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'text', msg: ERROR_MESSAGE.INVALID_QUOTE_TEXT },
+    ])
+  })
+
+  test('rejects numeric author instead of turning it into a string', async () => {
+    const req = { body: { ...validCreateBody, author: 12345 } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'author', msg: ERROR_MESSAGE.INVALID_QUOTE_AUTHOR },
+    ])
+  })
+
+  test('rejects text that is too short after trimming', async () => {
+    const req = { body: { ...validCreateBody, text: '   short    ' } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'text', msg: ERROR_MESSAGE.INVALID_QUOTE_TEXT },
+    ])
+  })
+
+  test('rejects author longer than the maximum length', async () => {
+    const author = 'a'.repeat(QUOTE_AUTHOR_MAX_LENGTH + 1)
+    const req = { body: { ...validCreateBody, author } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'author', msg: ERROR_MESSAGE.INVALID_QUOTE_AUTHOR },
+    ])
+  })
+
+  test('rejects categories that are not an array', async () => {
+    const req = { body: { ...validCreateBody, categories: 'life' } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'categories', msg: ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES },
+    ])
+  })
+
+  test('removes duplicate categories from a create body', async () => {
+    const req = {
+      body: { ...validCreateBody, categories: ['life', 'work', 'life'] },
+    }
+
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+    expect(req.body.categories).toEqual(['life', 'work'])
+  })
+
+  test('removes categories that differ only by surrounding spaces', async () => {
+    const req = { body: { ...validCreateBody, categories: ['life', ' life '] } }
+    const result = await runValidators(postQuoteValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+    expect(req.body.categories).toEqual(['life'])
   })
 
   test('validates quote id params', async () => {
@@ -110,9 +213,9 @@ describe('Quote Validator', () => {
     expect(deleteReq.params.id).toBe(2)
   })
 
-  test('accepts patch with only id param', async () => {
+  test('accepts patch with a single field', async () => {
     const req = {
-      body: {},
+      body: { author: 'Seneca' },
       params: { id: '3' },
     }
 
@@ -120,6 +223,53 @@ describe('Quote Validator', () => {
 
     expect(result.isEmpty()).toBe(true)
     expect(req.params.id).toBe(3)
+  })
+
+  test('rejects an empty patch body without a field path', async () => {
+    const req = {
+      body: {},
+      params: { id: '3' },
+    }
+
+    const result = await runValidators(patchSingleQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: '', msg: ERROR_MESSAGE.NOTHING_TO_UPDATE },
+    ])
+  })
+
+  test('rejects a patch without a body', async () => {
+    const req = { params: { id: '3' } }
+    const result = await runValidators(patchSingleQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: '', msg: ERROR_MESSAGE.NOTHING_TO_UPDATE },
+    ])
+  })
+
+  test('rejects numeric text in a patch body', async () => {
+    const req = {
+      body: { text: 12345678901 },
+      params: { id: '3' },
+    }
+
+    const result = await runValidators(patchSingleQuoteValidators, req)
+
+    expect(result.array()).toMatchObject([
+      { path: 'text', msg: ERROR_MESSAGE.INVALID_QUOTE_TEXT },
+    ])
+  })
+
+  test('removes duplicate categories from a patch body', async () => {
+    const req = {
+      body: { categories: ['life', 'life'] },
+      params: { id: '3' },
+    }
+
+    const result = await runValidators(patchSingleQuoteValidators, req)
+
+    expect(result.isEmpty()).toBe(true)
+    expect(req.body.categories).toEqual(['life'])
   })
 
   test('rejects invalid patch category item', async () => {

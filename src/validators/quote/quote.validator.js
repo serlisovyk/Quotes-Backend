@@ -1,8 +1,13 @@
 import { query, body } from 'express-validator'
+import removeDuplicateCategories from '#utils/validation/remove-duplicate-categories'
 import {
   CATEGORY_NAME_REGEX,
   ERROR_MESSAGE,
   MAX_RANDOM_QUOTES_LIMIT,
+  QUOTE_AUTHOR_MAX_LENGTH,
+  QUOTE_AUTHOR_MIN_LENGTH,
+  QUOTE_PATCH_FIELDS,
+  QUOTE_TEXT_MIN_LENGTH,
 } from '#constants'
 import {
   categoryNameValidator,
@@ -17,14 +22,12 @@ function quoteTextBodyValidator({ optional = false } = {}) {
   if (optional) validator.optional()
 
   return validator
-    .trim()
     .isString()
-    .isLength({ min: 10 })
-    .withMessage(
-      optional
-        ? 'Text has to be minimum 10 characters'
-        : 'Text is required and has to be minimum 10 characters',
-    )
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_TEXT)
+    .bail()
+    .trim()
+    .isLength({ min: QUOTE_TEXT_MIN_LENGTH })
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_TEXT)
 }
 
 function quoteAuthorBodyValidator({ optional = false } = {}) {
@@ -33,10 +36,12 @@ function quoteAuthorBodyValidator({ optional = false } = {}) {
   if (optional) validator.optional()
 
   return validator
-    .trim()
     .isString()
-    .isLength({ min: 2, max: 255 })
-    .withMessage('Author must be a string from 2 to 255 characters')
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_AUTHOR)
+    .bail()
+    .trim()
+    .isLength({ min: QUOTE_AUTHOR_MIN_LENGTH, max: QUOTE_AUTHOR_MAX_LENGTH })
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_AUTHOR)
 }
 
 function quoteCategoriesBodyValidator({ optional = false } = {}) {
@@ -46,7 +51,8 @@ function quoteCategoriesBodyValidator({ optional = false } = {}) {
 
   return validator
     .isArray({ min: 1 })
-    .withMessage('Categories must be an array with at least one category')
+    .withMessage(ERROR_MESSAGE.INVALID_QUOTE_CATEGORIES)
+    .customSanitizer(removeDuplicateCategories)
 }
 
 function quoteCategoryItemBodyValidator({ optional = false } = {}) {
@@ -57,6 +63,18 @@ function quoteCategoryItemBodyValidator({ optional = false } = {}) {
     .trim()
     .matches(CATEGORY_NAME_REGEX)
     .withMessage(ERROR_MESSAGE.INVALID_CATEGORY_NAME)
+}
+
+function quotePatchBodyValidator() {
+  return body()
+    .custom((quote = {}) => {
+      const hasQuoteField = QUOTE_PATCH_FIELDS.some(
+        (field) => quote[field] !== undefined,
+      )
+
+      return hasQuoteField
+    })
+    .withMessage(ERROR_MESSAGE.NOTHING_TO_UPDATE)
 }
 
 export const getQuotesValidators = [
@@ -72,14 +90,15 @@ export const getRandomQuotesValidators = [
     .optional()
     .trim()
     .isInt({ min: 1, max: MAX_RANDOM_QUOTES_LIMIT })
+    .withMessage(ERROR_MESSAGE.INVALID_RANDOM_LIMIT)
     .toInt(),
 ]
 
 export const postQuoteValidators = [
   quoteTextBodyValidator(),
   quoteAuthorBodyValidator(),
-  quoteCategoriesBodyValidator(),
   quoteCategoryItemBodyValidator(),
+  quoteCategoriesBodyValidator(),
 ]
 
 export const getSingleQuoteValidators = [idParamValidator()]
@@ -88,8 +107,9 @@ export const deleteSingleQuoteValidators = [idParamValidator()]
 
 export const patchSingleQuoteValidators = [
   idParamValidator(),
+  quotePatchBodyValidator(),
   quoteTextBodyValidator({ optional: true }),
   quoteAuthorBodyValidator({ optional: true }),
-  quoteCategoriesBodyValidator({ optional: true }),
   quoteCategoryItemBodyValidator({ optional: true }),
+  quoteCategoriesBodyValidator({ optional: true }),
 ]

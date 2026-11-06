@@ -39,6 +39,18 @@ describe('Shared Validator', () => {
     expect(req.query.offset).toBe(10)
   })
 
+  test('rejects negative offset query', async () => {
+    const req = { query: { offset: '-5' } }
+    const result = await runValidators([offsetQueryValidator()], req)
+
+    expect(result.array()).toMatchObject([
+      {
+        path: 'offset',
+        msg: ERROR_MESSAGE.INVALID_OFFSET,
+      },
+    ])
+  })
+
   test('validates and converts id param', async () => {
     const req = { params: { id: '42' } }
     const result = await runValidators([idParamValidator()], req)

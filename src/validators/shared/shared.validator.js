@@ -17,7 +17,12 @@ export function listLimitQueryValidator() {
 }
 
 export function offsetQueryValidator() {
-  return query('offset').optional().trim().isInt({ min: 0 }).toInt()
+  return query('offset')
+    .optional()
+    .trim()
+    .isInt({ min: 0 })
+    .withMessage(ERROR_MESSAGE.INVALID_OFFSET)
+    .toInt()
 }
 
 export function idParamValidator() {
