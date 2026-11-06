@@ -1,3 +1,4 @@
+import { col, fn, Op, where as sqlWhere } from 'sequelize'
 import { Category } from '#models'
 import {
   buildAnyLikeFilter,
@@ -70,6 +71,18 @@ export function buildQuotesByIdsQuery(ids, { sort, order } = {}) {
     include: QUOTE_CATEGORY_INCLUDE,
     where: { id: ids },
   }
+}
+
+export function buildDuplicateQuoteQuery({ text, author, excludeId }) {
+  const matchFilter = {
+    [Op.and]: [
+      sqlWhere(fn('lower', col('text')), text.toLowerCase()),
+      sqlWhere(fn('lower', col('author')), (author ?? '').toLowerCase()),
+    ],
+  }
+  const excludeFilter = excludeId ? { id: { [Op.ne]: excludeId } } : {}
+
+  return { attributes: ['id'], where: { ...matchFilter, ...excludeFilter } }
 }
 
 export function buildQuoteDetailsQuery() {

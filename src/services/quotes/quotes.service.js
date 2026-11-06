@@ -1,12 +1,15 @@
 import { Quote } from '#models'
 import sequelize from '#database'
 import {
+  buildDuplicateQuoteQuery,
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
   buildQuotesByIdsQuery,
   buildRandomQuotesQuery,
 } from '#utils/query-builders/quote-query-builder'
 import { setQuoteCategories } from '#services/categories'
+import { ConflictError } from '#errors/classes'
+import { ERROR_MESSAGE } from '#constants'
 
 export async function findQuotes({
   limit,
@@ -42,6 +45,8 @@ export async function findSingleQuote(id) {
 
 export async function createQuote({ text, author, categories }) {
   const createdQuoteId = await sequelize.transaction(async (transaction) => {
+    await assertQuoteIsUnique({ text, author }, transaction)
+
     const quote = await Quote.create({ text, author }, { transaction })
 
     await setQuoteCategories(quote, categories, transaction)
@@ -60,6 +65,11 @@ export async function modifySingleQuote(id, { text, author, categories }) {
 
     if (text) quote.text = text
     if (author) quote.author = author
+
+    await assertQuoteIsUnique(
+      { text: quote.text, author: quote.author, excludeId: quote.id },
+      transaction,
+    )
 
     await quote.save({ transaction })
 
@@ -80,6 +90,17 @@ export async function deleteSingleQuote(id) {
   const isDeleted = deletedCount > 0
 
   return isDeleted
+}
+
+async function assertQuoteIsUnique({ text, author, excludeId }, transaction) {
+  const duplicate = await Quote.findOne({
+    ...buildDuplicateQuoteQuery({ text, author, excludeId }),
+    transaction,
+  })
+
+  if (duplicate) {
+    throw new ConflictError(ERROR_MESSAGE.QUOTE_ALREADY_EXISTS)
+  }
 }
 
 async function findQuotesByIds(ids, sortOptions) {

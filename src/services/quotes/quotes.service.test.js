@@ -1,7 +1,10 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import sequelize from '#database'
 import { Quote } from '#models'
+import { ConflictError } from '#errors/classes'
+import { ERROR_MESSAGE } from '#constants'
 import {
+  buildDuplicateQuoteQuery,
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
   buildQuotesByIdsQuery,
@@ -31,6 +34,7 @@ vi.mock('#models', () => ({
     findAll: vi.fn(),
     findAndCountAll: vi.fn(),
     findByPk: vi.fn(),
+    findOne: vi.fn(),
   },
 }))
 
@@ -39,6 +43,7 @@ vi.mock('#services/categories', () => ({
 }))
 
 vi.mock('#utils/query-builders/quote-query-builder', () => ({
+  buildDuplicateQuoteQuery: vi.fn(),
   buildQuoteDetailsQuery: vi.fn(),
   buildQuoteListQuery: vi.fn(),
   buildQuotesByIdsQuery: vi.fn(),
@@ -208,6 +213,64 @@ describe('Quotes Service', () => {
     )
     expect(Quote.findByPk).toHaveBeenCalledWith(10, detailsQuery)
     expect(result).toBe(detailedQuote)
+  })
+
+  test('checks for a duplicate before creating a quote', async () => {
+    const duplicateQuery = { where: 'duplicate' }
+
+    buildDuplicateQuoteQuery.mockReturnValue(duplicateQuery)
+    Quote.create.mockResolvedValue({ id: 10 })
+
+    await createQuote({ author: 'Author', categories: ['life'], text: 'Created' })
+
+    expect(buildDuplicateQuoteQuery).toHaveBeenCalledWith({
+      text: 'Created',
+      author: 'Author',
+      excludeId: undefined,
+    })
+    expect(Quote.findOne).toHaveBeenCalledWith({ ...duplicateQuery, transaction })
+    expect(Quote.findOne.mock.invocationCallOrder[0]).toBeLessThan(
+      Quote.create.mock.invocationCallOrder[0],
+    )
+  })
+
+  test('throws a conflict and creates nothing when the quote exists', async () => {
+    Quote.findOne.mockResolvedValueOnce({ id: 3 })
+
+    await expect(
+      createQuote({ author: 'Author', categories: ['life'], text: 'Created' }),
+    ).rejects.toEqual(new ConflictError(ERROR_MESSAGE.QUOTE_ALREADY_EXISTS))
+
+    expect(Quote.create).not.toHaveBeenCalled()
+    expect(setQuoteCategories).not.toHaveBeenCalled()
+  })
+
+  test('checks the resulting text and author of a partial patch, excluding the quote itself', async () => {
+    const quote = { id: 11, author: 'Old author', save: vi.fn(), text: 'Old text' }
+
+    Quote.findByPk.mockResolvedValueOnce(quote).mockResolvedValueOnce({ id: 11 })
+
+    await modifySingleQuote(11, { text: 'New text' })
+
+    expect(buildDuplicateQuoteQuery).toHaveBeenCalledWith({
+      text: 'New text',
+      author: 'Old author',
+      excludeId: 11,
+    })
+  })
+
+  test('throws a conflict and changes nothing when another quote has the result', async () => {
+    const quote = { id: 11, author: 'Old author', save: vi.fn(), text: 'Old text' }
+
+    Quote.findByPk.mockResolvedValueOnce(quote)
+    Quote.findOne.mockResolvedValueOnce({ id: 4 })
+
+    await expect(
+      modifySingleQuote(11, { author: 'Other', categories: ['work'] }),
+    ).rejects.toEqual(new ConflictError(ERROR_MESSAGE.QUOTE_ALREADY_EXISTS))
+
+    expect(quote.save).not.toHaveBeenCalled()
+    expect(setQuoteCategories).not.toHaveBeenCalled()
   })
 
   test('returns null when quote to modify does not exist', async () => {

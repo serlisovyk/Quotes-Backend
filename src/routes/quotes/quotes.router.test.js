@@ -1,8 +1,15 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { createRouterTestClientFactory } from '#tests/utils/router-test-client'
 import * as QuotesController from '#controllers/quotes'
+import { ConflictError } from '#errors/classes'
 import quotesRouter from '#routes/quotes'
-import { HTTP_STATUS, QUOTE_SEARCH_MAX_LENGTH, ROUTE, ERROR_CODE } from '#constants'
+import {
+  ERROR_CODE,
+  ERROR_MESSAGE,
+  HTTP_STATUS,
+  QUOTE_SEARCH_MAX_LENGTH,
+  ROUTE,
+} from '#constants'
 
 vi.mock('#controllers/quotes', () => ({
   deleteQuoteById: vi.fn((_, res) => res.status(204).send()),
@@ -44,6 +51,28 @@ describe('Quotes Router', () => {
     expect(response.status).toBe(HTTP_STATUS.BAD_REQUEST)
     expect(response.body.error.code).toBe(ERROR_CODE.VALIDATION_ERROR)
     expect(QuotesController.getRandomQuotes).not.toHaveBeenCalled()
+  })
+
+  test('answers a conflict from the create controller as 409 CONFLICT', async () => {
+    const body = {
+      author: 'Seneca',
+      categories: ['life'],
+      text: 'A valid quote text',
+    }
+
+    QuotesController.postQuote.mockRejectedValueOnce(
+      new ConflictError(ERROR_MESSAGE.QUOTE_ALREADY_EXISTS),
+    )
+
+    const response = await requestQuotesRouter().post(ROUTE.QUOTES).send(body)
+
+    expect(response.status).toBe(HTTP_STATUS.CONFLICT)
+    expect(response.body).toEqual({
+      error: {
+        code: ERROR_CODE.CONFLICT,
+        message: ERROR_MESSAGE.QUOTE_ALREADY_EXISTS,
+      },
+    })
   })
 
   test('routes valid create quote body to controller', async () => {

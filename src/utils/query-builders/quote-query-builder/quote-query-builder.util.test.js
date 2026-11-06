@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from 'vitest'
 import { Op } from 'sequelize'
 import {
   QUOTE_CATEGORY_INCLUDE,
+  buildDuplicateQuoteQuery,
   buildQuoteCategoryInclude,
   buildQuoteDetailsQuery,
   buildQuoteListQuery,
@@ -31,6 +32,29 @@ describe('QuoteQueryBuilder Util', () => {
 
     expect(where.author).toBeDefined()
     expect(where[Op.or]).toHaveLength(2)
+  })
+
+  test('builds a case-insensitive duplicate query on text and author', () => {
+    const { attributes, where } = buildDuplicateQuoteQuery({
+      text: 'Some Text',
+      author: 'Seneca',
+    })
+
+    expect(attributes).toEqual(['id'])
+    expect(where[Op.and]).toHaveLength(2)
+    expect(where[Op.and][0].logic).toBe('some text')
+    expect(where[Op.and][1].logic).toBe('seneca')
+    expect(where.id).toBeUndefined()
+  })
+
+  test('excludes the given quote id from the duplicate query', () => {
+    const { where } = buildDuplicateQuoteQuery({
+      text: 'Text',
+      author: 'Author',
+      excludeId: 5,
+    })
+
+    expect(where.id).toEqual({ [Op.ne]: 5 })
   })
 
   test('builds quote where without search', () => {

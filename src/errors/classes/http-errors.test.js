@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { HTTP_STATUS, ERROR_CODE } from '#constants'
 import BadRequestError from './bad-request.error.js'
+import ConflictError from './conflict.error.js'
 import InternalServerError from './internal-server.error.js'
 import InvalidJsonError from './invalid-json.error.js'
 import NotFoundError from './not-found.error.js'
@@ -39,6 +40,13 @@ describe('Http Errors', () => {
 
     expect(error.statusCode).toBe(HTTP_STATUS.NOT_FOUND)
     expect(error.code).toBe(ERROR_CODE.NOT_FOUND)
+  })
+
+  test('creates conflict error', () => {
+    const error = new ConflictError('Conflict')
+
+    expect(error.statusCode).toBe(HTTP_STATUS.CONFLICT)
+    expect(error.code).toBe(ERROR_CODE.CONFLICT)
   })
 
   test('creates payload too large error', () => {

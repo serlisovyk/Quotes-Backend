@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { NotFoundError } from '#errors/classes'
+import { ConflictError, NotFoundError } from '#errors/classes'
 import * as QuotesService from '#services/quotes'
 import { createResponseMock } from '#tests/mocks/response'
 import {
@@ -225,5 +225,27 @@ describe('Quotes Controller', () => {
     expect(res.location).toHaveBeenCalledWith(`${ROUTE.QUOTES}/8`)
     expect(res.status).toHaveBeenCalledWith(HTTP_STATUS.CREATED)
     expect(res.json).toHaveBeenCalledWith(quote)
+  })
+
+  test('passes a service conflict on create to the error middleware', async () => {
+    const req = { body: { author: 'Author', categories: ['work'], text: 'Created' } }
+    const res = createResponseMock()
+    const error = new ConflictError(ERROR_MESSAGE.QUOTE_ALREADY_EXISTS)
+
+    QuotesService.createQuote.mockRejectedValue(error)
+
+    await expect(postQuote(req, res)).rejects.toBe(error)
+    expect(res.status).not.toHaveBeenCalled()
+  })
+
+  test('passes a service conflict on update to the error middleware', async () => {
+    const req = { body: { text: 'Taken' }, params: { id: '7' } }
+    const res = createResponseMock()
+    const error = new ConflictError(ERROR_MESSAGE.QUOTE_ALREADY_EXISTS)
+
+    QuotesService.modifySingleQuote.mockRejectedValue(error)
+
+    await expect(patchQuoteById(req, res)).rejects.toBe(error)
+    expect(res.status).not.toHaveBeenCalled()
   })
 })

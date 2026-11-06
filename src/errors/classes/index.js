@@ -1,4 +1,5 @@
 export { default as BadRequestError } from './bad-request.error.js'
+export { default as ConflictError } from './conflict.error.js'
 export { default as InternalServerError } from './internal-server.error.js'
 export { default as InvalidJsonError } from './invalid-json.error.js'
 export { default as NotFoundError } from './not-found.error.js'

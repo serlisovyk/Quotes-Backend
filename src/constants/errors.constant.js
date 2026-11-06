@@ -14,6 +14,7 @@ import {
 
 export const ERROR_CODE = {
   BAD_REQUEST: 'BAD_REQUEST',
+  CONFLICT: 'CONFLICT',
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
   INVALID_JSON: 'INVALID_JSON',
   NOT_FOUND: 'NOT_FOUND',
@@ -38,6 +39,7 @@ export const ERROR_MESSAGE = {
   SERVICE_UNAVAILABLE: 'Service unavailable, please try again later',
   UNSUPPORTED_MEDIA_TYPE: 'Unsupported media type',
   TOO_MANY_REQUESTS: 'Too many requests, please try again later',
+  QUOTE_ALREADY_EXISTS: 'A quote with the same text and author already exists',
   QUOTE_NOT_FOUND: (id) => `Quote with ID ${id} not found`,
   CATEGORY_NOT_FOUND: (id) => `Category with ID ${id} not found`,
   ROUTE_NOT_FOUND: (method, url) => `Route ${method} ${url} not found`,
