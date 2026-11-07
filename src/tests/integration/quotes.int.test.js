@@ -1,6 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import { client, createQuote } from './helpers.js'
-import { ERROR_CODE, ERROR_MESSAGE, HTTP_STATUS, ROUTE } from '#constants'
+import {
+  CACHE_CONTROL,
+  ERROR_CODE,
+  ERROR_MESSAGE,
+  HTTP_STATUS,
+  ROUTE,
+} from '#constants'
 
 const QUOTE = {
   text: 'The only way to do great work is to love what you do',
@@ -38,6 +44,34 @@ describe('Quotes API (integration)', () => {
       const categories = await client.get(ROUTE.CATEGORIES)
 
       expect(categories.body.total).toBe(2)
+    })
+
+    test('answers 409 for the same text and author', async () => {
+      await client.post(ROUTE.QUOTES).send(QUOTE)
+
+      const response = await client.post(ROUTE.QUOTES).send(QUOTE)
+
+      expect(response.status).toBe(HTTP_STATUS.CONFLICT)
+      expect(response.headers['cache-control']).toBe(CACHE_CONTROL.NO_STORE)
+      expect(response.body.error.code).toBe(ERROR_CODE.CONFLICT)
+      expect(response.body.error.message).toBe(ERROR_MESSAGE.QUOTE_ALREADY_EXISTS)
+
+      const list = await client.get(ROUTE.QUOTES)
+
+      expect(list.body.total).toBe(1)
+    })
+
+    test('answers 409 when only the case and the whitespace differ', async () => {
+      await client.post(ROUTE.QUOTES).send(QUOTE)
+
+      const response = await client.post(ROUTE.QUOTES).send({
+        ...QUOTE,
+        text: `  ${QUOTE.text.toUpperCase()}  `,
+        author: ` ${QUOTE.author.toLowerCase()} `,
+      })
+
+      expect(response.status).toBe(HTTP_STATUS.CONFLICT)
+      expect(response.body.error.code).toBe(ERROR_CODE.CONFLICT)
     })
 
     test('answers 400 with the invalid fields', async () => {
@@ -209,6 +243,30 @@ describe('Quotes API (integration)', () => {
 
       expect(response.body.text).toBe('A brand new text of the quote')
       expect(response.body.categories).toEqual(['life'])
+    })
+
+    test('answers 409 when the values match another quote', async () => {
+      const other = await createQuote()
+      const quote = await createQuote()
+
+      const response = await client
+        .patch(`${ROUTE.QUOTES}/${quote.id}`)
+        .send({ text: other.text, author: other.author })
+
+      expect(response.status).toBe(HTTP_STATUS.CONFLICT)
+      expect(response.headers['cache-control']).toBe(CACHE_CONTROL.NO_STORE)
+      expect(response.body.error.code).toBe(ERROR_CODE.CONFLICT)
+    })
+
+    test('answers 200 when the values are the quote own', async () => {
+      const quote = await createQuote()
+
+      const response = await client
+        .patch(`${ROUTE.QUOTES}/${quote.id}`)
+        .send({ text: quote.text, author: quote.author })
+
+      expect(response.status).toBe(HTTP_STATUS.OK)
+      expect(response.body.id).toBe(quote.id)
     })
 
     test('answers 400 for an empty body and 404 for an unknown id', async () => {

@@ -4,8 +4,10 @@ import { HTTP_STATUS, ROUTE } from '#constants'
 
 export const client = request(app)
 
+let quoteCounter = 0
+
 export async function createQuote({
-  text = 'A default quote used by the tests',
+  text = `A default quote used by the tests #${++quoteCounter}`,
   author = 'Test Author',
   categories = ['default'],
 } = {}) {
